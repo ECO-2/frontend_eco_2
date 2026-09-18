@@ -1,0 +1,16 @@
+Etiquetas corregidas:
+0: Aglaonema_commutatum
+1: Aloe_vera
+2: Anthurium_andraeanum
+3: Chrysalidocarpus_lutescens
+4: Crassula_ovata
+5: Dracaena_fragrans
+6: Dracaena_trifasciata
+7: Epipremnum_aureum
+8: Ficus_elastica
+9: Hedera_helix
+10: Maranta_leuconeura
+11: Monstera_deliciosa
+12: Nephrolepis_exaltata
+13: Spathiphyllum_wallisii
+14: Zamioculcas_zamiifolia
