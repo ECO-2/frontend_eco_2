@@ -2054,6 +2054,18 @@ abstract class AppLocalizations {
   /// **'La identificación por IA todavía no está disponible en esta versión.'**
   String get aiNotAvailable;
 
+  /// No description provided for @uncommonPlantEscalating.
+  ///
+  /// In es, this message translates to:
+  /// **'Planta poco común, haciendo búsqueda profunda...'**
+  String get uncommonPlantEscalating;
+
+  /// No description provided for @scanLimitReached.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.'**
+  String get scanLimitReached;
+
   /// No description provided for @tourGalleryDescription.
   ///
   /// In es, this message translates to:
@@ -3728,12 +3740,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Has llegado a tu tope de macetas. Con O₂₊ son ilimitadas.'**
   String get plantLimitReached;
-
-  /// No description provided for @scanLimitReached.
-  ///
-  /// In es, this message translates to:
-  /// **'Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.'**
-  String get scanLimitReached;
 
   /// No description provided for @plusMember.
   ///

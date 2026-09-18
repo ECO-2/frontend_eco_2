@@ -1127,6 +1127,14 @@ class AppLocalizationsEs extends AppLocalizations {
       'La identificación por IA todavía no está disponible en esta versión.';
 
   @override
+  String get uncommonPlantEscalating =>
+      'Planta poco común, haciendo búsqueda profunda...';
+
+  @override
+  String get scanLimitReached =>
+      'Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.';
+
+  @override
   String get tourGalleryDescription =>
       'Sube una foto de tu galería para analizar.';
 
@@ -2114,10 +2122,6 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get plantLimitReached =>
       'Has llegado a tu tope de macetas. Con O₂₊ son ilimitadas.';
-
-  @override
-  String get scanLimitReached =>
-      'Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.';
 
   @override
   String get plusMember => 'Miembro O₂₊';

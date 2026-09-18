@@ -1124,6 +1124,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'AI identification is not available in this version yet.';
 
   @override
+  String get uncommonPlantEscalating =>
+      'Uncommon plant, doing in-depth research…';
+
+  @override
+  String get scanLimitReached =>
+      'You\'ve used your 5 scans for today. With O₂₊ they\'re unlimited.';
+
+  @override
   String get tourGalleryDescription =>
       'Upload a photo from your gallery to analyse.';
 
@@ -2106,10 +2114,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get plantLimitReached =>
       'You\'ve reached your pot limit. With O₂₊ they\'re unlimited.';
-
-  @override
-  String get scanLimitReached =>
-      'You\'ve used your 5 scans for today. With O₂₊ they\'re unlimited.';
 
   @override
   String get plusMember => 'O₂₊ member';

@@ -569,6 +569,8 @@
   "noScansYet": "Todavía no has escaneado ninguna planta.",
   "toMyGarden": "A mi jardín",
   "aiNotAvailable": "La identificación por IA todavía no está disponible en esta versión.",
+  "uncommonPlantEscalating": "Planta poco común, haciendo búsqueda profunda...",
+  "scanLimitReached": "Alcanzaste tu límite de escaneos por hoy. Vuelve mañana o mejora a O2+.",
   "tourGalleryDescription": "Sube una foto de tu galería para analizar.",
   "shutter": "Obturador",
   "tourShutterDescription": "Presiona aquí para escanear una planta y continuar.",

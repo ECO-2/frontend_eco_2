@@ -528,6 +528,8 @@
   "noScansYet": "You have not scanned any plants yet.",
   "toMyGarden": "To my garden",
   "aiNotAvailable": "AI identification is not available in this version yet.",
+  "uncommonPlantEscalating": "Uncommon plant, doing in-depth research…",
+  "scanLimitReached": "You've reached your scan limit for today. Come back tomorrow or upgrade to O2+.",
   "tourGalleryDescription": "Upload a photo from your gallery to analyse.",
   "shutter": "Shutter",
   "tourShutterDescription": "Tap here to scan a plant and continue.",
