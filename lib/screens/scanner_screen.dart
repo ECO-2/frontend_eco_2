@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend_eco_2/l10n/app_localizations.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
+import 'package:frontend_eco_2/services/plant_classifier_service.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,7 +18,7 @@ import 'package:frontend_eco_2/services/services.dart';
 import 'package:frontend_eco_2/widgets/common/app_toast.dart';
 import 'package:frontend_eco_2/utils/date_labels.dart';
 
-enum ScannerState { idle, scanning, success, notFound, notConfigured, offline }
+enum ScannerState { idle, scanning, escalating, success, notFound, notConfigured, offline }
 
 class ScannerScreen extends StatelessWidget {
   const ScannerScreen({super.key});
@@ -126,42 +127,67 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     });
 
     try {
-      final bytes = await File(photoPath).readAsBytes();
-      final base64Image = base64Encode(bytes);
+      final classifier = Provider.of<PlantClassifierService>(context, listen: false);
+      if (!classifier.isLoaded) {
+        await classifier.loadModelAndLabels();
+      }
 
+      final classification = await classifier.classify(File(photoPath));
       final identificationService =
           Provider.of<IdentificationService>(context, listen: false);
-      final result = await identificationService.identifyFromPhoto(base64Image);
-      if (!mounted) return;
 
-      if (!result.configured) {
-        setState(() => _state = ScannerState.notConfigured);
+      if (classification.confidenceScore >= 0.70) {
+        // Confianza suficiente con el modelo propio — 1 escaneo.
+        final result = await identificationService.submitLocalIdentification(
+          scientificName: classification.scientificName,
+          confidenceScore: classification.confidenceScore,
+        );
+        if (!mounted) return;
+        _applyResult(result);
         return;
       }
 
-      if (result.species != null) {
-        setState(() {
-          _resultSpecies = result.species;
-          _resultConfidencePct = ((result.confidenceScore ?? 0) * 100).round();
-          _alternates = result.alternates;
-          _state = ScannerState.success;
-        });
-      } else {
-        setState(() {
-          _unmatchedCommonName = result.unmatchedCommonName;
-          _unmatchedScientificName = result.unmatchedScientificName;
-          _alternates = result.alternates;
-          _state = ScannerState.notFound;
-        });
-      }
-    } catch (_) {
+      // Planta poco común para nuestro modelo — se escala a Plant.id
+      // automáticamente (cuesta 2 escaneos en vez de 1).
+      setState(() => _state = ScannerState.escalating);
+      final bytes = await File(photoPath).readAsBytes();
+      final base64Image = base64Encode(bytes);
+      final fallbackResult = await identificationService.identifyFromPhoto(base64Image);
       if (!mounted) return;
+      _applyResult(fallbackResult);
+    } catch (e) {
+      if (!mounted) return;
+      if (e is ApiException && e.statusCode == 403) {
+        // Límite diario alcanzado (ya sea por escaneos normales o por el
+        // costo doble de Plant.id).
+        showAppToast(context, AppLocalizations.of(context)!.scanLimitReached, type: ToastType.error);
+        setState(() => _state = ScannerState.idle);
+        return;
+      }
       setState(() => _state = ScannerState.offline);
       _showOfflineSnackbar();
       Future.delayed(const Duration(seconds: 4), () {
         if (mounted && _state == ScannerState.offline) {
           setState(() => _state = ScannerState.idle);
         }
+      });
+    }
+  }
+
+  void _applyResult(IdentificationResult result) {
+    if (result.species != null) {
+      setState(() {
+        _resultSpecies = result.species;
+        _resultConfidencePct = ((result.confidenceScore ?? 0) * 100).round();
+        _alternates = result.alternates;
+        _state = ScannerState.success;
+      });
+    } else {
+      setState(() {
+        _unmatchedCommonName = result.unmatchedCommonName;
+        _unmatchedScientificName = result.unmatchedScientificName;
+        _alternates = result.alternates;
+        _state = ScannerState.notFound;
       });
     }
   }
@@ -426,6 +452,8 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
                     _buildPlantDetailsCard(),
                   if (_state == ScannerState.notFound)
                     _buildNotFoundCard(),
+                  if (_state == ScannerState.escalating)
+                    _buildEscalatingCard(),
                   if (_state == ScannerState.notConfigured)
                     _buildNotConfiguredCard(),
                   const SizedBox(height: 20),
@@ -888,6 +916,42 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     );
   }
 
+Widget _buildEscalatingCard() {
+  return Container(
+    margin: const EdgeInsets.symmetric(horizontal: 20),
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(24),
+    ),
+    child: Row(
+      children: [
+        Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Center(
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            AppLocalizations.of(context)!.uncommonPlantEscalating,
+            style: TextStyle(color: Colors.grey[700], fontSize: 13, height: 1.4),
+          ),
+        ),
+      ],
+    ),
+  );
+}
   Widget _buildTag(String text) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
