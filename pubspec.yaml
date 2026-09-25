@@ -68,7 +68,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-
+dependency_overrides:
+  tflite_flutter:
+    path: packages/tflite_flutter
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true

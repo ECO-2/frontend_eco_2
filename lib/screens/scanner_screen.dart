@@ -133,6 +133,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
       }
 
       final classification = await classifier.classify(File(photoPath));
+      print('DEBUG local classification: ${classification.scientificName} @ ${classification.confidenceScore}');
       final identificationService =
           Provider.of<IdentificationService>(context, listen: false);
 
@@ -155,7 +156,9 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
       final fallbackResult = await identificationService.identifyFromPhoto(base64Image);
       if (!mounted) return;
       _applyResult(fallbackResult);
-    } catch (e) {
+    } catch (e, stack) {
+      print('DEBUG scan error: $e');
+      print('DEBUG stack: $stack');
       if (!mounted) return;
       if (e is ApiException && e.statusCode == 403) {
         // Límite diario alcanzado (ya sea por escaneos normales o por el
@@ -203,6 +206,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
   void _onAddToGarden(PlantSpecies species) {
     final plantsProvider = Provider.of<PlantsProvider>(context, listen: false);
     final bool alreadyExists = plantsProvider.userPlants.any((p) => p.speciesId == species.id);
+    final screenContext = context;
 
     if (alreadyExists) {
       showDialog(
@@ -270,7 +274,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
                 Navigator.pop(context);
                 final success = await plantsProvider.addPlantFromSpecies(species);
                 if (success && mounted) {
-                  showAppToast(context, AppLocalizations.of(context)!.plantAddedSuccess,
+                  showAppToast(screenContext, AppLocalizations.of(screenContext)!.plantAddedSuccess,
                       type: ToastType.success);
                 }
               },

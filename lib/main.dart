@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:frontend_eco_2/services/plant_classifier_service.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend_eco_2/providers/providers.dart';
 import 'package:frontend_eco_2/l10n/app_localizations.dart';
@@ -31,6 +32,8 @@ void main() async {
   final careService = CareService(apiClient);
   final identificationService = IdentificationService(apiClient);
   final notificationService = NotificationService(apiClient);
+  final plantClassifierService = PlantClassifierService();
+  plantClassifierService.loadModelAndLabels(); // fire-and-forget, carga en paralelo al arranque
 
   runApp(MyApp(
     storage: storage,
@@ -41,6 +44,7 @@ void main() async {
     careService: careService,
     identificationService: identificationService,
     notificationService: notificationService,
+    plantClassifierService: plantClassifierService,
   ));
 }
 
@@ -52,7 +56,8 @@ class MyApp extends StatelessWidget {
   final GamificationService gamificationService;
   final CareService careService;
   final IdentificationService identificationService;
-  final NotificationService notificationService;   
+  final NotificationService notificationService;
+  final PlantClassifierService plantClassifierService;
 
   const MyApp({
     super.key,
@@ -64,6 +69,7 @@ class MyApp extends StatelessWidget {
     required this.careService,
     required this.identificationService,
     required this.notificationService,
+    required this.plantClassifierService,
   });
 
   @override
@@ -74,6 +80,7 @@ class MyApp extends StatelessWidget {
         Provider<IdentificationService>.value(value: identificationService),
         Provider<SecureStorage>.value(value: storage),
         Provider<NotificationService>.value(value: notificationService),
+        Provider<PlantClassifierService>.value(value: plantClassifierService),
         // Lo consume GreenFootprintScreen para pedir el CO2 real del jardín.
         Provider<UserService>.value(value: userService),
         // Idioma elegido por el usuario, recordado entre sesiones.

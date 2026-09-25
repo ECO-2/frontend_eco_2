@@ -40,8 +40,9 @@ class PlantClassifierService {
     }
 
     final rawBytes = await imageFile.readAsBytes();
-    final decoded = img.decodeImage(rawBytes);
+    var decoded = img.decodeImage(rawBytes);
     if (decoded == null) throw Exception('Could not decode image');
+    decoded = img.bakeOrientation(decoded); // Ensure correct orientation
 
     final resized = img.copyResize(decoded, width: inputSize, height: inputSize);
 
