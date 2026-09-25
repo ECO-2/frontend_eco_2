@@ -4100,6 +4100,54 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Floricultora'**
   String get avatarFlorist;
+
+  /// No description provided for @airQuality.
+  ///
+  /// In es, this message translates to:
+  /// **'Calidad del aire'**
+  String get airQuality;
+
+  /// No description provided for @currentCo2Level.
+  ///
+  /// In es, this message translates to:
+  /// **'Nivel de CO2 actual'**
+  String get currentCo2Level;
+
+  /// No description provided for @airQualityGood.
+  ///
+  /// In es, this message translates to:
+  /// **'Buena'**
+  String get airQualityGood;
+
+  /// No description provided for @airQualityModerate.
+  ///
+  /// In es, this message translates to:
+  /// **'Moderada — considera ventilar'**
+  String get airQualityModerate;
+
+  /// No description provided for @airQualityPoor.
+  ///
+  /// In es, this message translates to:
+  /// **'Mala — ventila ahora'**
+  String get airQualityPoor;
+
+  /// No description provided for @co2SummaryError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo cargar la calidad del aire.'**
+  String get co2SummaryError;
+
+  /// No description provided for @co2WeeklyEvolutionHelp.
+  ///
+  /// In es, this message translates to:
+  /// **'Promedio diario de los últimos 7 días'**
+  String get co2WeeklyEvolutionHelp;
+
+  /// No description provided for @noReadingsYet.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no hay lecturas'**
+  String get noReadingsYet;
 }
 
 class _AppLocalizationsDelegate

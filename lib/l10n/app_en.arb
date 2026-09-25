@@ -879,5 +879,13 @@
   "avatarBreeder": "Poultry keeper",
   "avatarExplorer": "Explorer",
   "avatarScientist": "Scientist",
-  "avatarFlorist": "Florist"
+  "avatarFlorist": "Florist",
+  "airQuality": "Air Quality",
+  "currentCo2Level": "Current CO2 level",
+  "airQualityGood": "Good",
+  "airQualityModerate": "Moderate — consider ventilating",
+  "airQualityPoor": "Poor — ventilate now",
+  "co2SummaryError": "Couldn't load your air quality data.",
+  "co2WeeklyEvolutionHelp": "Daily average over the last 7 days",
+  "noReadingsYet": "No readings yet"
 }
