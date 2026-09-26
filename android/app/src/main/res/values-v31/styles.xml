@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Android 12+ (API 31) dibuja el arranque con su propia API de splash y
+        no mira `android:windowBackground`, asi que el fondo hay que darselo
+        aqui. Sin esto el icono salia sobre negro en modo oscuro.
+    -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowSplashScreenBackground">@color/eco2_splash_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/launcher_icon</item>
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@color/eco2_splash_background</item>
+    </style>
+</resources>

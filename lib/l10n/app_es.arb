@@ -1,0 +1,1365 @@
+{
+  "@@locale": "es",
+  "appTagline": "Cuidado de plantas con IA",
+  "createAccount": "Crear Cuenta",
+  "signIn": "Iniciar Sesión",
+  "signInAction": "Iniciar sesión",
+  "welcomeBack": "Bienvenido de vuelta",
+  "email": "Correo electrónico",
+  "emailHint": "correo@ejemplo.com",
+  "password": "Contraseña",
+  "passwordMinChars": "min. 8 caracteres",
+  "passwordTooShort": "La contraseña debe tener al menos 8 caracteres",
+  "confirmPassword": "Confirma contraseña",
+  "forgotPassword": "¿Olvidaste tu contraseña?",
+  "username": "Nombre de usuario",
+  "register": "Registrarse",
+  "noAccountYet": "¿No tienes cuenta? ",
+  "alreadyHaveAccount": "¿Ya tienes cuenta? ",
+  "enterYourEmail": "Por favor ingresa tu correo",
+  "enterYourPassword": "Por favor ingresa tu contraseña",
+  "termsNotice": "Al registrarte aceptas los Términos de Uso y la Política de Privacidad de ECO2.",
+  "navStore": "Tienda",
+  "navGarden": "Jardín",
+  "navDashboard": "Dashboard",
+  "navScanner": "Escáner",
+  "navProfile": "Perfil",
+  "myGarden": "Mi Jardín",
+  "viewAll": "ver todas",
+  "addPlant": "Añadir Planta",
+  "gardenEmpty": "Tu jardín está vacío",
+  "needsWater": "Riego",
+  "upToDate": "Al día",
+  "noWateringYet": "Sin riego aún",
+  "wateringToday": "Riego hoy",
+  "wateringOverdue": "Riego vencido",
+  "daysWithoutWater": "días sin riego",
+  "daysInYourGarden": "días en tu jardín",
+  "frequency": "frecuencia",
+  "remaining": "restantes",
+  "overdue": "vencido",
+  "careStatus": "Estado de cuidado",
+  "urgentWatering": "Riego Urgente",
+  "deletePlantTitle": "¿Eliminar planta?",
+  "deletePlantBody": "Se eliminará \"{plantName}\" de tu jardín. Esta acción no se puede deshacer.",
+  "@deletePlantBody": {
+    "placeholders": {
+      "plantName": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Cancelar",
+  "delete": "Eliminar",
+  "lastWateredQuestion": "¿Cuándo regaste {plantName} por última vez?",
+  "@lastWateredQuestion": {
+    "placeholders": {
+      "plantName": {
+        "type": "String"
+      }
+    }
+  },
+  "lastWateredHelp": "Así calculamos cuándo toca el próximo riego. Si no lo sabes, empezamos a contar desde hoy.",
+  "today": "Hoy",
+  "yesterday": "Ayer",
+  "someDaysAgo": "Hace unos días…",
+  "neverOrDontRemember": "Nunca / no lo recuerdo",
+  "lastWatering": "Último riego",
+  "settings": "Ajustes",
+  "account": "CUENTA",
+  "editProfile": "Editar perfil",
+  "editProfileSubtitle": "Nombre de usuario",
+  "changePassword": "Cambiar contraseña",
+  "biometricAuth": "Autenticación biométrica",
+  "notifications": "NOTIFICACIONES",
+  "pushNotifications": "Notificaciones push",
+  "wateringReminders": "Recordatorios de riego",
+  "achievementsAndMissions": "Logros y misiones",
+  "preferences": "PREFERENCIAS",
+  "systemLanguage": "Idioma del sistema",
+  "language": "Idioma",
+  "themeAndColors": "Tema y colores",
+  "privacyAndData": "PRIVACIDAD Y DATOS",
+  "privacy": "Privacidad",
+  "privacySubtitle": "Qué datos guarda ECO2",
+  "exportMyData": "Exportar mis datos",
+  "application": "APLICACIÓN",
+  "helpAndSupport": "Ayuda y soporte",
+  "aboutEco2": "Sobre ECO2",
+  "dangerZone": "ZONA DE RIESGO",
+  "signOut": "Cerrar sesión",
+  "deleteAccount": "Eliminar cuenta",
+  "deleteAccountSubtitle": "Esta acción es permanente",
+  "spanish": "Español",
+  "english": "Inglés",
+  "profile": "Perfil",
+  "plants": "Plantas",
+  "seeds": "Semillas",
+  "co2Total": "CO₂ total",
+  "levelLabel": "Nivel {level}",
+  "@levelLabel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "levelWithName": "Nivel {level} · {name}",
+  "@levelWithName": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "myTrophies": "Mis Trofeos",
+  "trophies": "Trofeos",
+  "missions": "Misiones",
+  "achievements": "Logros",
+  "obtained": "Obtenidos",
+  "available": "Disponibles",
+  "completedPercent": "Completado",
+  "streakDays": "{count, plural, =1{1 día seguido} other{{count} días seguidos}}",
+  "@streakDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "xpPoints": "{xp} XP",
+  "@xpPoints": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "seedsCount": "{count} semillas",
+  "@seedsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "greenFootprint": "Mi Huella Verde",
+  "co2AbsorbedToday": "CO₂ absorbido hoy",
+  "gramsPerDay": "gramos / día",
+  "contributionPerPlant": "Aporte por planta",
+  "weeklyEvolution": "Evolución semanal",
+  "weeklyEvolutionHelp": "Refleja cuándo entró cada planta a tu jardín.",
+  "copyMyFootprint": "Copiar mi huella verde",
+  "copiedToClipboard": "Copiado al portapapeles",
+  "accumulated": "Acumulado: {kg} kg",
+  "@accumulated": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "noPlantsYet": "Aún no tienes plantas en tu jardín",
+  "footprintError": "No pudimos calcular tu huella verde.",
+  "retry": "Reintentar",
+  "scannerPointAtPlant": "Apunta a una planta",
+  "scannerAnalyzing": "Analizando...",
+  "scannerNotInCatalog": "La reconocimos, pero todavía no está en el catálogo de ECO2 — no podemos añadirla a tu jardín todavía.",
+  "scannerLowConfidence": "No pudimos reconocerla con suficiente confianza. Prueba con más luz o de más cerca.",
+  "connectionError": "Error de conexión. Verifica tu internet.",
+  "wrongCredentials": "Correo o contraseña incorrectos.",
+  "emailAlreadyUsed": "Este correo ya tiene una cuenta registrada.",
+  "save": "Guardar",
+  "close": "Cerrar",
+  "greeting": "Namasté",
+  "yourSeeds": "Tus semillas",
+  "activeMission": "Misión Activa",
+  "searchSpecies": "Buscar especie...",
+  "searchMyPlant": "Buscar mi planta...",
+  "exploreSpecies": "Explorar especies",
+  "trendingThisWeek": "Tendencias esta semana",
+  "allCategory": "Todas",
+  "plantsCount": "{count} plantas",
+  "@plantsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "needsAttentionToday": "{count, plural, =1{1 planta necesita atención hoy} other{{count} plantas necesitan atención hoy}}",
+  "@needsAttentionToday": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "view": "Ver",
+  "add": "Añadir",
+  "allUpToDate": "¡Todo al día!",
+  "wateringStatus": "Estado de riego",
+  "logEveryCare": "Registra cada cuidado",
+  "viewHistory": "Ver historial",
+  "latestCare": "Últimos cuidados",
+  "careType": "Tipo de cuidado",
+  "suggestedNextWatering": "Próximo riego sugerido",
+  "inMyCollectionSince": "En mi colección desde",
+  "howToCareTitle": "Cómo cuidar tu planta",
+  "everyNDays": "Cada {days} días",
+  "@everyNDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{count, plural, =1{hace 1 día} other{hace {count} días}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noCareLogged": "Aún no has registrado cuidados.",
+  "scannerHint": "Apunta a una planta",
+  "analyzing": "Analizando...",
+  "notIdentified": "No identificada con certeza",
+  "potsRemaining": "Macetas restantes: {count}",
+  "@potsRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsTitle": "Notificaciones",
+  "markedAsRead": "Marcada como leída",
+  "markAllRead": "Marcar todas como leídas",
+  "todayLabel": "HOY",
+  "thatsAllForNow": "Eso es todo por ahora",
+  "noNotifications": "No tienes notificaciones",
+  "wateringPending": "Riego pendiente",
+  "achievementUnlocked": "¡Logro desbloqueado!: {title}",
+  "newPlantAdded": "Nueva planta agregada: Agregaste {name} a tu colección.",
+  "seedbed": "Semillero",
+  "redeemSeeds": "Canjea tus semillas por recompensas",
+  "search": "Buscar...",
+  "communityFavorites": "Los favoritos de la comunidad",
+  "newBadge": "Nuevo",
+  "yourImpactEquals": "Tu impacto equivale a:",
+  "treesEquivalent": "{count} Árboles",
+  "@treesEquivalent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "kilometersEquivalent": "{count} Kilómetros",
+  "@kilometersEquivalent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "levelAndTrophies": "Nivel {level} · {trophies} trofeos",
+  "@levelAndTrophies": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "trophies": {
+        "type": "int"
+      }
+    }
+  },
+  "noAchievementsYet": "No has completado logros todavía.",
+  "allAchievementsDone": "¡Completaste todos los logros disponibles!",
+  "noAchievementsConfigured": "Todavía no hay logros configurados.",
+  "comingSoon": "Próximamente",
+  "reward": "Recompensa",
+  "achievementUnlockedLabel": "Logro desbloqueado",
+  "achievementLockedLabel": "Logro bloqueado",
+  "activeMissions": "Misiones activas",
+  "plantCatalog": "Catálogo de plantas",
+  "seedStore": "Tienda de Semillas",
+  "freePlanActive": "Plan gratuito activo",
+  "user": "Usuario",
+  "loading": "Cargando...",
+  "genericError": "Algo salió mal. Inténtalo de nuevo.",
+  "catTropical": "Tropical",
+  "catSucculent": "Suculenta",
+  "catCactus": "Cactus",
+  "catFern": "Helecho",
+  "catFlowering": "Con flores",
+  "catHerb": "Aromática",
+  "catTree": "Árbol",
+  "catOther": "Planta",
+  "lightLow": "Baja",
+  "lightMedium": "Media",
+  "lightHigh": "Alta",
+  "lightIndirect": "Indirecta",
+  "lightPrefix": "Luz {level}",
+  "@lightPrefix": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "difficultyVeryEasy": "Muy fácil",
+  "difficultyEasy": "Fácil",
+  "difficultyMedium": "Media",
+  "wateringEveryDays": "Riego c/{days}d",
+  "@wateringEveryDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "humidityLow": "Baja",
+  "humidityMedium": "Media",
+  "humidityHigh": "Alta",
+  "impactCarTitle": "{km} km en coche",
+  "@impactCarTitle": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "impactCarSubtitle": "Que no haría falta conducir para emitir ese CO₂.",
+  "impactBulbTitle": "{hours} h de bombilla LED",
+  "@impactBulbTitle": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "impactBulbSubtitle": "De consumo eléctrico equivalente.",
+  "impactTreeTitle": "{days} días de un árbol",
+  "@impactTreeTitle": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "impactTreeSubtitle": "Lo que tarda un árbol adulto en absorber lo mismo.",
+  "impactApproxNote": "Equivalencias aproximadas, calculadas a partir del CO₂ de tu jardín.",
+  "impactTooSmall": "Tu jardín aún no acumula CO₂ suficiente para una equivalencia útil.",
+  "accumulatedGrams": "Acumulado: {grams} g",
+  "@accumulatedGrams": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "category": "Categoría",
+  "gallery": "Galería",
+  "chooseFromGallery": "Elegir de la galería",
+  "cameraPermissionError": "No se pudo acceder a la cámara o galería. Revisa los permisos de la app.",
+  "flashAutoHint": "El flash se activará de forma automática solo al realizar la captura.",
+  "showThisGuide": "Muestra esta guía.",
+  "upcomingAchievements": "Próximos logros",
+  "closest": "• MÁS CERCANO",
+  "paymentMethod": "Método de pago",
+  "quickPay": "Pago rápido",
+  "oneYearPlus": "1 año de ECO2 Plus",
+  "whatToDoNow": "Qué hacer ahora",
+  "uploadFromGallery": "Subir de Galería",
+  "dayMon": "Lun",
+  "dayTue": "Mar",
+  "dayWed": "Mié",
+  "dayThu": "Jue",
+  "dayFri": "Vie",
+  "daySat": "Sáb",
+  "daySun": "Dom",
+  "careEveryNDays": "{count, plural, =1{Cada día} other{Cada {count} días}}",
+  "@careEveryNDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeAgoDays": "{count, plural, =0{Hoy} =1{hace 1 día} other{hace {count} días}}",
+  "@timeAgoDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "achievementUnlockedNamed": "¡Logro desbloqueado!: {name}",
+  "@achievementUnlockedNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "purchaseSuccess": "¡Compra exitosa!: {item}",
+  "@purchaseSuccess": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "plantAddedToGarden": "¡{name} añadida a tu jardín! 🌿",
+  "@plantAddedToGarden": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "couldNotAddPlant": "No se pudo agregar la planta.",
+  "addNewPlant": "Añadir nueva planta",
+  "yourPlantName": "Nombre de tu planta",
+  "gramsPerDayShort": "{grams} g/día",
+  "@gramsPerDayShort": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "difficultyAll": "Todas",
+  "lightHintLow": "Rincones con poca luz",
+  "lightHintHigh": "Cerca de la ventana",
+  "lightHintIndirect": "Sin sol directo",
+  "lightHintDefault": "Luz filtrada",
+  "filterByCategory": "Filtrar por categoría",
+  "speciesNotFound": "Especie no encontrada",
+  "forgotPasswordTitle": "Recuperar contraseña",
+  "forgotPasswordBody": "Escribe tu correo y te enviaremos un código para restablecer la contraseña.",
+  "forgotPasswordSent": "Si existe una cuenta con ese correo, te hemos enviado un código.",
+  "send": "Enviar",
+  "emailRequired": "Escribe tu correo primero",
+  "resetPasswordTitle": "Restablecer contraseña",
+  "resetPasswordIntro": "Pega aquí el código que te enviamos por correo y elige tu nueva contraseña.",
+  "resetCodeLabel": "Código de recuperación",
+  "resetCodeHint": "ABCD-2345",
+  "resetCodeRequired": "Escribe el código que recibiste",
+  "newPassword": "Nueva contraseña",
+  "passwordsDoNotMatch": "Las contraseñas no coinciden",
+  "resetPasswordSubmit": "Cambiar contraseña",
+  "resetPasswordSuccess": "Contraseña actualizada. Ya puedes iniciar sesión.",
+  "resetCodeExpiredHint": "El código vence a los 30 minutos. Pide uno nuevo si ya caducó.",
+  "changePasswordIntro": "Escribe tu contraseña actual y elige una nueva.",
+  "changePasswordSubmit": "Guardar contraseña",
+  "changePasswordSuccess": "Contraseña actualizada.",
+  "currentPassword": "Contraseña actual",
+  "currentPasswordRequired": "Escribe tu contraseña actual",
+  "passwordMustDiffer": "La nueva contraseña debe ser distinta de la actual",
+  "biometricLock": "Bloqueo con huella",
+  "biometricLockSubtitle": "Pide tu huella al abrir la app",
+  "biometricUnavailable": "Este dispositivo no tiene huella registrada",
+  "biometricPromptReason": "Confirma tu identidad para abrir ECO2",
+  "biometricEnabled": "Bloqueo con huella activado",
+  "biometricDisabled": "Bloqueo con huella desactivado",
+  "appLockTitle": "ECO2 está bloqueado",
+  "appLockSubtitle": "Usa tu huella para continuar.",
+  "appLockFailed": "No se pudo confirmar tu identidad.",
+  "appLockRetry": "Reintentar",
+  "appLockSignOut": "Cerrar sesión",
+  "managePlus": "Gestionar ECO2 Plus",
+  "managePlusFree": "Plan gratuito activo",
+  "pushNotificationsSubtitle": "Avisos de riego y logros",
+  "reminderWindow": "Horario de recordatorios",
+  "reminderWindowValue": "De {start}:00 a {end}:00",
+  "@reminderWindowValue": {
+    "placeholders": {
+      "start": {
+        "type": "int"
+      },
+      "end": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderWindowSheetTitle": "¿Cuándo quieres los avisos?",
+  "reminderWindowIntro": "Los recordatorios solo se envían dentro de esta franja.",
+  "reminderStart": "Desde",
+  "reminderEnd": "Hasta",
+  "reminderWindowInvalid": "La hora de inicio debe ser anterior a la de fin",
+  "reminderWindowSaved": "Horario de recordatorios actualizado",
+  "privacySheetTitle": "Tus datos en ECO2",
+  "privacySheetBody": "ECO2 guarda tu correo, tu nombre de usuario, las plantas de tu jardín y su historial de cuidados. Las fotos que tomas se guardan solo en este dispositivo. Puedes exportar todo o borrar la cuenta cuando quieras.",
+  "exportDataSubtitle": "Copia un resumen al portapapeles",
+  "exportDataCopied": "Datos copiados al portapapeles",
+  "exportDataFailed": "No se pudieron reunir tus datos",
+  "helpSupportSubtitle": "Escríbenos si algo falla",
+  "helpSheetTitle": "¿Necesitas ayuda?",
+  "helpSheetBody": "Escríbenos contando qué ocurrió y desde qué pantalla. Copia el correo y mándanos un mensaje.",
+  "copyEmail": "Copiar correo",
+  "emailCopied": "Correo copiado",
+  "appVersion": "Versión {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutSheetBody": "ECO2 te ayuda a cuidar tus plantas y a ver cuánto CO₂ absorben.",
+  "deleteAccountTitle": "¿Eliminar tu cuenta?",
+  "deleteAccountBody": "Se borrarán tu perfil, tus plantas y todo su historial de cuidados. No se puede deshacer.",
+  "deleteAccountConfirmHint": "Escribe ELIMINAR para confirmar",
+  "deleteAccountConfirmWord": "ELIMINAR",
+  "deleteAccountSuccess": "Tu cuenta ha sido eliminada.",
+  "usernameTaken": "Ese nombre de usuario ya está en uso.",
+  "currentPasswordWrong": "La contraseña actual no es correcta.",
+  "profileUpdateFailed": "No se pudo actualizar el perfil. Inténtalo nuevamente.",
+  "plantsLoadFailed": "No se pudieron cargar tus plantas.",
+  "plantAddFailed": "No se pudo añadir la planta.",
+  "plantDeleteFailed": "No se pudo eliminar la planta.",
+  "nicknameEmpty": "El apodo no puede estar vacío.",
+  "nicknameUpdateFailed": "No se pudo actualizar el apodo.",
+  "missionsLoadFailed": "No se pudieron cargar las misiones.",
+  "careLogFailed": "No se pudo registrar el cuidado.",
+  "nicknameUpdated": "Apodo actualizado.",
+  "noSpeciesMatchFilters": "No se encontraron especies con estos filtros",
+  "noPlantsInCategory": "No tienes plantas en esta categoría todavía",
+  "daysOverdueLabel": "{count, plural, =1{1 día de retraso} other{{count} días de retraso}}",
+  "@daysOverdueLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noWateringLoggedEvery": "Sin riego registrado · c/{days}d",
+  "@noWateringLoggedEvery": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "daysWithoutWaterEvery": "{days}d sin riego · c/{freq}d",
+  "@daysWithoutWaterEvery": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "freq": {
+        "type": "int"
+      }
+    }
+  },
+  "identifyConnectionError": "No se pudo conectar para identificar la planta. Verifica tu conexión e inténtalo de nuevo.",
+  "plantAlreadyRegistered": "Planta ya registrada",
+  "plantAlreadyRegisteredBody": "Ya tienes esta planta registrada en tu jardín. Te sugerimos ponerle un apodo (diferenciador) para no confundirla.",
+  "addThisPlantQuestion": "¿Desea añadir esta planta a su jardín?",
+  "addThisPlantBody": "Se añadirá a tu colección de plantas.",
+  "redeemMore": "Canjear más",
+  "plantAddedSuccess": "Planta añadida con éxito",
+  "historyLoadFailed": "No se pudo cargar el historial.",
+  "noScansYet": "Todavía no has escaneado ninguna planta.",
+  "toMyGarden": "A mi jardín",
+  "aiNotAvailable": "La identificación por IA todavía no está disponible en esta versión.",
+  "tourGalleryDescription": "Sube una foto de tu galería para analizar.",
+  "shutter": "Obturador",
+  "tourShutterDescription": "Presiona aquí para escanear una planta y continuar.",
+  "enterUsername": "Por favor ingresa tu nombre de usuario",
+  "usernameTooShort": "El nombre de usuario debe tener al menos 3 caracteres",
+  "enterValidEmail": "Por favor ingresa un correo válido",
+  "confirmYourPassword": "Por favor confirma tu contraseña",
+  "estimatedValueNote": "{measured, plural, other{Valor estimado: {measured} de {total} plantas se apoyan en una medición publicada.}}",
+  "@estimatedValueNote": {
+    "placeholders": {
+      "measured": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "footprintShareEmpty": "Todavía no tengo plantas en mi jardín ECO2.",
+  "footprintShareSummary": "Mi jardín ECO2: {plants} plantas y {perDay} g de CO₂ al día ({total} g acumulados).",
+  "@footprintShareSummary": {
+    "placeholders": {
+      "plants": {
+        "type": "int"
+      },
+      "perDay": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "addPlantsToSeeContribution": "Añade plantas a tu jardín para ver cuánto aporta cada una.",
+  "storeBestsellers": "Más vendidos",
+  "storeAvatars": "Avatares",
+  "storePots": "Macetas",
+  "storeO2Plus2wTitle": "Cosecha tu jardín pro",
+  "storeO2Plus2wSubtitle": "2 semanas de O2 Plus",
+  "storePotRentalTitle": "Alquila una maceta",
+  "storePotRentalSubtitle": "Espacio temporal · 2 semanas",
+  "storeAvatarExplorerTitle": "Avatar Explorador Verde",
+  "storeAvatarGuardianTitle": "Avatar Guardián del Bosque",
+  "storePermanentUnlock": "Desbloqueo permanente",
+  "storePotPack3Title": "Pack de 3 macetas",
+  "storePotPack3Subtitle": "+3 espacios permanentes",
+  "storeO2Plus4wTitle": "O2 Plus mensual",
+  "storeO2Plus4wSubtitle": "4 semanas de O2 Plus",
+  "newBadgeLabel": "Nuevo",
+  "noItemsFound": "No se encontraron artículos",
+  "confirmPurchaseTitle": "¿Confirmar compra?",
+  "confirmPurchaseBody": "¿Deseas canjear \"{item}\" por {cost} semillas?",
+  "@confirmPurchaseBody": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      },
+      "cost": {
+        "type": "int"
+      }
+    }
+  },
+  "confirm": "Confirmar",
+  "purchaseFailed": "No se pudo completar la compra.",
+  "boostGardenPremium": "Impulsa tu jardín con beneficios premium",
+  "moreSpaceForPlants": "Consigue más espacio para tus plantas",
+  "customizeYourProfile": "Personaliza tu perfil",
+  "speciesDescription": "Especie {category} que prefiere luz {light} y humedad {humidity}. Riega aproximadamente cada {days} días, dejando secar el sustrato entre riegos, y se adapta bien a temperaturas entre {minTemp}°C y {maxTemp}°C.",
+  "@speciesDescription": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "light": {
+        "type": "String"
+      },
+      "humidity": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "minTemp": {
+        "type": "int"
+      },
+      "maxTemp": {
+        "type": "int"
+      }
+    }
+  },
+  "purifierExcellent": "Es una excelente purificadora de aire.",
+  "purifierGood": "Ayuda a mejorar la calidad del aire de tu hogar.",
+  "humidityRangeLow": "30-40%",
+  "humidityRangeMedium": "40-60%",
+  "humidityRangeHigh": "60-80%",
+  "airPurification": "Purificación de aire",
+  "purificationLevel": "Nivel de purificación",
+  "idealRequirements": "Requisitos ideales para esta especie",
+  "everyNDaysShort": "c/{days} días",
+  "@everyNDaysShort": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "absorbsPerDay": "Absorbe ~{grams}g de CO₂/día",
+  "@absorbsPerDay": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "addToMyGarden": "Añadir a mi jardín",
+  "gramsPerDayValue": "{grams} g/día",
+  "@gramsPerDayValue": {
+    "placeholders": {
+      "grams": {
+        "type": "String"
+      }
+    }
+  },
+  "noNotesYet": "Aún no has agregado notas para esta planta.",
+  "airPurifierTag": "Aire purificador",
+  "humidityWithPrefix": "Humedad {level}",
+  "@humidityWithPrefix": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "watering": "Riego",
+  "lightLabelShort": "Luz",
+  "temperature": "Temperatura",
+  "humidityLabelShort": "Humedad",
+  "whenSoilDry": "Cuando la tierra esté seca",
+  "redeemSeedsOrSubscribe": "Canjea tus semillas o suscríbete a O₂₊",
+  "viewMyAchievements": "Ver mis logros y misiones",
+  "exploreBotanicalSpecies": "Ver especies",
+  "appTour": "Recorrido de la app",
+  "appTourSubtitle": "Ver de nuevo",
+  "rewardDiscountTitle": "Dto. 15% Vivero El Helecho",
+  "rewardDiscountDesc": "Cupón aplicable a tu próxima compra.",
+  "rewardBadgeTitle": "Insignia \"Guardián de la Tierra\"",
+  "rewardBadgeDesc": "Muestra tu compromiso en tu perfil.",
+  "rewardPotsTitle": "Macetas personalizadas (3D)",
+  "rewardPotsDesc": "Desbloquea diseños interactivos.",
+  "redeemRewardTitle": "¿Canjear premio?",
+  "redeemRewardBody": "¿Seguro que quieres canjear \"{reward}\" por {cost} semillas?",
+  "@redeemRewardBody": {
+    "placeholders": {
+      "reward": {
+        "type": "String"
+      },
+      "cost": {
+        "type": "int"
+      }
+    }
+  },
+  "redeemSuccess": "¡Canje exitoso!: {reward} 🎁",
+  "@redeemSuccess": {
+    "placeholders": {
+      "reward": {
+        "type": "String"
+      }
+    }
+  },
+  "tourWateringStatusDesc": "Aquí ves si ya toca regarla, cuántos días lleva sin riego y cuántos días faltan (o cuántos de retraso lleva) según la frecuencia de la especie.",
+  "tourLogCareDesc": "Cada vez que la riegues, fertilices, podes o trasplantes, regístralo aquí — así el estado de riego y tu historial quedan al día de verdad.",
+  "speciesCare": "Cuidados de la especie",
+  "speciesSpecSheet": "Ficha técnica de la especie",
+  "tourSpeciesGridDesc": "Riego, luz, temperatura y humedad ideales para esta especie en particular.",
+  "howToCareForThisPlant": "Cómo cuidar esta planta",
+  "plantNicknameHint": "Apodo de la planta",
+  "howToCareForYourPlant": "Cómo cuidar tu planta",
+  "careCalendar": "Calendario de cuidados",
+  "tourCareCalendarDesc": "La frecuencia de riego es real, según la especie. Fertilización, poda y trasplante son buenas prácticas generales — la app aún no calcula una frecuencia exacta para esas.",
+  "whenToDoEachCare": "¿Cuándo hacer cada cuidado?",
+  "scheduleFertilizing": "Cada 4-6 semanas, en primavera y verano",
+  "schedulePruning": "Retira hojas secas, amarillas o dañadas en cuanto las notes",
+  "scheduleRepotting": "Cada 1-2 años, o cuando las raíces llenen la maceta",
+  "tourStoreDesc": "Canjea tus semillas por macetas extra y funciones especiales.",
+  "yourGarden": "Tu Jardín",
+  "tourGardenDesc": "Explora el catálogo de especies o gestiona las plantas que ya tienes.",
+  "aiScanner": "Escáner IA",
+  "tourScannerDesc": "Identifica una planta apuntando la cámara — la IA reconoce la especie.",
+  "yourProfile": "Tu Perfil",
+  "tourProfileDesc": "Revisa tu progreso, ajustes de la cuenta y más.",
+  "premiumTitle": "Potencia tu jardín",
+  "premiumSubtitle": "Desbloquea el potencial completo de ECO2 y lleva tu experiencia botánica al siguiente nivel.",
+  "premiumIncludes": "Todo lo que incluye",
+  "premiumUnlimitedPots": "Macetas ilimitadas",
+  "premiumUnlimitedPotsDesc": "Añade todas las plantas que quieras sin límites.",
+  "premiumBetterSearch": "Búsqueda mejorada por descripción",
+  "premiumBetterSearchDesc": "Encuentra plantas describiendo su aspecto con IA.",
+  "premiumUnlimitedScans": "Escaneos ilimitados",
+  "premiumUnlimitedScansDesc": "Identifica cualquier planta, cuando quieras.",
+  "premiumAiTreatment": "Tratamiento asistido con IA",
+  "premiumAiTreatmentDesc": "Diagnóstico personalizado de plagas y cuidados.",
+  "premiumNurseryDiscounts": "Descuentos en viveros aliados",
+  "premiumNurseryDiscountsDesc": "Hasta 20% off en especies de aliados selectos.",
+  "noCompletedAchievements": "No hay logros completados aún",
+  "noLockedAchievements": "No hay logros bloqueados por ahora",
+  "lockedAchievementsNote": "Estos logros dependen de funciones que todavía no están disponibles en la app.",
+  "plantIdentification": "Identificación de plantas",
+  "scannerTabHint": "Apunta con la cámara a la planta o sube una foto de tu galería.",
+  "recentAnalyses": "Análisis recientes",
+  "careTypeWatering": "Riego",
+  "careTypeFertilizing": "Fertilización",
+  "careTypePruning": "Poda",
+  "careTypeRepotting": "Trasplante",
+  "careLoggedToast": "Cuidado registrado: {type} 🌿",
+  "@careLoggedToast": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "inOneDay": "en 1 día",
+  "daysAgoShort": "hace {count} días",
+  "@daysAgoShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "inNDays": "en {count} días",
+  "@inNDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noCareLoggedForPlant": "Aún no has registrado cuidados para esta planta.",
+  "noEventsForFilter": "No hay eventos para este filtro.",
+  "featureComingSoon": "Esta función estará disponible próximamente.",
+  "thisPlant": "esta planta",
+  "careTypeGeneric": "Cuidado",
+  "changePhotoComingSoon": "Cambiar la foto de perfil estará disponible próximamente 📸",
+  "changeProfilePhoto": "Cambiar foto de perfil",
+  "personalInformation": "Información personal",
+  "pickSpeciesToContinue": "Elige una especie de la lista para continuar.",
+  "nameYourPlantToContinue": "Ponle un nombre a tu planta para continuar.",
+  "noSpeciesAvailable": "No hay especies disponibles todavía.",
+  "noSpeciesFoundFor": "No se encontraron especies para \"{query}\".",
+  "@noSpeciesFoundFor": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "tellUsAboutYou": "Cuéntanos sobre ti",
+  "usernameRequired": "El nombre de usuario es obligatorio",
+  "minThreeChars": "Mínimo 3 caracteres",
+  "gender": "Género",
+  "activeMissionCard": "Misión activa",
+  "redeemSeedsOrSubscribeShort": "Canjea tus semillas o suscríbete",
+  "welcomeToEco2Plus": "¡Bienvenido a ECO2\nPlus!",
+  "subscriptionActive": "Tu suscripción anual está activa. Disfruta de todas las funciones Plus desde ahora.",
+  "addPlantsWithoutLimit": "Añade plantas sin límite",
+  "gardenCanGrow": "Tu jardín puede crecer todo lo que quieras",
+  "sessionExpired": "Sesión expirada. Inicia sesión nuevamente.",
+  "noNotificationsYet": "No tienes notificaciones por ahora.",
+  "needsAttention": "Necesitan atención",
+  "overdueByDays": "{count, plural, =1{Vencido hace 1 día} other{Vencido hace {count} días}}",
+  "@overdueByDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@achievementUnlocked": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@newPlantAdded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "passwordMinSixChars": "La contraseña debe tener al menos 6 caracteres",
+  "achievementUnlockedTitle": "¡Logro desbloqueado!",
+  "newPlantAddedTitle": "Nueva planta agregada",
+  "newPlantAddedBody": "Agregaste {name} a tu colección.",
+  "@newPlantAddedBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "lastWateredHelpShort": "Así calculamos cuándo toca el próximo riego. Si no lo sabes, empezamos a contar desde hoy.",
+  "conditionNotTracked": "Esta condición todavía no se rastrea en la app.",
+  "tourSeedsDesc": "Ganas semillas cuidando tus plantas y cumpliendo misiones. Úsalas en la Tienda.",
+  "achievementsAndMissionsTitle": "Logros y misiones",
+  "tourTrophyDesc": "Aquí ves tus trofeos, el progreso de tus misiones y cuánto XP llevas.",
+  "allNotificationsRead": "Todas las notificaciones marcadas como leídas.",
+  "aiSearch": "Búsqueda con IA",
+  "achievementUnlockedToast": "🏆 ¡Logro desbloqueado! {name} ({reward})",
+  "@achievementUnlockedToast": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "reward": {
+        "type": "String"
+      }
+    }
+  },
+  "xpAndSeedsReward": "+{xp} XP · +{seeds} semillas",
+  "@xpAndSeedsReward": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      },
+      "seeds": {
+        "type": "int"
+      }
+    }
+  },
+  "xpReward": "+{xp} XP",
+  "@xpReward": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "progressOfPlants": "{current} de {total} plantas",
+  "@progressOfPlants": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "progressOfCares": "{current} de {total} cuidados",
+  "@progressOfCares": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "completed": "Completado",
+  "pending": "Pendiente",
+  "gotIt": "Entendido",
+  "accept": "Aceptar",
+  "viewSpecSheet": "Ver ficha",
+  "history": "Historial",
+  "tourHistoryDesc": "Consulta tus escaneos anteriores.",
+  "plantNotFound": "Planta no encontrada",
+  "editNickname": "Editar apodo",
+  "takePhoto": "Tomar foto",
+  "removePhoto": "Quitar foto",
+  "photoRemoved": "Foto eliminada.",
+  "photoUpdated": "Foto actualizada.",
+  "genderMale": "Hombre",
+  "genderFemale": "Mujer",
+  "genderOther": "Otro",
+  "genderPreferNotToSay": "Prefiero no decir",
+  "birthDate": "Fecha de nacimiento",
+  "tempShort": "Temp.",
+  "o2co2": "O₂ CO₂",
+  "confirmPayment": "Confirmar pago",
+  "card": "Tarjeta",
+  "tourScanFavourite": "Escanea tu planta favorita",
+  "tourScanFavouriteDesc": "Identifica cualquier especie con IA",
+  "exploreDiscounts": "Explora descuentos exclusivos",
+  "exploreDiscountsDesc": "Hasta 20% off en viveros aliados",
+  "redeemSeedsCount": "Canjear {count} semillas",
+  "@redeemSeedsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "waterings": "Riegos",
+  "prunings": "Podas",
+  "routeNotFound": "Ruta no encontrada: {route}",
+  "@routeNotFound": {
+    "placeholders": {
+      "route": {
+        "type": "String"
+      }
+    }
+  },
+  "careNoteHint": "Agua tibia · ~200ml · tierra ya estaba seca",
+  "tourNotificationsDesc": "Avisos reales: riegos pendientes, logros desbloqueados y plantas nuevas.",
+  "wateringDueNotification": "Riego pendiente: {name} necesita agua ahora.",
+  "@wateringDueNotification": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "fullName": "Nombre completo",
+  "plantWatered": "{name} regada 💧",
+  "@plantWatered": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "nicknameExample": "ej. jardinero_verde",
+  "plantNameExample": "ej. Mi Monstera",
+  "unlockedOn": "Desbloqueado el {date}",
+  "@unlockedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "agoMinutes": "Hace {n}m",
+  "@agoMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "agoHours": "Hace {n}h",
+  "@agoHours": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "agoDays": "Hace {n}d",
+  "@agoDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "wateringDueTitle": "Riego pendiente",
+  "muteReminders": "Silenciar recordatorios",
+  "muteRemindersOn": "No recibirás avisos de riego de esta planta",
+  "muteRemindersOff": "Recibirás avisos cuando toque regarla",
+  "remindersMuted": "Recordatorios silenciados para {name}",
+  "@remindersMuted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "remindersUnmuted": "Recordatorios reactivados para {name}",
+  "@remindersUnmuted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "logCare": "Registrar cuidado",
+  "achFirstSteps": "Primeros Pasos",
+  "achBotanicalEye": "Ojo Botánico",
+  "achFirstRoom": "Mi Primer Espacio",
+  "achHandsOn": "Manos a la Obra",
+  "achSteadyCarer": "Cuidador Constante",
+  "achGreenGuardian": "Guardián Verde",
+  "achCareMaster": "Maestro del Cuidado",
+  "achBotanicalLegend": "Leyenda Botánica",
+  "achMyLittleGarden": "Mi Pequeño Jardín",
+  "achCollector": "Coleccionista",
+  "achDescOnboarding": "Completa el onboarding de ECO2",
+  "achDescFirstScan": "Escanea tu primera planta con IA",
+  "achDescFirstRoom": "Crea tu primera habitación",
+  "achDescFirstCare": "Realiza tu primer cuidado",
+  "achDescNCares": "Realiza {count} cuidados",
+  "@achDescNCares": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "achDescNPlants": "Registra {count} plantas en tu colección",
+  "@achDescNPlants": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutThisPlant": "Sobre esta planta",
+  "difficulty": "Dificultad",
+  "beginner": "Principiante",
+  "expert": "Experto",
+  "care": "Cuidados",
+  "carEquivalent": "Equivalente a un auto recorriendo {meters}m",
+  "@carEquivalent": {
+    "placeholders": {
+      "meters": {
+        "type": "String"
+      }
+    }
+  },
+  "securePayments": "Pagos seguros con cifrado SSL de 256 bits",
+  "selectedPlan": "★ PLAN SELECCIONADO",
+  "eco2PlusAnnual": "ECO2 Plus Anual",
+  "cancelAnytime": "Cancela en cualquier momento",
+  "totalToPay": "Total a pagar",
+  "payAmount": "Pagar {amount}",
+  "@payAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "perMonthPrice": "{amount}/mes",
+  "@perMonthPrice": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "filters": "Filtros",
+  "clear": "Limpiar",
+  "applyFilters": "Aplicar filtros",
+  "unlockO2Features": "Desbloquea funciones O₂₊",
+  "done": "Listo",
+  "customizeYourEco2": "Personaliza tu experiencia ECO2",
+  "skipForNow": "Omitir por ahora",
+  "optional": "(opcional)",
+  "continueAction": "Continuar",
+  "newScan": "Nuevo escaneo",
+  "matchPercent": "{pct}% coincidencia",
+  "@matchPercent": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "takePhotoAction": "Hacer foto",
+  "date": "Fecha",
+  "noteOptional": "Nota (opcional)",
+  "scanHistory": "Historial de escaneos",
+  "otherPossibilities": "Otras posibilidades",
+  "viewO2Plus": "Ver O₂₊",
+  "exportToCalendar": "Exportar a calendario",
+  "eventsCount": "{count, plural, =1{1 evento} other{{count} eventos}}",
+  "@eventsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "viewFullSheet": "ver ficha completa",
+  "myPersonalNote": "Mi nota personal",
+  "noPlantNeedsWater": "Ninguna planta necesita riego ahora mismo.",
+  "waterAction": "Regar",
+  "o2PlusLabel": "O₂ PLUS",
+  "subscribeToO2Plus": "Suscribirse a O₂₊",
+  "minCharsSuffix": " · mín. 8 caracteres",
+  "startUsingPlus": "Empezar a usar Plus",
+  "seedsCost": "{count} semillas",
+  "@seedsCost": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "seedsShort": "{count} sem.",
+  "@seedsShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "species": "Especie",
+  "gramsPerDayUnit": "g/día",
+  "everyNDaysCompact": "c/{days}d",
+  "@everyNDaysCompact": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "pendingMissionsCount": "{count, plural, =0{Todo completado} =1{1 pendiente} other{{count} pendientes}}",
+  "@pendingMissionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "seedsCountShort": "{count} semillas",
+  "@seedsCountShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unitCares": "cuidados",
+  "unitPlants": "plantas",
+  "filterAll": "Todos",
+  "fertilizings": "Abonos",
+  "tabActive": "Activa",
+  "tabCompleted": "Completadas",
+  "tabLocked": "Bloqueadas",
+  "plantLimitReached": "Has llegado a tu tope de macetas. Con O₂₊ son ilimitadas.",
+  "scanLimitReached": "Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.",
+  "plusMember": "Miembro O₂₊",
+  "plusActiveUntil": "Activo hasta el {date}",
+  "@plusActiveUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "potsUsedOfLimit": "{used} de {limit} macetas",
+  "@potsUsedOfLimit": { "placeholders": { "used": { "type": "int" }, "limit": { "type": "int" } } },
+  "potsUnlimited": "Macetas ilimitadas",
+  "legacyPotsKept": "{count, plural, =1{Conservas 1 maceta de tu O₂₊ anterior} other{Conservas {count} macetas de tu O₂₊ anterior}}",
+  "@legacyPotsKept": { "placeholders": { "count": { "type": "int" } } },
+  "legacyPotsExplainer": "Al terminar O₂₊ no se borra ninguna planta: conservas las que cuidabas y el tope solo afecta a las nuevas.",
+  "rentalPotsActive": "{count, plural, =1{1 maceta alquilada} other{{count} macetas alquiladas}}",
+  "@rentalPotsActive": { "placeholders": { "count": { "type": "int" } } },
+  "rentalPotsExpiresIn": "{days, plural, =0{Vence hoy} =1{Vence mañana} other{Vence en {days} días}}",
+  "@rentalPotsExpiresIn": { "placeholders": { "days": { "type": "int" } } },
+  "rentalPotsFreeSlot": "{count, plural, =1{Te queda 1 hueco libre en tu jardín} other{Te quedan {count} huecos libres en tu jardín}}",
+  "@rentalPotsFreeSlot": { "placeholders": { "count": { "type": "int" } } },
+  "rentalPotsAllUsed": "Todas tus macetas están ocupadas",
+  "avatarAlreadyOwned": "Ya tienes este avatar.",
+  "avatarNotOwned": "Necesitas comprar este avatar primero.",
+  "avatarPurchased": "¡{name} desbloqueado!",
+  "@avatarPurchased": { "placeholders": { "name": { "type": "String" } } },
+  "buyForSeeds": "Comprar por {cost} semillas",
+  "@buyForSeeds": { "placeholders": { "cost": { "type": "int" } } },
+  "earlierLabel": "Anteriores",
+  "noNotificationsBody": "Aquí verás los riegos pendientes, los logros que desbloquees y las plantas que añadas.",
+  "noNotificationsTitle": "Todo en orden",
+  "notEnoughSeeds": "No tienes semillas suficientes.",
+  "owned": "Ya lo tienes",
+  "storeAvatarSubtitle": "Desbloqueo permanente",
+  "storeCriadoraTitle": "Avatar Criadora",
+  "storeExploradorTitle": "Avatar Explorador",
+  "storeJardineraTitle": "Avatar Jardinera",
+  "storeNoctilanaTitle": "Avatar Noctilana",
+  "thisWeekLabel": "Esta semana",
+  "unreadCount": "{count, plural, =1{1 sin leer} other{{count} sin leer}}",
+  "@unreadCount": { "placeholders": { "count": { "type": "int" } } },
+  "rentalPotsExpiresInHours": "{hours, plural, =1{Vence en 1 hora} other{Vence en {hours} horas}}",
+  "@rentalPotsExpiresInHours": { "placeholders": { "hours": { "type": "int" } } },
+  "rentalPotsExpiresInMinutes": "{minutes, plural, =1{Vence en 1 minuto} other{Vence en {minutes} minutos}}",
+  "@rentalPotsExpiresInMinutes": { "placeholders": { "minutes": { "type": "int" } } },
+  "rentalExpiredTitle": "Tu maceta alquilada venció",
+  "rentalExpiredOverLimit": "{count, plural, =1{{names} supera tu tope actual de macetas.} other{{count} plantas superan tu tope actual de macetas: {names}.}}",
+  "@rentalExpiredOverLimit": { "placeholders": { "count": { "type": "int" }, "names": { "type": "String" } } },
+  "rentalExpiredNothingHeld": "Ninguna planta dependía de ella: sigues con {used} de {limit} macetas.",
+  "@rentalExpiredNothingHeld": { "placeholders": { "used": { "type": "int" }, "limit": { "type": "int" } } },
+  "rentalExpiredNothingDeleted": "No se ha borrado ninguna planta. Puedes seguir cuidándolas todas; el tope solo afecta a las nuevas.",
+  "rentalExpiredRentAgain": "Alquilar otra",
+  "continueWithGoogle": "Continuar con Google",
+  "googleSignInFailed": "No se pudo entrar con Google. Inténtalo de nuevo.",
+  "orSeparator": "o",
+  "helpTitle": "Ayuda",
+  "helpGreeting": "Hola 👋 Soy la ayuda de ECO2. Toca una pregunta y te respondo al momento.",
+  "helpSearchHint": "Buscar en la ayuda",
+  "helpNoResults": "No encuentro nada con esas palabras. Prueba con otras, o mira las preguntas de abajo.",
+  "helpMoreQuestions": "¿Algo más?",
+  "helpRelated": "También suelen preguntar",
+  "helpBackToTopics": "Ver todas las preguntas",
+  "helpStillStuck": "¿No resolví tu duda?",
+  "helpContact": "Escríbenos contando qué hacías, qué esperabas y qué pasó en su lugar.",
+  "helpCatPlants": "Plantas y escáner",
+  "helpCatReminders": "Recordatorios y avisos",
+  "helpCatPlan": "Macetas, O₂₊ y tienda",
+  "helpCatAccount": "Cuenta y ajustes",
+  "helpQAddPlant": "¿Cómo añado una planta?",
+  "helpAAddPlant": "Tienes tres caminos: el botón central de la barra inferior identifica la planta con la cámara; desde Jardín puedes abrir una especie del catálogo y pulsar «Añadir a mi jardín»; y en Mi Jardín tienes el botón «+ Añadir planta». Después puedes ponerle un apodo para distinguirla de otras iguales.",
+  "helpQLastWatered": "¿Por qué me pregunta cuándo regué por última vez?",
+  "helpALastWatered": "Porque de ahí sale el primer recordatorio. Si no lo indicas, el ciclo empieza hoy, y una planta que llevaba días contigo recibiría el aviso de riego demasiado tarde.",
+  "helpQScanLimit": "¿Cuántas plantas puedo identificar al día?",
+  "helpAScanLimit": "Cinco al día con el plan gratuito. El contador se reinicia a medianoche con la hora de tu propio teléfono. Con O₂₊ no hay límite.",
+  "helpQScanFails": "El escáner no reconoce mi planta",
+  "helpAScanFails": "Prueba con más luz, acércate a una sola hoja y busca un fondo despejado. Si ya gastaste tus cinco identificaciones del día, tendrás que esperar a mañana o pasar a O₂₊.",
+  "helpQWaterReminder": "¿Cuándo me avisa de regar?",
+  "helpAWaterReminder": "Cuando la planta llega a su día de riego, según la frecuencia de su especie y el último riego que registraste. El aviso respeta la franja horaria que elijas en Ajustes.",
+  "helpQNoNotifications": "No me llegan notificaciones",
+  "helpANoNotifications": "Revisa cuatro cosas: que diste permiso de notificaciones, que están activadas en Ajustes con una franja horaria correcta, que esa planta no tenga los recordatorios silenciados, y que Android no tenga a ECO2 con la batería restringida.",
+  "helpQMutePlant": "¿Puedo silenciar solo una planta?",
+  "helpAMutePlant": "Sí. Abre esa planta y activa «Silenciar recordatorios». Las demás te seguirán avisando con normalidad.",
+  "helpQPotLimit": "¿Cuántas plantas puedo tener?",
+  "helpAPotLimit": "Diez macetas con el plan gratuito. Puedes ampliarlo comprando el pack de 3 macetas o alquilando una por 14 días, y con O₂₊ no hay tope.",
+  "helpQO2Plus": "¿Qué incluye O₂₊?",
+  "helpAO2Plus": "Macetas e identificaciones ilimitadas, la insignia de miembro visible en tu perfil y el código de descuento para viveros asociados.",
+  "helpQO2PlusEnds": "Se me acaba O₂₊, ¿pierdo mis plantas?",
+  "helpAO2PlusEnds": "No. No se borra ninguna planta, nunca. Además conservas de forma permanente hasta 5 macetas por encima del tope gratuito, según las que llegaras a usar: si tenías 18 plantas, te quedas en 15 y no en 10. Puedes seguir cuidándolas todas; lo único que no podrás es añadir más hasta bajar de tu nuevo tope.",
+  "helpQRental": "¿Cómo funciona el alquiler de maceta?",
+  "helpARental": "Te da una maceta extra durante 14 días por 150 semillas. Mientras dure verás un aviso en Mi Jardín con el tiempo que le queda, contado en días y, cuando esté cerca, en horas o minutos. Al vencer no se borra nada: solo baja tu tope.",
+  "helpQSeeds": "¿Cómo consigo semillas?",
+  "helpASeeds": "Completando misiones, desbloqueando logros y cuidando tus plantas con constancia. Se gastan en la tienda: O₂₊, macetas y avatares.",
+  "helpQAvatars": "¿Cómo cambio mi avatar?",
+  "helpAAvatars": "Desde tu perfil. Hay cuatro avatares gratuitos y cuatro que se compran con semillas. Los que ya tienes aparecen marcados como «Ya lo tienes» y no se pueden comprar dos veces.",
+  "helpQPayment": "¿El pago de O₂₊ es real?",
+  "helpAPayment": "No. En esta versión O₂₊ se adquiere con semillas dentro de la app, y la pantalla de pago es una maqueta de demostración: no procesa cobros ni pide datos de tarjeta verdaderos.",
+  "helpQCo2": "¿Cómo se calcula mi huella verde?",
+  "helpACo2": "Con los datos de absorción de cada especie del catálogo y el tiempo que lleva contigo cada planta. No son valores fijos: cambian según lo que tengas plantado.",
+  "helpQPassword": "Olvidé mi contraseña",
+  "helpAPassword": "En la pantalla de inicio de sesión pulsa «¿Olvidaste tu contraseña?» y escribe tu correo. Recibirás un código de 8 caracteres que se pega en la app junto con la nueva contraseña. Caduca a los 30 minutos.",
+  "helpQGoogle": "¿Puedo entrar con Google?",
+  "helpAGoogle": "Sí. En iniciar sesión y en registrarse tienes «Continuar con Google». Si es la primera vez, la cuenta se crea sola con ese correo; si ya existe, entras en ella.",
+  "helpQBiometric": "¿Puedo proteger la app con mi huella?",
+  "helpABiometric": "Sí, actívalo en Ajustes. A partir de entonces te pedirá huella o rostro al abrir la app. Ese dato nunca sale del sistema de tu teléfono: la app solo recibe un sí o un no.",
+  "helpQOffline": "¿Funciona sin conexión?",
+  "helpAOffline": "No. Tus plantas y tu progreso se guardan en el servidor para que no se pierdan si cambias de teléfono, así que hace falta conexión.",
+  "helpQLanguage": "¿Cómo cambio el idioma?",
+  "helpALanguage": "En Ajustes puedes elegir español o inglés. Por defecto la app sigue el idioma de tu teléfono.",
+  "freePlanLabel": "Plan gratuito",
+  "potsUsage": "{used} de {limit} macetas",
+  "@potsUsage": {
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "scansUsage": "{used} de {limit} escaneos hoy",
+  "@scansUsage": {
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "unlimited": "Ilimitado",
+  "activatePlus": "Activar O₂₊",
+  "plusActivated": "¡O₂₊ activado! Macetas y escaneos ilimitados.",
+  "cancelPlus": "Cancelar O₂₊",
+  "plusCancelled": "Has vuelto al plan gratuito.",
+  "simulatedPayment": "Pago simulado: esta app es un trabajo universitario y no realiza ningún cobro.",
+  "nurseryDiscount": "Descuento en viveros",
+  "nurseryDiscountIntro": "Muestra este código en los viveros asociados para aplicar tu descuento.",
+  "yourCode": "Tu código",
+  "codeCopied": "Código copiado",
+  "plusOnlyFeature": "Disponible con O₂₊",
+  "copyCode": "Copiar código",
+  "plusUnlimitedSummary": "Macetas y escaneos ilimitados",
+  "manage": "Gestionar",
+  "chooseAvatar": "Elige tu avatar",
+  "avatarUpdated": "Avatar actualizado",
+  "noAvatar": "Sin avatar",
+  "avatarAgronomist": "Agrónoma",
+  "avatarFarmer": "Granjero",
+  "avatarGardener": "Jardinera",
+  "avatarTechnologist": "Tecnólogo",
+  "avatarBreeder": "Criadora",
+  "avatarExplorer": "Explorador",
+  "avatarScientist": "Científico",
+  "avatarFlorist": "Floricultora"
+}

@@ -1,0 +1,8 @@
+arb-dir: lib/l10n
+template-arb-file: app_es.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+# El español es el idioma base del proyecto: si una clave falta en inglés se
+# cae en el texto español en vez de romper la compilación, para poder traducir
+# por capas sin dejar la app a medias.
+untranslated-messages-file: lib/l10n/untranslated.json

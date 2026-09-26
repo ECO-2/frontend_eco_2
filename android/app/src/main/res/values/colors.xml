@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fondo del icono adaptativo del lanzador. -->
+    <color name="ic_launcher_background">#003E48</color>
+
+    <!--
+        Fondo de la pantalla de arranque nativa (la que pinta Android antes de
+        que Flutter dibuje su primer frame). Antes no se definía, así que en
+        modo oscuro salía el negro de `?android:colorBackground`.
+
+        Se usa el mismo verde que el fondo del icono para que el logo no quede
+        recortado sobre un color distinto del suyo.
+    -->
+    <color name="eco2_splash_background">#003E48</color>
+</resources>

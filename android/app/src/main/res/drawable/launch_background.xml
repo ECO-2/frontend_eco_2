@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Modify this file to customize your launch splash screen -->
+<!--
+    Pantalla de arranque nativa (Android 11 y anteriores).
+    Antes el fondo era blanco en claro y `?android:colorBackground` en oscuro,
+    que resuelve a negro; ahora es el verde de marca en ambos casos.
+-->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@android:color/white" />
-
-    <!-- You can insert your own image assets here -->
-    <!-- <item>
+    <item android:drawable="@color/eco2_splash_background" />
+    <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+            android:src="@mipmap/launcher_icon" />
+    </item>
 </layer-list>

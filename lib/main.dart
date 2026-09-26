@@ -1,122 +1,247 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend_eco_2/providers/providers.dart';
+import 'package:frontend_eco_2/l10n/app_localizations.dart';
+import 'package:frontend_eco_2/services/services.dart';
+import 'package:frontend_eco_2/services/google_auth_service.dart';
+import 'package:frontend_eco_2/routing/app_routes.dart';
+import 'package:frontend_eco_2/theme/app_colors.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:frontend_eco_2/screens/auth/app_lock_screen.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Inicializar servicios compartidos
+  final storage = SecureStorage();
+  final apiClient = ApiClient(storage);
+
+  final authService = AuthService(apiClient, storage);
+  final userService = UserService(apiClient);
+  final plantsService = PlantsService(apiClient);
+  final gamificationService = GamificationService(apiClient);
+  final careService = CareService(apiClient);
+  final identificationService = IdentificationService(apiClient);
+  final notificationService = NotificationService(apiClient);
+
+  runApp(MyApp(
+    storage: storage,
+    authService: authService,
+    userService: userService,
+    plantsService: plantsService,
+    gamificationService: gamificationService,
+    careService: careService,
+    identificationService: identificationService,
+    notificationService: notificationService,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final SecureStorage storage;
+  final AuthService authService;
+  final UserService userService;
+  final PlantsService plantsService;
+  final GamificationService gamificationService;
+  final CareService careService;
+  final IdentificationService identificationService;
+  final NotificationService notificationService;   
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  const MyApp({
+    super.key,
+    required this.storage,
+    required this.authService,
+    required this.userService,
+    required this.plantsService,
+    required this.gamificationService,
+    required this.careService,
+    required this.identificationService,
+    required this.notificationService,
+  });
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+    return MultiProvider(
+      providers: [
+        Provider<CareService>.value(value: careService),
+        Provider<IdentificationService>.value(value: identificationService),
+        Provider<SecureStorage>.value(value: storage),
+        Provider<GoogleAuthService>(create: (_) => GoogleAuthService()),
+        Provider<NotificationService>.value(value: notificationService),
+        // Lo consume GreenFootprintScreen para pedir el CO2 real del jardín.
+        Provider<UserService>.value(value: userService),
+        // Idioma elegido por el usuario, recordado entre sesiones.
+        ChangeNotifierProvider(create: (_) => LocaleProvider(storage)..load()),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(
+            authService: authService,
+            userService: userService,
+            storage: storage,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PlantsProvider(plantsService: plantsService),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MissionsProvider(
+            gamificationService: gamificationService,
+            careService: careService,
+          ),
+        ),
+        ChangeNotifierProvider(create: (_) => NotificationsProvider()),
+        ChangeNotifierProvider(
+          create: (_) => PlanProvider(userService: userService),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AvatarsProvider(userService: userService),
+        ),
+      ],
+      // ECO2 no ofrece modo oscuro: la app siempre usa el tema claro,
+      // sin importar el ajuste de tema del sistema del teléfono.
+      // Consumer y no context.watch: el `context` de este build está por
+      // encima del MultiProvider y no vería el LocaleProvider.
+      child: Consumer<LocaleProvider>(
+        builder: (context, localeProvider, _) => _AppLoader(
+        child: MaterialApp(
+          navigatorKey: navigatorKey,
+          title: 'ECO2',
+          themeMode: ThemeMode.light,
+          debugShowCheckedModeBanner: false,
+          // `locale` null = seguir el idioma del sistema.
+          locale: localeProvider.locale,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
           ],
+          supportedLocales: const [
+            Locale('es', ''),
+            Locale('en', ''),
+          ],
+          theme: ThemeData(
+            useMaterial3: true,
+            brightness: Brightness.light,
+            colorSchemeSeed: AppColors.primary,
+            scaffoldBackgroundColor: AppColors.background,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: AppColors.background,
+              elevation: 0,
+              foregroundColor: AppColors.textPrimary,
+            ),
+          ),
+          // Arranca en la pantalla de carga, no en la de bienvenida: si hay
+          // sesion guardada nunca llega a verse el "Crear cuenta".
+          initialRoute: AppRoutes.splash,
+          onGenerateRoute: AppRoutes.onGenerateRoute,
+        ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
+}
+
+/// Widget que intenta restaurar la sesión existente al arrancar la app.
+/// Si hay tokens guardados, carga el usuario y redirige al onboarding o dashboard.
+class _AppLoader extends StatefulWidget {
+  final Widget child;
+
+  const _AppLoader({required this.child});
+
+  @override
+  State<_AppLoader> createState() => _AppLoaderState();
+}
+
+class _AppLoaderState extends State<_AppLoader> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _init());
+  }
+
+  Future<void> _init() async {
+    final userProvider = context.read<UserProvider>();
+    await userProvider.loadCurrentUser();
+
+    if (!mounted) return;
+
+    if (userProvider.isAuthenticated) {
+      // Bloqueo biométrico: la sesión ya está restaurada, así que la huella no
+      // autentica contra el servidor — solo decide si se deja ver lo que ya
+      // hay. Si no pasa, se cierra la sesión y se vuelve al inicio.
+      if (!await _passesBiometricGate()) {
+        await userProvider.logout();
+        if (!mounted) return;
+        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          AppRoutes.welcome,
+          (route) => false,
+        );
+        return;
+      }
+      if (!mounted) return;
+
+      final user = userProvider.currentUser!;
+
+      if (!user.onboardingCompleted) {
+        // Onboarding pendiente — no cargar datos del dashboard todavía.
+        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          AppRoutes.onboarding,
+          (route) => false,
+        );
+        return;
+      }
+
+      // Carga paralela de datos del dashboard.
+      final plantsProvider = context.read<PlantsProvider>();
+      final missionsProvider = context.read<MissionsProvider>();
+      final planProvider = context.read<PlanProvider>();
+      await Future.wait([
+        plantsProvider.init(),
+        missionsProvider.init(),
+        planProvider.refresh(),
+        context.read<AvatarsProvider>().refresh(),
+      ]);
+      missionsProvider.syncUserPlantsCount(plantsProvider.userPlants.length);
+
+      if (!mounted) return;
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        AppRoutes.dashboard,
+        (route) => false,
+      );
+      return;
+    }
+
+    // Sin sesion valida: recien aqui se muestra la bienvenida.
+    navigatorKey.currentState?.pushNamedAndRemoveUntil(
+      AppRoutes.welcome,
+      (route) => false,
+    );
+  }
+
+  /// Muestra la pantalla de bloqueo si la preferencia está activada.
+  /// Devuelve true cuando no hay bloqueo o cuando el sistema confirmó la
+  /// identidad.
+  Future<bool> _passesBiometricGate() async {
+    final storage = context.read<SecureStorage>();
+    if (!await storage.isBiometricLockEnabled()) return true;
+
+    final unlocked = await navigatorKey.currentState?.push<bool>(
+      MaterialPageRoute(
+        builder: (_) => const AppLockScreen(),
+        fullscreenDialog: true,
+      ),
+    );
+    return unlocked == true;
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }
