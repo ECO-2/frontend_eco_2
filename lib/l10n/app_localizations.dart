@@ -962,6 +962,12 @@ abstract class AppLocalizations {
   /// **'Notificaciones'**
   String get notificationsTitle;
 
+  /// No description provided for @markedAsRead.
+  ///
+  /// In es, this message translates to:
+  /// **'Marcada como leída'**
+  String get markedAsRead;
+
   /// No description provided for @markAllRead.
   ///
   /// In es, this message translates to:
@@ -3932,6 +3938,342 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Alquilar otra'**
   String get rentalExpiredRentAgain;
+
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In es, this message translates to:
+  /// **'Continuar con Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @googleSignInFailed.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo entrar con Google. Inténtalo de nuevo.'**
+  String get googleSignInFailed;
+
+  /// No description provided for @orSeparator.
+  ///
+  /// In es, this message translates to:
+  /// **'o'**
+  String get orSeparator;
+
+  /// No description provided for @helpTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Ayuda'**
+  String get helpTitle;
+
+  /// No description provided for @helpGreeting.
+  ///
+  /// In es, this message translates to:
+  /// **'Hola 👋 Soy la ayuda de ECO2. Toca una pregunta y te respondo al momento.'**
+  String get helpGreeting;
+
+  /// No description provided for @helpSearchHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar en la ayuda'**
+  String get helpSearchHint;
+
+  /// No description provided for @helpNoResults.
+  ///
+  /// In es, this message translates to:
+  /// **'No encuentro nada con esas palabras. Prueba con otras, o mira las preguntas de abajo.'**
+  String get helpNoResults;
+
+  /// No description provided for @helpMoreQuestions.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Algo más?'**
+  String get helpMoreQuestions;
+
+  /// No description provided for @helpRelated.
+  ///
+  /// In es, this message translates to:
+  /// **'También suelen preguntar'**
+  String get helpRelated;
+
+  /// No description provided for @helpBackToTopics.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver todas las preguntas'**
+  String get helpBackToTopics;
+
+  /// No description provided for @helpStillStuck.
+  ///
+  /// In es, this message translates to:
+  /// **'¿No resolví tu duda?'**
+  String get helpStillStuck;
+
+  /// No description provided for @helpContact.
+  ///
+  /// In es, this message translates to:
+  /// **'Escríbenos contando qué hacías, qué esperabas y qué pasó en su lugar.'**
+  String get helpContact;
+
+  /// No description provided for @helpCatPlants.
+  ///
+  /// In es, this message translates to:
+  /// **'Plantas y escáner'**
+  String get helpCatPlants;
+
+  /// No description provided for @helpCatReminders.
+  ///
+  /// In es, this message translates to:
+  /// **'Recordatorios y avisos'**
+  String get helpCatReminders;
+
+  /// No description provided for @helpCatPlan.
+  ///
+  /// In es, this message translates to:
+  /// **'Macetas, O₂₊ y tienda'**
+  String get helpCatPlan;
+
+  /// No description provided for @helpCatAccount.
+  ///
+  /// In es, this message translates to:
+  /// **'Cuenta y ajustes'**
+  String get helpCatAccount;
+
+  /// No description provided for @helpQAddPlant.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cómo añado una planta?'**
+  String get helpQAddPlant;
+
+  /// No description provided for @helpAAddPlant.
+  ///
+  /// In es, this message translates to:
+  /// **'Tienes tres caminos: el botón central de la barra inferior identifica la planta con la cámara; desde Jardín puedes abrir una especie del catálogo y pulsar «Añadir a mi jardín»; y en Mi Jardín tienes el botón «+ Añadir planta». Después puedes ponerle un apodo para distinguirla de otras iguales.'**
+  String get helpAAddPlant;
+
+  /// No description provided for @helpQLastWatered.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué me pregunta cuándo regué por última vez?'**
+  String get helpQLastWatered;
+
+  /// No description provided for @helpALastWatered.
+  ///
+  /// In es, this message translates to:
+  /// **'Porque de ahí sale el primer recordatorio. Si no lo indicas, el ciclo empieza hoy, y una planta que llevaba días contigo recibiría el aviso de riego demasiado tarde.'**
+  String get helpALastWatered;
+
+  /// No description provided for @helpQScanLimit.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuántas plantas puedo identificar al día?'**
+  String get helpQScanLimit;
+
+  /// No description provided for @helpAScanLimit.
+  ///
+  /// In es, this message translates to:
+  /// **'Cinco al día con el plan gratuito. El contador se reinicia a medianoche con la hora de tu propio teléfono. Con O₂₊ no hay límite.'**
+  String get helpAScanLimit;
+
+  /// No description provided for @helpQScanFails.
+  ///
+  /// In es, this message translates to:
+  /// **'El escáner no reconoce mi planta'**
+  String get helpQScanFails;
+
+  /// No description provided for @helpAScanFails.
+  ///
+  /// In es, this message translates to:
+  /// **'Prueba con más luz, acércate a una sola hoja y busca un fondo despejado. Si ya gastaste tus cinco identificaciones del día, tendrás que esperar a mañana o pasar a O₂₊.'**
+  String get helpAScanFails;
+
+  /// No description provided for @helpQWaterReminder.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuándo me avisa de regar?'**
+  String get helpQWaterReminder;
+
+  /// No description provided for @helpAWaterReminder.
+  ///
+  /// In es, this message translates to:
+  /// **'Cuando la planta llega a su día de riego, según la frecuencia de su especie y el último riego que registraste. El aviso respeta la franja horaria que elijas en Ajustes.'**
+  String get helpAWaterReminder;
+
+  /// No description provided for @helpQNoNotifications.
+  ///
+  /// In es, this message translates to:
+  /// **'No me llegan notificaciones'**
+  String get helpQNoNotifications;
+
+  /// No description provided for @helpANoNotifications.
+  ///
+  /// In es, this message translates to:
+  /// **'Revisa cuatro cosas: que diste permiso de notificaciones, que están activadas en Ajustes con una franja horaria correcta, que esa planta no tenga los recordatorios silenciados, y que Android no tenga a ECO2 con la batería restringida.'**
+  String get helpANoNotifications;
+
+  /// No description provided for @helpQMutePlant.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Puedo silenciar solo una planta?'**
+  String get helpQMutePlant;
+
+  /// No description provided for @helpAMutePlant.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí. Abre esa planta y activa «Silenciar recordatorios». Las demás te seguirán avisando con normalidad.'**
+  String get helpAMutePlant;
+
+  /// No description provided for @helpQPotLimit.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cuántas plantas puedo tener?'**
+  String get helpQPotLimit;
+
+  /// No description provided for @helpAPotLimit.
+  ///
+  /// In es, this message translates to:
+  /// **'Diez macetas con el plan gratuito. Puedes ampliarlo comprando el pack de 3 macetas o alquilando una por 14 días, y con O₂₊ no hay tope.'**
+  String get helpAPotLimit;
+
+  /// No description provided for @helpQO2Plus.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué incluye O₂₊?'**
+  String get helpQO2Plus;
+
+  /// No description provided for @helpAO2Plus.
+  ///
+  /// In es, this message translates to:
+  /// **'Macetas e identificaciones ilimitadas, la insignia de miembro visible en tu perfil y el código de descuento para viveros asociados.'**
+  String get helpAO2Plus;
+
+  /// No description provided for @helpQO2PlusEnds.
+  ///
+  /// In es, this message translates to:
+  /// **'Se me acaba O₂₊, ¿pierdo mis plantas?'**
+  String get helpQO2PlusEnds;
+
+  /// No description provided for @helpAO2PlusEnds.
+  ///
+  /// In es, this message translates to:
+  /// **'No. No se borra ninguna planta, nunca. Además conservas de forma permanente hasta 5 macetas por encima del tope gratuito, según las que llegaras a usar: si tenías 18 plantas, te quedas en 15 y no en 10. Puedes seguir cuidándolas todas; lo único que no podrás es añadir más hasta bajar de tu nuevo tope.'**
+  String get helpAO2PlusEnds;
+
+  /// No description provided for @helpQRental.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cómo funciona el alquiler de maceta?'**
+  String get helpQRental;
+
+  /// No description provided for @helpARental.
+  ///
+  /// In es, this message translates to:
+  /// **'Te da una maceta extra durante 14 días por 150 semillas. Mientras dure verás un aviso en Mi Jardín con el tiempo que le queda, contado en días y, cuando esté cerca, en horas o minutos. Al vencer no se borra nada: solo baja tu tope.'**
+  String get helpARental;
+
+  /// No description provided for @helpQSeeds.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cómo consigo semillas?'**
+  String get helpQSeeds;
+
+  /// No description provided for @helpASeeds.
+  ///
+  /// In es, this message translates to:
+  /// **'Completando misiones, desbloqueando logros y cuidando tus plantas con constancia. Se gastan en la tienda: O₂₊, macetas y avatares.'**
+  String get helpASeeds;
+
+  /// No description provided for @helpQAvatars.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cómo cambio mi avatar?'**
+  String get helpQAvatars;
+
+  /// No description provided for @helpAAvatars.
+  ///
+  /// In es, this message translates to:
+  /// **'Desde tu perfil. Hay cuatro avatares gratuitos y cuatro que se compran con semillas. Los que ya tienes aparecen marcados como «Ya lo tienes» y no se pueden comprar dos veces.'**
+  String get helpAAvatars;
+
+  /// No description provided for @helpQPayment.
+  ///
+  /// In es, this message translates to:
+  /// **'¿El pago de O₂₊ es real?'**
+  String get helpQPayment;
+
+  /// No description provided for @helpAPayment.
+  ///
+  /// In es, this message translates to:
+  /// **'No. En esta versión O₂₊ se adquiere con semillas dentro de la app, y la pantalla de pago es una maqueta de demostración: no procesa cobros ni pide datos de tarjeta verdaderos.'**
+  String get helpAPayment;
+
+  /// No description provided for @helpQCo2.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cómo se calcula mi huella verde?'**
+  String get helpQCo2;
+
+  /// No description provided for @helpACo2.
+  ///
+  /// In es, this message translates to:
+  /// **'Con los datos de absorción de cada especie del catálogo y el tiempo que lleva contigo cada planta. No son valores fijos: cambian según lo que tengas plantado.'**
+  String get helpACo2;
+
+  /// No description provided for @helpQPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'Olvidé mi contraseña'**
+  String get helpQPassword;
+
+  /// No description provided for @helpAPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'En la pantalla de inicio de sesión pulsa «¿Olvidaste tu contraseña?» y escribe tu correo. Recibirás un código de 8 caracteres que se pega en la app junto con la nueva contraseña. Caduca a los 30 minutos.'**
+  String get helpAPassword;
+
+  /// No description provided for @helpQGoogle.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Puedo entrar con Google?'**
+  String get helpQGoogle;
+
+  /// No description provided for @helpAGoogle.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí. En iniciar sesión y en registrarse tienes «Continuar con Google». Si es la primera vez, la cuenta se crea sola con ese correo; si ya existe, entras en ella.'**
+  String get helpAGoogle;
+
+  /// No description provided for @helpQBiometric.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Puedo proteger la app con mi huella?'**
+  String get helpQBiometric;
+
+  /// No description provided for @helpABiometric.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, actívalo en Ajustes. A partir de entonces te pedirá huella o rostro al abrir la app. Ese dato nunca sale del sistema de tu teléfono: la app solo recibe un sí o un no.'**
+  String get helpABiometric;
+
+  /// No description provided for @helpQOffline.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Funciona sin conexión?'**
+  String get helpQOffline;
+
+  /// No description provided for @helpAOffline.
+  ///
+  /// In es, this message translates to:
+  /// **'No. Tus plantas y tu progreso se guardan en el servidor para que no se pierdan si cambias de teléfono, así que hace falta conexión.'**
+  String get helpAOffline;
+
+  /// No description provided for @helpQLanguage.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cómo cambio el idioma?'**
+  String get helpQLanguage;
+
+  /// No description provided for @helpALanguage.
+  ///
+  /// In es, this message translates to:
+  /// **'En Ajustes puedes elegir español o inglés. Por defecto la app sigue el idioma de tu teléfono.'**
+  String get helpALanguage;
 
   /// No description provided for @freePlanLabel.
   ///

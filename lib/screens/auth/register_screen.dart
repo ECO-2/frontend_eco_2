@@ -3,6 +3,8 @@ import 'package:frontend_eco_2/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend_eco_2/providers/providers.dart';
 import 'package:frontend_eco_2/routing/app_routes.dart';
+import 'package:frontend_eco_2/routing/post_sign_in.dart';
+import 'package:frontend_eco_2/widgets/auth/google_sign_in_button.dart';
 import 'package:frontend_eco_2/theme/app_colors.dart';
 import 'package:frontend_eco_2/widgets/common/custom_button.dart';
 import 'package:frontend_eco_2/widgets/common/custom_text_field.dart';
@@ -36,7 +38,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _submit() async {
     if (_formKey.currentState!.validate()) {
       if (_passwordController.text != _confirmPasswordController.text) {
-        showAppToast(context, AppLocalizations.of(context)!.passwordsDoNotMatch, type: ToastType.error);
+        showAppToast(
+          context,
+          AppLocalizations.of(context)!.passwordsDoNotMatch,
+          type: ToastType.error,
+        );
         return;
       }
 
@@ -54,7 +60,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           (route) => false,
         );
       } else if (mounted && userProvider.errorText(context) != null) {
-        showAppToast(context, userProvider.errorText(context)!, type: ToastType.error);
+        showAppToast(
+          context,
+          userProvider.errorText(context)!,
+          type: ToastType.error,
+        );
       }
     }
   }
@@ -72,7 +82,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: SafeArea(
               top: false,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 12.0,
+                ),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -102,7 +115,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return AppLocalizations.of(context)!.enterUsername;
                           }
                           if (value.length < 3) {
-                            return AppLocalizations.of(context)!.usernameTooShort;
+                            return AppLocalizations.of(
+                              context,
+                            )!.usernameTooShort;
                           }
                           return null;
                         },
@@ -120,7 +135,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return AppLocalizations.of(context)!.enterYourEmail;
                           }
                           if (!value.contains('@')) {
-                            return AppLocalizations.of(context)!.enterValidEmail;
+                            return AppLocalizations.of(
+                              context,
+                            )!.enterValidEmail;
                           }
                           return null;
                         },
@@ -146,7 +163,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                               TextSpan(
-                                text: AppLocalizations.of(context)!.minCharsSuffix,
+                                text: AppLocalizations.of(
+                                  context,
+                                )!.minCharsSuffix,
                                 style: TextStyle(
                                   color: AppColors.textSecondary,
                                   fontSize: 12,
@@ -156,14 +175,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         hintText: '•••••',
-                        suffixText: AppLocalizations.of(context)!.passwordMinChars,
+                        suffixText: AppLocalizations.of(
+                          context,
+                        )!.passwordMinChars,
                         obscureText: _obscurePassword,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.enterYourPassword;
+                            return AppLocalizations.of(
+                              context,
+                            )!.enterYourPassword;
                           }
                           if (value.length < 8) {
-                            return AppLocalizations.of(context)!.passwordTooShort;
+                            return AppLocalizations.of(
+                              context,
+                            )!.passwordTooShort;
                           }
                           return null;
                         },
@@ -182,16 +207,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       // Confirm Password Field
                       CustomTextField(
                         controller: _confirmPasswordController,
-                        labelText: AppLocalizations.of(context)!.confirmPassword,
+                        labelText: AppLocalizations.of(
+                          context,
+                        )!.confirmPassword,
                         hintText: '••••••••',
-                        suffixText: AppLocalizations.of(context)!.passwordMinChars,
+                        suffixText: AppLocalizations.of(
+                          context,
+                        )!.passwordMinChars,
                         obscureText: _obscurePassword,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.confirmYourPassword;
+                            return AppLocalizations.of(
+                              context,
+                            )!.confirmYourPassword;
                           }
                           if (value != _passwordController.text) {
-                            return AppLocalizations.of(context)!.passwordsDoNotMatch;
+                            return AppLocalizations.of(
+                              context,
+                            )!.passwordsDoNotMatch;
                           }
                           return null;
                         },
@@ -209,6 +242,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onPressed: _submit,
                         ),
                       ),
+                      const SizedBox(height: 18),
+
+                      // Separador y entrada con Google. El mismo boton en las
+                      // dos pantallas: el backend crea la cuenta si el correo
+                      // no existe, asi que entrar y registrarse son lo mismo.
+                      Row(
+                        children: [
+                          const Expanded(
+                            child: Divider(color: Color(0xFFDDE3E0)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Text(
+                              AppLocalizations.of(context)!.orSeparator,
+                              style: const TextStyle(
+                                color: AppColors.textSecondary,
+                                fontFamily: 'Inter',
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                          const Expanded(
+                            child: Divider(color: Color(0xFFDDE3E0)),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 18),
+                      GoogleSignInButton(
+                        onSignedIn: () => completeSignIn(context),
+                      ),
                       const SizedBox(height: 24),
 
                       // Bottom Login Link
@@ -225,7 +288,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacementNamed(context, AppRoutes.login);
+                              Navigator.pushReplacementNamed(
+                                context,
+                                AppRoutes.login,
+                              );
                             },
                             child: Text(
                               AppLocalizations.of(context)!.signInAction,

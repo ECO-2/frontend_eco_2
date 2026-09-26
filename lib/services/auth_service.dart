@@ -22,6 +22,24 @@ class AuthService {
     );
   }
 
+  /// POST /auth/firebase — canjea un token de Firebase por los tokens de ECO2.
+  ///
+  /// El backend verifica el token contra Firebase y, si el correo no existe
+  /// todavia, crea la cuenta. Por eso este mismo metodo sirve para registrarse
+  /// y para entrar: desde fuera no hay diferencia.
+  Future<void> loginWithFirebase(String idToken) async {
+    final data = await _client.post(
+      '/auth/firebase',
+      body: {'idToken': idToken},
+      requiresAuth: false,
+    ) as Map<String, dynamic>;
+
+    await _storage.saveTokens(
+      accessToken: data['accessToken'] as String,
+      refreshToken: data['refreshToken'] as String,
+    );
+  }
+
   /// POST /auth/register — crea el usuario en la API.
   Future<void> register(String email, String password) async {
     await _client.post(

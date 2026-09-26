@@ -3,6 +3,8 @@ import 'package:frontend_eco_2/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend_eco_2/providers/providers.dart';
 import 'package:frontend_eco_2/routing/app_routes.dart';
+import 'package:frontend_eco_2/routing/post_sign_in.dart';
+import 'package:frontend_eco_2/widgets/auth/google_sign_in_button.dart';
 import 'package:frontend_eco_2/theme/app_colors.dart';
 import 'package:frontend_eco_2/widgets/common/custom_button.dart';
 import 'package:frontend_eco_2/widgets/common/custom_text_field.dart';
@@ -40,40 +42,13 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (success && mounted) {
-        // Registrar el device token para push notifications — se hace en
-        // background (no bloquea la navegación) y falla silenciosamente
-        // si el usuario no da permiso o algo sale mal.
-        final notificationService =
-            Provider.of<NotificationService>(context, listen: false);
-        notificationService.registerDeviceToken();
-
-        final user = userProvider.currentUser;
-
-        if (user != null && user.onboardingCompleted) {
-          // Cargar catálogo de plantas y progreso antes de entrar al
-          // dashboard (mismo patrón que onboarding_screen.dart al terminar
-          // o saltar el onboarding). Sin esto, PlantsProvider.speciesCatalog
-          // se queda vacío tras un login normal y el catálogo no aparece.
-          final plantsProvider = context.read<PlantsProvider>();
-          final missionsProvider = context.read<MissionsProvider>();
-          await Future.wait([plantsProvider.init(), missionsProvider.init()]);
-          missionsProvider.syncUserPlantsCount(plantsProvider.userPlants.length);
-          if (!mounted) return;
-
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            AppRoutes.dashboard,
-            (route) => false,
-          );
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            AppRoutes.onboarding,
-            (route) => false,
-          );
-        }
+        await completeSignIn(context);
       } else if (mounted && userProvider.errorText(context) != null) {
-        showAppToast(context, userProvider.errorText(context)!, type: ToastType.error);
+        showAppToast(
+          context,
+          userProvider.errorText(context)!,
+          type: ToastType.error,
+        );
       }
     }
   }
@@ -129,7 +104,10 @@ class _LoginScreenState extends State<LoginScreen> {
             child: SafeArea(
               top: false,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 8.0,
+                ),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -143,14 +121,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      
+
                       Center(
                         child: Text(
                           AppLocalizations.of(context)!.welcomeBack,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: AppColors.textSecondary.withValues(alpha: 0.8),
+                            color: AppColors.textSecondary.withValues(
+                              alpha: 0.8,
+                            ),
                             fontFamily: 'Inter',
                           ),
                         ),
@@ -161,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           AppLocalizations.of(context)!.signIn,
                           style: const TextStyle(
                             fontSize: 32,
-                           
+
                             color: AppColors.primary,
                             fontFamily: 'DM Sans',
                           ),
@@ -180,7 +160,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             return AppLocalizations.of(context)!.enterYourEmail;
                           }
                           if (!value.contains('@')) {
-                            return AppLocalizations.of(context)!.enterValidEmail;
+                            return AppLocalizations.of(
+                              context,
+                            )!.enterValidEmail;
                           }
                           return null;
                         },
@@ -208,10 +190,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return AppLocalizations.of(context)!.enterYourPassword;
+                            return AppLocalizations.of(
+                              context,
+                            )!.enterYourPassword;
                           }
                           if (value.length < 6) {
-                            return AppLocalizations.of(context)!.passwordMinSixChars;
+                            return AppLocalizations.of(
+                              context,
+                            )!.passwordMinSixChars;
                           }
                           return null;
                         },
@@ -252,6 +238,36 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: _submit,
                         ),
                       ),
+                      const SizedBox(height: 18),
+
+                      // Separador y entrada con Google. El mismo boton en las
+                      // dos pantallas: el backend crea la cuenta si el correo
+                      // no existe, asi que entrar y registrarse son lo mismo.
+                      Row(
+                        children: [
+                          const Expanded(
+                            child: Divider(color: Color(0xFFDDE3E0)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Text(
+                              AppLocalizations.of(context)!.orSeparator,
+                              style: const TextStyle(
+                                color: AppColors.textSecondary,
+                                fontFamily: 'Inter',
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                          const Expanded(
+                            child: Divider(color: Color(0xFFDDE3E0)),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 18),
+                      GoogleSignInButton(
+                        onSignedIn: () => completeSignIn(context),
+                      ),
                       const SizedBox(height: 24),
 
                       // Bottom Register Link
@@ -268,7 +284,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacementNamed(context, AppRoutes.register);
+                              Navigator.pushReplacementNamed(
+                                context,
+                                AppRoutes.register,
+                              );
                             },
                             child: Text(
                               AppLocalizations.of(context)!.createAccount,

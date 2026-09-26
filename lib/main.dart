@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:frontend_eco_2/providers/providers.dart';
 import 'package:frontend_eco_2/l10n/app_localizations.dart';
 import 'package:frontend_eco_2/services/services.dart';
+import 'package:frontend_eco_2/services/google_auth_service.dart';
 import 'package:frontend_eco_2/routing/app_routes.dart';
 import 'package:frontend_eco_2/theme/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
         Provider<CareService>.value(value: careService),
         Provider<IdentificationService>.value(value: identificationService),
         Provider<SecureStorage>.value(value: storage),
+        Provider<GoogleAuthService>(create: (_) => GoogleAuthService()),
         Provider<NotificationService>.value(value: notificationService),
         // Lo consume GreenFootprintScreen para pedir el CO2 real del jardín.
         Provider<UserService>.value(value: userService),

@@ -283,14 +283,21 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         // Deslizar marca como leida, no borra: la lista se reconstruye del
         // estado real de la app al abrirla, asi que una notificacion borrada
         // reaparecería y el gesto se sentiría roto.
-        onDismissed: (_) {
+        //
+        // Por eso se usa confirmDismiss devolviendo false y no onDismissed:
+        // onDismissed obliga a que el widget salga del arbol, y aqui la
+        // tarjeta se queda -solo cambia a leida-, asi que Flutter lanzaba
+        // "A dismissed Dismissible widget is still part of the tree". Al
+        // devolver false la tarjeta vuelve a su sitio y el gesto queda hecho.
+        confirmDismiss: (_) async {
           Provider.of<NotificationsProvider>(context, listen: false)
               .markAsRead(notification.id);
           showAppToast(
             context,
-            AppLocalizations.of(context)!.markAllRead,
+            AppLocalizations.of(context)!.markedAsRead,
             duration: const Duration(seconds: 1),
           );
+          return false;
         },
         background: Container(
           alignment: Alignment.centerRight,

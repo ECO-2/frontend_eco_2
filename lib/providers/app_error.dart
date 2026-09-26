@@ -21,6 +21,7 @@ enum AppError {
   nicknameUpdateFailed,
   missionsLoadFailed,
   careLogFailed,
+  googleSignIn,
 }
 
 extension AppErrorText on AppError {
@@ -53,6 +54,8 @@ extension AppErrorText on AppError {
         return l.missionsLoadFailed;
       case AppError.careLogFailed:
         return l.careLogFailed;
+      case AppError.googleSignIn:
+        return l.googleSignInFailed;
     }
   }
 }

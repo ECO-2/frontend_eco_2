@@ -10,6 +10,7 @@ import 'package:frontend_eco_2/screens/settings/settings_screen.dart';
 import 'package:frontend_eco_2/screens/premium/premium_upgrade_screen.dart';
 import 'package:frontend_eco_2/screens/premium/checkout_screen.dart';
 import 'package:frontend_eco_2/screens/store/store_screen.dart';
+import 'package:frontend_eco_2/screens/help/help_screen.dart';
 import 'package:frontend_eco_2/screens/premium/success_screen.dart';
 import 'package:frontend_eco_2/screens/profile/trophies_screen.dart';
 import 'package:frontend_eco_2/screens/profile/green_footprint_screen.dart';
@@ -39,6 +40,7 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String editProfile = '/edit-profile';
   static const String settings = '/settings';
+  static const String help = '/help';
   static const String greenFootprint = '/green-footprint';
   static const String missions = '/missions';
   static const String trophies = '/trophies';
@@ -99,6 +101,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => _placeholderScreen('Perfil'));
       case editProfile:
         return MaterialPageRoute(builder: (_) => const EditProfileScreen());
+      case help:
+        return MaterialPageRoute(builder: (_) => const HelpScreen());
       case settings:
         return MaterialPageRoute(builder: (_) => const SettingsScreen());
       case greenFootprint:
