@@ -2401,4 +2401,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noReadingsYet => 'No readings yet';
+
+  @override
+  String get viewAirQuality => 'View air quality';
 }

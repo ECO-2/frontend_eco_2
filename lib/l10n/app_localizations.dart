@@ -4148,6 +4148,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Aún no hay lecturas'**
   String get noReadingsYet;
+
+  /// No description provided for @viewAirQuality.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver calidad del aire'**
+  String get viewAirQuality;
 }
 
 class _AppLocalizationsDelegate

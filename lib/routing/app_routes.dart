@@ -21,6 +21,7 @@ import 'package:frontend_eco_2/screens/garden/species_detail_screen.dart';
 import 'package:frontend_eco_2/screens/scanner_screen.dart';
 import 'package:frontend_eco_2/screens/auth/splash_screen.dart';
 import 'package:frontend_eco_2/l10n/app_localizations.dart';
+import 'package:frontend_eco_2/screens/profile/co2_quality_screen.dart';
 
 class AppRoutes {
   /// Pantalla de arranque: se muestra mientras se comprueba si hay sesion.
@@ -48,6 +49,7 @@ class AppRoutes {
   static const String success = '/success';
   static const String notifications = '/notifications';
   static const String onboarding = '/onboarding';
+  static const String airQuality = '/air-quality';
 
   static Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -120,7 +122,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const CheckoutScreen());
       case success:
         return MaterialPageRoute(builder: (_) => const SuccessScreen());
-      
+      case airQuality:
+        return MaterialPageRoute(builder: (_) => const Co2QualityScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

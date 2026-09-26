@@ -137,8 +137,9 @@ class HomeTab extends StatelessWidget {
 
           // ── CO2 Block ─────────────────────────────────
           _buildCO2Block(context, plantsProvider),
+          const SizedBox(height: 8),
+          _buildAirQualityLink(context),
           const SizedBox(height: 24),
-
           // ── Misión Activa ─────────────────────────────
           Text(
             AppLocalizations.of(context)!.activeMissionCard,
@@ -195,6 +196,28 @@ class HomeTab extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildAirQualityLink(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, AppRoutes.airQuality),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.viewAirQuality,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF8FA89F),
+              fontFamily: 'Inter',
+            ),
+          ),
+          const SizedBox(width: 4),
+          const Icon(Icons.arrow_forward_rounded, size: 14, color: Color(0xFF8FA89F)),
+        ],
+      ),
     );
   }
 

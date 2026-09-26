@@ -2409,4 +2409,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noReadingsYet => 'Aún no hay lecturas';
+
+  @override
+  String get viewAirQuality => 'Ver calidad del aire';
 }

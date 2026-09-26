@@ -887,5 +887,6 @@
   "airQualityPoor": "Poor — ventilate now",
   "co2SummaryError": "Couldn't load your air quality data.",
   "co2WeeklyEvolutionHelp": "Daily average over the last 7 days",
-  "noReadingsYet": "No readings yet"
+  "noReadingsYet": "No readings yet",
+  "viewAirQuality": "View air quality"
 }
