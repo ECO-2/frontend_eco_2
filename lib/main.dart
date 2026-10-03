@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:frontend_eco_2/services/plant_classifier_service.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend_eco_2/providers/providers.dart';
 import 'package:frontend_eco_2/l10n/app_localizations.dart';
@@ -13,6 +14,7 @@ import 'firebase_options.dart';
 
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+bool showIotFeature = true;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +34,19 @@ void main() async {
   final careService = CareService(apiClient);
   final identificationService = IdentificationService(apiClient);
   final notificationService = NotificationService(apiClient);
+  final plantClassifierService = PlantClassifierService();
+  final appConfigService = AppConfigService(apiClient);
+  try {
+    final config = await appConfigService.getConfig();
+    final useCustomModel = config['use_custom_model'] as bool? ?? true;
+    showIotFeature = config['show_iot_feature'] as bool? ?? true;
+    plantClassifierService.setUseCustomModel(useCustomModel);
+    if (useCustomModel) {
+      plantClassifierService.loadModelAndLabels();
+    }
+  } catch (_) {
+    plantClassifierService.loadModelAndLabels();
+  }
 
   runApp(MyApp(
     storage: storage,
@@ -42,6 +57,7 @@ void main() async {
     careService: careService,
     identificationService: identificationService,
     notificationService: notificationService,
+    plantClassifierService: plantClassifierService,
   ));
 }
 
@@ -53,7 +69,8 @@ class MyApp extends StatelessWidget {
   final GamificationService gamificationService;
   final CareService careService;
   final IdentificationService identificationService;
-  final NotificationService notificationService;   
+  final NotificationService notificationService;
+  final PlantClassifierService plantClassifierService;
 
   const MyApp({
     super.key,
@@ -65,6 +82,7 @@ class MyApp extends StatelessWidget {
     required this.careService,
     required this.identificationService,
     required this.notificationService,
+    required this.plantClassifierService,
   });
 
   @override
@@ -76,6 +94,7 @@ class MyApp extends StatelessWidget {
         Provider<SecureStorage>.value(value: storage),
         Provider<GoogleAuthService>(create: (_) => GoogleAuthService()),
         Provider<NotificationService>.value(value: notificationService),
+        Provider<PlantClassifierService>.value(value: plantClassifierService),
         // Lo consume GreenFootprintScreen para pedir el CO2 real del jardín.
         Provider<UserService>.value(value: userService),
         // Idioma elegido por el usuario, recordado entre sesiones.
