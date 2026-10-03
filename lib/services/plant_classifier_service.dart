@@ -55,9 +55,9 @@ class PlantClassifierService {
           (x) {
             final pixel = resized.getPixel(x, y);
             return [
-              (pixel.r / 127.5) - 1.0,
-              (pixel.g / 127.5) - 1.0,
-              (pixel.b / 127.5) - 1.0,
+              pixel.r.toDouble(),
+              pixel.g.toDouble(),
+              pixel.b.toDouble(),
             ];
           },
         ),
