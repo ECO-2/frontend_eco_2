@@ -129,45 +129,31 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
 
     try {
       final classifier = Provider.of<PlantClassifierService>(context, listen: false);
-      if (!classifier.isLoaded) {
-        await classifier.loadModelAndLabels();
-      }
-
-      final classification = await classifier.classify(File(photoPath));
-      print('DEBUG local classification: ${classification.scientificName} @ ${classification.confidenceScore} (margin: ${classification.margin})');
       final identificationService =
           Provider.of<IdentificationService>(context, listen: false);
 
-      const confidenceThreshold = 0.85;
-      const marginThreshold = 0.30;
-      final isConfident = classification.confidenceScore >= confidenceThreshold &&
-          classification.margin >= marginThreshold;
-
-      if (isConfident) {
-        // Confianza suficiente con el modelo propio — 1 escaneo.
-        final result = await identificationService.submitLocalIdentification(
-          scientificName: classification.scientificName,
-          confidenceScore: classification.confidenceScore,
-        );
-        if (!mounted) return;
-        _applyResult(result);
-        
-        final planProvider = Provider.of<PlanProvider>(context, listen: false);
-        await planProvider.refresh();
-        if (!mounted) return;
-
-        if (!planProvider.isPlusActive) {
-          final remaining = planProvider.status.scansLeftToday;
-          if (remaining != null) {
-            showAppToast(
-              context,
-              AppLocalizations.of(context)!.scansRemainingToday(remaining),
-              type: ToastType.info,
-              duration: const Duration(seconds: 2),
-            );
-          }
+      if (classifier.useCustomModel) {
+        if (!classifier.isLoaded) {
+          await classifier.loadModelAndLabels();
         }
-        return;
+
+        final classification = await classifier.classify(File(photoPath));
+        print('DEBUG local classification: ${classification.scientificName} @ ${classification.confidenceScore} (margin: ${classification.margin})');
+
+        const confidenceThreshold = 0.85;
+        const marginThreshold = 0.30;
+        final isConfident = classification.confidenceScore >= confidenceThreshold &&
+            classification.margin >= marginThreshold;
+
+        if (isConfident) {
+          final result = await identificationService.submitLocalIdentification(
+            scientificName: classification.scientificName,
+            confidenceScore: classification.confidenceScore,
+          );
+          if (!mounted) return;
+          _applyResult(result);
+          return;
+        }
       }
 
       final bytes = await File(photoPath).readAsBytes();
@@ -180,8 +166,6 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
       print('DEBUG stack: $stack');
       if (!mounted) return;
       if (e is ApiException && e.statusCode == 403) {
-        // Límite diario alcanzado (ya sea por escaneos normales o por el
-        // costo doble de Plant.id).
         showAppToast(context, AppLocalizations.of(context)!.scanLimitReached, type: ToastType.error);
         setState(() => _state = ScannerState.idle);
         return;

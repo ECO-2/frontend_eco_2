@@ -33,7 +33,16 @@ void main() async {
   final identificationService = IdentificationService(apiClient);
   final notificationService = NotificationService(apiClient);
   final plantClassifierService = PlantClassifierService();
-  plantClassifierService.loadModelAndLabels(); // fire-and-forget, carga en paralelo al arranque
+  final appConfigService = AppConfigService(apiClient);
+  try {
+    final useCustomModel = await appConfigService.getUseCustomModel();
+    plantClassifierService.setUseCustomModel(useCustomModel);
+    if (useCustomModel) {
+      plantClassifierService.loadModelAndLabels(); // fire-and-forget
+    }
+  } catch (_) {
+    plantClassifierService.loadModelAndLabels();
+  }
 
   runApp(MyApp(
     storage: storage,

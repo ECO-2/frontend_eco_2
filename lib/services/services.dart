@@ -9,3 +9,4 @@ export 'plant_photo_storage.dart';
 export 'identification_service.dart';
 export 'notification_service.dart';
 export 'plant_classifier_service.dart';
+export 'app_config_service.dart';

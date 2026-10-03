@@ -27,6 +27,13 @@ class PlantClassifierService {
 
   bool get isLoaded => _interpreter != null;
 
+  bool _useCustomModel = true;
+  bool get useCustomModel => _useCustomModel;
+
+  void setUseCustomModel(bool value) {
+    _useCustomModel = value;
+  }
+
   Future<void> loadModelAndLabels() async {
     _interpreter = await Interpreter.fromAsset(modelPath);
     final raw = await rootBundle.loadString(labelsPath);
