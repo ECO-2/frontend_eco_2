@@ -1306,5 +1306,11 @@
   "avatarBreeder": "Criadora",
   "avatarExplorer": "Explorador",
   "avatarScientist": "Científico",
-  "avatarFlorist": "Floricultora"
+  "avatarFlorist": "Floricultora",
+  "scansRemainingToday": "{count, plural, =0{No te quedan más escaneos hoy} =1{Te queda 1 escaneo hoy} other{Te quedan {count} escaneos hoy}}",
+  "@scansRemainingToday": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

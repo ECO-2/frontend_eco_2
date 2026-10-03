@@ -881,5 +881,11 @@
   "avatarBreeder": "Poultry keeper",
   "avatarExplorer": "Explorer",
   "avatarScientist": "Scientist",
-  "avatarFlorist": "Florist"
+  "avatarFlorist": "Florist",
+  "scansRemainingToday": "{count, plural, =0{No scans left today} =1{1 scan left today} other{{count} scans left today}}",
+  "@scansRemainingToday": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

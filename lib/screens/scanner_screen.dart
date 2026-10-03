@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend_eco_2/l10n/app_localizations.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
+import 'package:frontend_eco_2/providers/plan_provider.dart';
 import 'package:frontend_eco_2/services/plant_classifier_service.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -150,6 +151,22 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
         );
         if (!mounted) return;
         _applyResult(result);
+        
+        final planProvider = Provider.of<PlanProvider>(context, listen: false);
+        await planProvider.refresh();
+        if (!mounted) return;
+
+        if (!planProvider.isPlusActive) {
+          final remaining = planProvider.status.scansLeftToday;
+          if (remaining != null) {
+            showAppToast(
+              context,
+              AppLocalizations.of(context)!.scansRemainingToday(remaining),
+              type: ToastType.info,
+              duration: const Duration(seconds: 2),
+            );
+          }
+        }
         return;
       }
 

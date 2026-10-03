@@ -2381,4 +2381,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get avatarFlorist => 'Florist';
+
+  @override
+  String scansRemainingToday(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count scans left today',
+      one: '1 scan left today',
+      zero: 'No scans left today',
+    );
+    return '$_temp0';
+  }
 }
