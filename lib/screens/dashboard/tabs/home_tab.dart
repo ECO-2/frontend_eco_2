@@ -12,6 +12,7 @@ import 'package:frontend_eco_2/utils/achievement_ui.dart';
 import 'package:frontend_eco_2/utils/co2_estimate.dart';
 import 'package:frontend_eco_2/utils/achievement_labels.dart';
 import 'package:frontend_eco_2/widgets/common/plus_badge.dart';
+import 'package:frontend_eco_2/main.dart' show showIotFeature;
 
 /// Estilo unico de los titulos de seccion del dashboard.
 ///
@@ -137,8 +138,10 @@ class HomeTab extends StatelessWidget {
 
           // ── CO2 Block ─────────────────────────────────
           _buildCO2Block(context, plantsProvider),
-          const SizedBox(height: 8),
-          _buildAirQualityLink(context),
+          if (showIotFeature) ...[
+            const SizedBox(height: 8),
+            _buildAirQualityLink(context),
+          ],
           const SizedBox(height: 24),
           // ── Misión Activa ─────────────────────────────
           Text(

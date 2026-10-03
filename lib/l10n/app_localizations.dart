@@ -4112,6 +4112,7 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'{count, plural, =0{No te quedan más escaneos hoy} =1{Te queda 1 escaneo hoy} other{Te quedan {count} escaneos hoy}}'**
   String scansRemainingToday(int count);
+
   /// No description provided for @airQuality.
   ///
   /// In es, this message translates to:

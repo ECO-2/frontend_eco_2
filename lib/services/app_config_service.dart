@@ -4,8 +4,7 @@ class AppConfigService {
   final ApiClient _client;
   AppConfigService(this._client);
 
-  Future<bool> getUseCustomModel() async {
-    final data = await _client.get('/app-config') as Map<String, dynamic>;
-    return data['use_custom_model'] as bool? ?? true;
+  Future<Map<String, dynamic>> getConfig() async {
+    return await _client.get('/app-config') as Map<String, dynamic>;
   }
 }

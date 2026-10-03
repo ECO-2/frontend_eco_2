@@ -2420,5 +2420,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewAirQuality => 'View air quality';
-
 }

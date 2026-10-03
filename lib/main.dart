@@ -13,6 +13,7 @@ import 'firebase_options.dart';
 
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+bool showIotFeature = true;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,10 +36,12 @@ void main() async {
   final plantClassifierService = PlantClassifierService();
   final appConfigService = AppConfigService(apiClient);
   try {
-    final useCustomModel = await appConfigService.getUseCustomModel();
+    final config = await appConfigService.getConfig();
+    final useCustomModel = config['use_custom_model'] as bool? ?? true;
+    showIotFeature = config['show_iot_feature'] as bool? ?? true;
     plantClassifierService.setUseCustomModel(useCustomModel);
     if (useCustomModel) {
-      plantClassifierService.loadModelAndLabels(); // fire-and-forget
+      plantClassifierService.loadModelAndLabels();
     }
   } catch (_) {
     plantClassifierService.loadModelAndLabels();
