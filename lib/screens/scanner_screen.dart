@@ -133,11 +133,16 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
       }
 
       final classification = await classifier.classify(File(photoPath));
-      print('DEBUG local classification: ${classification.scientificName} @ ${classification.confidenceScore}');
+      print('DEBUG local classification: ${classification.scientificName} @ ${classification.confidenceScore} (margin: ${classification.margin})');
       final identificationService =
           Provider.of<IdentificationService>(context, listen: false);
 
-      if (classification.confidenceScore >= 0.70) {
+      const confidenceThreshold = 0.85;
+      const marginThreshold = 0.30;
+      final isConfident = classification.confidenceScore >= confidenceThreshold &&
+          classification.margin >= marginThreshold;
+
+      if (isConfident) {
         // Confianza suficiente con el modelo propio — 1 escaneo.
         final result = await identificationService.submitLocalIdentification(
           scientificName: classification.scientificName,
@@ -148,9 +153,6 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
         return;
       }
 
-      // Planta poco común para nuestro modelo — se escala a Plant.id
-      // automáticamente (cuesta 2 escaneos en vez de 1).
-      setState(() => _state = ScannerState.escalating);
       final bytes = await File(photoPath).readAsBytes();
       final base64Image = base64Encode(bytes);
       final fallbackResult = await identificationService.identifyFromPhoto(base64Image);
@@ -456,8 +458,6 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
                     _buildPlantDetailsCard(),
                   if (_state == ScannerState.notFound)
                     _buildNotFoundCard(),
-                  if (_state == ScannerState.escalating)
-                    _buildEscalatingCard(),
                   if (_state == ScannerState.notConfigured)
                     _buildNotConfiguredCard(),
                   const SizedBox(height: 20),
@@ -920,42 +920,42 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     );
   }
 
-Widget _buildEscalatingCard() {
-  return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 20),
-    padding: const EdgeInsets.all(20),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(24),
-    ),
-    child: Row(
-      children: [
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: const Center(
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+  Widget _buildEscalatingCard() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Center(
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+              ),
             ),
           ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Text(
-            AppLocalizations.of(context)!.uncommonPlantEscalating,
-            style: TextStyle(color: Colors.grey[700], fontSize: 13, height: 1.4),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.uncommonPlantEscalating,
+              style: TextStyle(color: Colors.grey[700], fontSize: 13, height: 1.4),
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
   Widget _buildTag(String text) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

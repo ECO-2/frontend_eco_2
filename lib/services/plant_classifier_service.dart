@@ -6,11 +6,15 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 class ClassificationResult {
   final String scientificName;
   final double confidenceScore;
+  final double secondConfidenceScore;
 
   ClassificationResult({
     required this.scientificName,
     required this.confidenceScore,
+    required this.secondConfidenceScore,
   });
+
+  double get margin => confidenceScore - secondConfidenceScore;
 }
 
 class PlantClassifierService {
@@ -42,7 +46,7 @@ class PlantClassifierService {
     final rawBytes = await imageFile.readAsBytes();
     var decoded = img.decodeImage(rawBytes);
     if (decoded == null) throw Exception('Could not decode image');
-    decoded = img.bakeOrientation(decoded); // Ensure correct orientation
+    decoded = img.bakeOrientation(decoded);
 
     final resized = img.copyResize(decoded, width: inputSize, height: inputSize);
 
@@ -70,16 +74,22 @@ class PlantClassifierService {
     final probabilities = output[0];
     var maxIndex = 0;
     var maxProb = probabilities[0];
+    var secondMaxProb = 0.0;
+
     for (var i = 1; i < probabilities.length; i++) {
       if (probabilities[i] > maxProb) {
+        secondMaxProb = maxProb;
         maxProb = probabilities[i];
         maxIndex = i;
+      } else if (probabilities[i] > secondMaxProb) {
+        secondMaxProb = probabilities[i];
       }
     }
 
     return ClassificationResult(
       scientificName: _labels[maxIndex].replaceAll('_', ' '),
       confidenceScore: maxProb,
+      secondConfidenceScore: secondMaxProb,
     );
   }
 
