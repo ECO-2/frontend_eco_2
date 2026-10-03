@@ -2401,4 +2401,31 @@ class AppLocalizationsEs extends AppLocalizations {
     );
     return '$_temp0';
   }
+  
+  @override
+  String get airQuality => 'Calidad del aire';
+
+  @override
+  String get currentCo2Level => 'Nivel de CO2 actual';
+
+  @override
+  String get airQualityGood => 'Buena';
+
+  @override
+  String get airQualityModerate => 'Moderada — considera ventilar';
+
+  @override
+  String get airQualityPoor => 'Mala — ventila ahora';
+
+  @override
+  String get co2SummaryError => 'No se pudo cargar la calidad del aire.';
+
+  @override
+  String get co2WeeklyEvolutionHelp => 'Promedio diario de los últimos 7 días';
+
+  @override
+  String get noReadingsYet => 'Aún no hay lecturas';
+
+  @override
+  String get viewAirQuality => 'Ver calidad del aire';
 }

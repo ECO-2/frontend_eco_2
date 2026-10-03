@@ -2393,4 +2393,32 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get airQuality => 'Air Quality';
+
+  @override
+  String get currentCo2Level => 'Current CO2 level';
+
+  @override
+  String get airQualityGood => 'Good';
+
+  @override
+  String get airQualityModerate => 'Moderate — consider ventilating';
+
+  @override
+  String get airQualityPoor => 'Poor — ventilate now';
+
+  @override
+  String get co2SummaryError => 'Couldn\'t load your air quality data.';
+
+  @override
+  String get co2WeeklyEvolutionHelp => 'Daily average over the last 7 days';
+
+  @override
+  String get noReadingsYet => 'No readings yet';
+
+  @override
+  String get viewAirQuality => 'View air quality';
+
 }

@@ -1312,5 +1312,14 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+  "airQuality": "Calidad del aire",
+  "currentCo2Level": "Nivel de CO2 actual",
+  "airQualityGood": "Buena",
+  "airQualityModerate": "Moderada — considera ventilar",
+  "airQualityPoor": "Mala — ventila ahora",
+  "co2SummaryError": "No se pudo cargar la calidad del aire.",
+  "co2WeeklyEvolutionHelp": "Promedio diario de los últimos 7 días",
+  "noReadingsYet": "Aún no hay lecturas",
+  "viewAirQuality": "Ver calidad del aire"
 }

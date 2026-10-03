@@ -27,7 +27,7 @@ class ApiException implements Exception {
 /// ante respuestas 401 antes de reintentar la petición original.
 class ApiClient {
   static const String baseUrl =
-      'https://eco2-api-c9e4hfh7h3cfesg3.eastus-01.azurewebsites.net';
+      'http://192.168.137.1:3000';
 
   final SecureStorage _storage;
   final http.Client _client;
