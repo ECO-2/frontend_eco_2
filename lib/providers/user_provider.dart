@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_eco_2/models/models.dart';
 import 'package:frontend_eco_2/services/services.dart';
+import 'package:frontend_eco_2/services/google_auth_service.dart';
 import 'app_error.dart';
 import 'package:frontend_eco_2/l10n/app_localizations.dart';
 import 'plan_provider.dart';
@@ -85,6 +86,42 @@ class UserProvider with ChangeNotifier {
   // ---------------------------------------------------------------------------
 
   /// Inicia sesión con email y contraseña. Retorna true si fue exitoso.
+  /// Entra con Google. Devuelve null si el usuario cerro el dialogo, para que
+  /// la pantalla sepa que no debe mostrar ningun error: cancelar no es fallar.
+  ///
+  /// A proposito NO toca `_isLoading`. Ese indicador lo comparten todos los
+  /// botones de la pantalla, y CustomButton se desactiva mientras este
+  /// encendido: si la llamada a Google tardaba o se colgaba, el boton de
+  /// registrar se quedaba muerto tambien y la pantalla entera dejaba de
+  /// responder. El boton de Google lleva su propio estado de ocupado.
+  Future<bool?> loginWithGoogle(GoogleAuthService google) async {
+    _errorMessage = null;
+    _errorCode = null;
+
+    final result = await google.signIn();
+    if (result.outcome == GoogleAuthOutcome.cancelled) return null;
+    if (result.outcome == GoogleAuthOutcome.failed) {
+      _errorCode = AppError.googleSignIn;
+      notifyListeners();
+      return false;
+    }
+
+    try {
+      await _authService.loginWithFirebase(result.idToken!);
+      _currentUser = await _userService.getMe();
+      notifyListeners();
+      return true;
+    } on ApiException catch (e) {
+      _errorMessage = e.message;
+      notifyListeners();
+      return false;
+    } catch (_) {
+      _errorCode = AppError.connection;
+      notifyListeners();
+      return false;
+    }
+  }
+
   Future<bool> login(String email, String password) async {
     _setLoading(true);
     _errorMessage = null;

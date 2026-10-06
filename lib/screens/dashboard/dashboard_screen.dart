@@ -46,11 +46,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
 
-    // If user is not authenticated, redirect to WelcomeScreen
+    // Sin sesion se vuelve a la bienvenida, pero SOLO si esta pantalla es la
+    // que se esta viendo. Un dashboard que quedo debajo en la pila sigue
+    // reconstruyendose con cada aviso del proveedor, y sin esta condicion
+    // llamaba a pushReplacement desde el fondo: lo que sustituia no era el
+    // dashboard sino la pantalla de encima. Al iniciar sesion de nuevo, el
+    // simple cambio a "cargando" bastaba para que reemplazara el login por la
+    // bienvenida, en bucle, sin llegar nunca a entrar.
     if (!userProvider.isAuthenticated) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacementNamed(context, AppRoutes.welcome);
-      });
+      final route = ModalRoute.of(context);
+      if (route?.isCurrent ?? false) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!context.mounted) return;
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoutes.welcome,
+            (r) => false,
+          );
+        });
+      }
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 

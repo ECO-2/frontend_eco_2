@@ -490,6 +490,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationsTitle => 'Notifications';
 
   @override
+  String get markedAsRead => 'Marked as read';
+
+  @override
   String get markAllRead => 'Mark all as read';
 
   @override
@@ -2291,6 +2294,198 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rentalExpiredRentAgain => 'Rent another';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get googleSignInFailed =>
+      'Could not sign in with Google. Please try again.';
+
+  @override
+  String get orSeparator => 'or';
+
+  @override
+  String get helpTitle => 'Help';
+
+  @override
+  String get helpGreeting =>
+      'Hi 👋 I\'m ECO2 help. Tap a question and I\'ll answer right away.';
+
+  @override
+  String get helpSearchHint => 'Search help';
+
+  @override
+  String get helpNoResults =>
+      'Nothing matches those words. Try different ones, or pick a question below.';
+
+  @override
+  String get helpMoreQuestions => 'Anything else?';
+
+  @override
+  String get helpRelated => 'People also ask';
+
+  @override
+  String get helpBackToTopics => 'See all questions';
+
+  @override
+  String get helpStillStuck => 'Didn\'t answer your question?';
+
+  @override
+  String get helpContact =>
+      'Write to us saying what you were doing, what you expected and what happened instead.';
+
+  @override
+  String get helpCatPlants => 'Plants and scanner';
+
+  @override
+  String get helpCatReminders => 'Reminders and alerts';
+
+  @override
+  String get helpCatPlan => 'Pots, O₂₊ and store';
+
+  @override
+  String get helpCatAccount => 'Account and settings';
+
+  @override
+  String get helpQAddPlant => 'How do I add a plant?';
+
+  @override
+  String get helpAAddPlant =>
+      'Three ways: the centre button on the bottom bar identifies the plant with the camera; from Garden you can open a species in the catalogue and tap \"Add to my garden\"; and in My Garden there\'s the \"+ Add plant\" button. You can then give it a nickname to tell it apart from others of the same kind.';
+
+  @override
+  String get helpQLastWatered => 'Why does it ask when I last watered?';
+
+  @override
+  String get helpALastWatered =>
+      'Because the first reminder is calculated from that. Without it the cycle starts today, and a plant that had been with you for days would get its watering alert far too late.';
+
+  @override
+  String get helpQScanLimit => 'How many plants can I identify per day?';
+
+  @override
+  String get helpAScanLimit =>
+      'Five a day on the free plan. The counter resets at midnight by your own phone\'s clock. With O₂₊ there\'s no limit.';
+
+  @override
+  String get helpQScanFails => 'The scanner doesn\'t recognise my plant';
+
+  @override
+  String get helpAScanFails =>
+      'Try more light, get close to a single leaf and use a clear background. If you\'ve already used your five identifications for the day, you\'ll need to wait until tomorrow or move to O₂₊.';
+
+  @override
+  String get helpQWaterReminder => 'When does it remind me to water?';
+
+  @override
+  String get helpAWaterReminder =>
+      'When the plant reaches its watering day, based on its species frequency and the last watering you recorded. The alert respects the time window you set in Settings.';
+
+  @override
+  String get helpQNoNotifications => 'I\'m not getting notifications';
+
+  @override
+  String get helpANoNotifications =>
+      'Check four things: that you granted notification permission, that they\'re on in Settings with a sensible time window, that this plant doesn\'t have reminders muted, and that Android isn\'t restricting ECO2\'s battery usage.';
+
+  @override
+  String get helpQMutePlant => 'Can I mute just one plant?';
+
+  @override
+  String get helpAMutePlant =>
+      'Yes. Open that plant and turn on \"Mute reminders\". The rest will keep alerting you as usual.';
+
+  @override
+  String get helpQPotLimit => 'How many plants can I have?';
+
+  @override
+  String get helpAPotLimit =>
+      'Ten pots on the free plan. You can extend it by buying the 3-pot pack or renting one for 14 days, and with O₂₊ there\'s no limit.';
+
+  @override
+  String get helpQO2Plus => 'What does O₂₊ include?';
+
+  @override
+  String get helpAO2Plus =>
+      'Unlimited pots and identifications, the member badge shown on your profile, and the discount code for partner nurseries.';
+
+  @override
+  String get helpQO2PlusEnds => 'My O₂₊ is ending, will I lose my plants?';
+
+  @override
+  String get helpAO2PlusEnds =>
+      'No. No plant is ever deleted. You also keep permanently up to 5 pots above the free limit, based on how many you were using: if you had 18 plants you land at 15, not 10. You can keep caring for all of them; you just can\'t add more until you drop below your new limit.';
+
+  @override
+  String get helpQRental => 'How does pot rental work?';
+
+  @override
+  String get helpARental =>
+      'It gives you one extra pot for 14 days for 150 seeds. While it lasts you\'ll see a notice in My Garden with the time left, counted in days and, when it\'s close, in hours or minutes. When it expires nothing is deleted: only your limit goes down.';
+
+  @override
+  String get helpQSeeds => 'How do I earn seeds?';
+
+  @override
+  String get helpASeeds =>
+      'By completing missions, unlocking achievements and caring for your plants consistently. You spend them in the store: O₂₊, pots and avatars.';
+
+  @override
+  String get helpQAvatars => 'How do I change my avatar?';
+
+  @override
+  String get helpAAvatars =>
+      'From your profile. There are four free avatars and four you buy with seeds. The ones you already own show as \"Owned\" and can\'t be bought twice.';
+
+  @override
+  String get helpQPayment => 'Is the O₂₊ payment real?';
+
+  @override
+  String get helpAPayment =>
+      'No. In this version O₂₊ is bought with seeds inside the app, and the payment screen is a demonstration mock-up: it doesn\'t process charges or ask for real card details.';
+
+  @override
+  String get helpQCo2 => 'How is my green footprint calculated?';
+
+  @override
+  String get helpACo2 =>
+      'From each species\' absorption data in the catalogue and how long each plant has been with you. They aren\'t fixed values: they change with what you have planted.';
+
+  @override
+  String get helpQPassword => 'I forgot my password';
+
+  @override
+  String get helpAPassword =>
+      'On the sign-in screen tap \"Forgot your password?\" and enter your email. You\'ll get an 8-character code to paste into the app along with your new password. It expires after 30 minutes.';
+
+  @override
+  String get helpQGoogle => 'Can I sign in with Google?';
+
+  @override
+  String get helpAGoogle =>
+      'Yes. Both sign-in and sign-up have \"Continue with Google\". If it\'s your first time the account is created with that email; if it already exists, you sign into it.';
+
+  @override
+  String get helpQBiometric => 'Can I protect the app with my fingerprint?';
+
+  @override
+  String get helpABiometric =>
+      'Yes, turn it on in Settings. From then on it asks for your fingerprint or face when you open the app. That data never leaves your phone\'s system: the app only gets a yes or a no.';
+
+  @override
+  String get helpQOffline => 'Does it work offline?';
+
+  @override
+  String get helpAOffline =>
+      'No. Your plants and progress are stored on the server so they aren\'t lost if you change phones, so a connection is required.';
+
+  @override
+  String get helpQLanguage => 'How do I change the language?';
+
+  @override
+  String get helpALanguage =>
+      'In Settings you can pick Spanish or English. By default the app follows your phone\'s language.';
 
   @override
   String get freePlanLabel => 'Free plan';

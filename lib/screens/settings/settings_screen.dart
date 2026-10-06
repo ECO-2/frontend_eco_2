@@ -10,6 +10,7 @@ import 'package:frontend_eco_2/services/services.dart';
 import 'package:frontend_eco_2/services/biometric_service.dart';
 import 'package:frontend_eco_2/theme/app_colors.dart';
 import 'package:frontend_eco_2/routing/app_routes.dart';
+import 'package:frontend_eco_2/routing/sign_out.dart';
 import 'package:frontend_eco_2/screens/profile/change_password_screen.dart';
 import 'package:frontend_eco_2/widgets/common/custom_app_bar.dart';
 import 'package:frontend_eco_2/widgets/common/settings_option_tile.dart';
@@ -669,22 +670,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               useIconContainer: true,
               iconColor: const Color(0xFF78909C),
               iconBgColor: const Color(0xFFECEFF1),
-              onTap: () => _showInfoSheet(
-                l.helpSheetTitle,
-                '${l.helpSheetBody}\n\n$kSupportEmail',
-                action: TextButton.icon(
-                  icon: const Icon(Icons.copy_rounded, size: 18),
-                  label: Text(l.copyEmail),
-                  onPressed: () async {
-                    await Clipboard.setData(
-                      const ClipboardData(text: kSupportEmail),
-                    );
-                    if (!context.mounted) return;
-                    showAppToast(context, l.emailCopied,
-                        type: ToastType.success);
-                  },
-                ),
-              ),
+              // Antes abria una hoja con un parrafo y el correo. Ahora lleva
+              // al centro de ayuda: la duda se resuelve en un toque en vez de
+              // obligar a escribir un correo y esperar respuesta.
+              onTap: () => Navigator.pushNamed(context, AppRoutes.help),
             ),
             const _Line(),
             SettingsOptionTile(
@@ -712,11 +701,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               iconColor: const Color(0xFF757575),
               iconBgColor: const Color(0xFFF5F5F5),
               titleColor: const Color(0xFF212121),
-              onTap: () async {
-                await userProvider.logout();
-                if (!context.mounted) return;
-                Navigator.pushReplacementNamed(context, AppRoutes.welcome);
-              },
+              onTap: () => signOutAndGoToWelcome(context),
             ),
             const _Line(),
             SettingsOptionTile(

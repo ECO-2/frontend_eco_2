@@ -3,6 +3,7 @@ import 'package:frontend_eco_2/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend_eco_2/providers/providers.dart';
 import 'package:frontend_eco_2/routing/app_routes.dart';
+import 'package:frontend_eco_2/routing/sign_out.dart';
 import 'package:frontend_eco_2/widgets/common/custom_button.dart';
 import 'package:frontend_eco_2/theme/app_colors.dart';
 import 'package:frontend_eco_2/utils/co2_estimate.dart';
@@ -321,9 +322,9 @@ class ProfileTab extends StatelessWidget {
               ),
               icon: const Icon(Icons.logout),
               label: Text(AppLocalizations.of(context)!.signOut),
-              onPressed: () {
-                userProvider.logout();
-              },
+              // Antes solo cerraba la sesion y se quedaba en el dashboard,
+              // que es justo lo que dejaba la pantalla fantasma vigilando.
+              onPressed: () => signOutAndGoToWelcome(context),
             ),
           ),
           const SizedBox(height: 120), // Padding to prevent navbar overlap

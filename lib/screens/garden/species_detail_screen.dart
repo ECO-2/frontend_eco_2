@@ -617,14 +617,6 @@ class _SpeciesDetailScreenState extends State<SpeciesDetailScreen> {
                                 });
                               },
                             ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.share_outlined,
-                                size: 22,
-                                color: Color(0xFF10454F),
-                              ),
-                              onPressed: () {},
-                            ),
                           ],
                         ),
                       ),

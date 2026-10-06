@@ -694,14 +694,6 @@ class _PlantDetailBodyState extends State<_PlantDetailBody> {
                         tooltip: AppLocalizations.of(context)!.howToCareForThisPlant,
                         onPressed: _restartTour,
                       ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.more_horiz_rounded,
-                          color: Color(0xFF0D2B31),
-                          size: 26,
-                        ),
-                        onPressed: () {},
-                      ),
                     ],
                   ),
                 ),
