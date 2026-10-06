@@ -1127,6 +1127,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'AI identification is not available in this version yet.';
 
   @override
+  String get uncommonPlantEscalating =>
+      'Uncommon plant, doing in-depth research…';
+
+  @override
+  String get scanLimitReached =>
+      'You\'ve used your 5 scans for today. With O₂₊ they\'re unlimited.';
+
+  @override
   String get tourGalleryDescription =>
       'Upload a photo from your gallery to analyse.';
 
@@ -2111,10 +2119,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'You\'ve reached your pot limit. With O₂₊ they\'re unlimited.';
 
   @override
-  String get scanLimitReached =>
-      'You\'ve used your 5 scans for today. With O₂₊ they\'re unlimited.';
-
-  @override
   String get plusMember => 'O₂₊ member';
 
   @override
@@ -2572,4 +2576,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get avatarFlorist => 'Florist';
+
+  @override
+  String scansRemainingToday(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count scans left today',
+      one: '1 scan left today',
+      zero: 'No scans left today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get airQuality => 'Air Quality';
+
+  @override
+  String get currentCo2Level => 'Current CO2 level';
+
+  @override
+  String get airQualityGood => 'Good';
+
+  @override
+  String get airQualityModerate => 'Moderate — consider ventilating';
+
+  @override
+  String get airQualityPoor => 'Poor — ventilate now';
+
+  @override
+  String get co2SummaryError => 'Couldn\'t load your air quality data.';
+
+  @override
+  String get co2WeeklyEvolutionHelp => 'Daily average over the last 7 days';
+
+  @override
+  String get noReadingsYet => 'No readings yet';
+
+  @override
+  String get viewAirQuality => 'View air quality';
 }

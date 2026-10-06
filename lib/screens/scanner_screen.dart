@@ -17,7 +17,7 @@ import 'package:frontend_eco_2/services/services.dart';
 import 'package:frontend_eco_2/widgets/common/app_toast.dart';
 import 'package:frontend_eco_2/utils/date_labels.dart';
 
-enum ScannerState { idle, scanning, success, notFound, notConfigured, offline }
+enum ScannerState { idle, scanning, escalating, success, notFound, notConfigured, offline }
 
 class ScannerScreen extends StatelessWidget {
   const ScannerScreen({super.key});
@@ -126,42 +126,69 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     });
 
     try {
-      final bytes = await File(photoPath).readAsBytes();
-      final base64Image = base64Encode(bytes);
-
+      final classifier = Provider.of<PlantClassifierService>(context, listen: false);
       final identificationService =
           Provider.of<IdentificationService>(context, listen: false);
-      final result = await identificationService.identifyFromPhoto(base64Image);
-      if (!mounted) return;
 
-      if (!result.configured) {
-        setState(() => _state = ScannerState.notConfigured);
+      if (classifier.useCustomModel) {
+        if (!classifier.isLoaded) {
+          await classifier.loadModelAndLabels();
+        }
+
+        final classification = await classifier.classify(File(photoPath));
+
+        const confidenceThreshold = 0.85;
+        const marginThreshold = 0.30;
+        final isConfident = classification.confidenceScore >= confidenceThreshold &&
+            classification.margin >= marginThreshold;
+
+        if (isConfident) {
+          final result = await identificationService.submitLocalIdentification(
+            scientificName: classification.scientificName,
+            confidenceScore: classification.confidenceScore,
+          );
+          if (!mounted) return;
+          _applyResult(result);
+          return;
+        }
+      }
+
+      final bytes = await File(photoPath).readAsBytes();
+      final base64Image = base64Encode(bytes);
+      final fallbackResult = await identificationService.identifyFromPhoto(base64Image);
+      if (!mounted) return;
+      _applyResult(fallbackResult);
+    } catch (e) {
+      if (!mounted) return;
+      if (e is ApiException && e.statusCode == 403) {
+        showAppToast(context, AppLocalizations.of(context)!.scanLimitReached, type: ToastType.error);
+        setState(() => _state = ScannerState.idle);
         return;
       }
-
-      if (result.species != null) {
-        setState(() {
-          _resultSpecies = result.species;
-          _resultConfidencePct = ((result.confidenceScore ?? 0) * 100).round();
-          _alternates = result.alternates;
-          _state = ScannerState.success;
-        });
-      } else {
-        setState(() {
-          _unmatchedCommonName = result.unmatchedCommonName;
-          _unmatchedScientificName = result.unmatchedScientificName;
-          _alternates = result.alternates;
-          _state = ScannerState.notFound;
-        });
-      }
-    } catch (_) {
-      if (!mounted) return;
       setState(() => _state = ScannerState.offline);
       _showOfflineSnackbar();
       Future.delayed(const Duration(seconds: 4), () {
         if (mounted && _state == ScannerState.offline) {
           setState(() => _state = ScannerState.idle);
         }
+      });
+    }
+  }
+
+  void _applyResult(IdentificationResult result) {
+    if (result.species != null) {
+      setState(() {
+        _resultSpecies = result.species;
+        _resultConfidencePct = ((result.confidenceScore ?? 0) * 100).round();
+        _alternates = result.alternates;
+        _state = ScannerState.success;
+      });
+    } else {
+      setState(() {
+        _unmatchedCommonName = result.unmatchedCommonName;
+        _unmatchedScientificName = result.unmatchedScientificName;
+        _alternates = result.alternates;
+        _state = ScannerState.notFound;
       });
     }
   }
@@ -177,6 +204,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
   void _onAddToGarden(PlantSpecies species) {
     final plantsProvider = Provider.of<PlantsProvider>(context, listen: false);
     final bool alreadyExists = plantsProvider.userPlants.any((p) => p.speciesId == species.id);
+    final screenContext = context;
 
     if (alreadyExists) {
       showDialog(
@@ -244,7 +272,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
                 Navigator.pop(context);
                 final success = await plantsProvider.addPlantFromSpecies(species);
                 if (success && mounted) {
-                  showAppToast(context, AppLocalizations.of(context)!.plantAddedSuccess,
+                  showAppToast(screenContext, AppLocalizations.of(screenContext)!.plantAddedSuccess,
                       type: ToastType.success);
                 }
               },
@@ -888,6 +916,42 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     );
   }
 
+  Widget _buildEscalatingCard() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Center(
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.uncommonPlantEscalating,
+              style: TextStyle(color: Colors.grey[700], fontSize: 13, height: 1.4),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   Widget _buildTag(String text) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

@@ -529,6 +529,8 @@
   "noScansYet": "You have not scanned any plants yet.",
   "toMyGarden": "To my garden",
   "aiNotAvailable": "AI identification is not available in this version yet.",
+  "uncommonPlantEscalating": "Uncommon plant, doing in-depth research…",
+  "scanLimitReached": "You've reached your scan limit for today. Come back tomorrow or upgrade to O2+.",
   "tourGalleryDescription": "Upload a photo from your gallery to analyse.",
   "shutter": "Shutter",
   "tourShutterDescription": "Tap here to scan a plant and continue.",
@@ -936,5 +938,20 @@
   "avatarBreeder": "Poultry keeper",
   "avatarExplorer": "Explorer",
   "avatarScientist": "Scientist",
-  "avatarFlorist": "Florist"
+  "avatarFlorist": "Florist",
+  "scansRemainingToday": "{count, plural, =0{No scans left today} =1{1 scan left today} other{{count} scans left today}}",
+  "@scansRemainingToday": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "airQuality": "Air Quality",
+  "currentCo2Level": "Current CO2 level",
+  "airQualityGood": "Good",
+  "airQualityModerate": "Moderate — consider ventilating",
+  "airQualityPoor": "Poor — ventilate now",
+  "co2SummaryError": "Couldn't load your air quality data.",
+  "co2WeeklyEvolutionHelp": "Daily average over the last 7 days",
+  "noReadingsYet": "No readings yet",
+  "viewAirQuality": "View air quality"
 }

@@ -23,3 +23,4 @@ export 'identification_result.dart';
 export 'notification.dart';
 export 'green_footprint.dart';
 export 'plan_status.dart';
+export 'co2_summary.dart';

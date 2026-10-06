@@ -1130,6 +1130,14 @@ class AppLocalizationsEs extends AppLocalizations {
       'La identificación por IA todavía no está disponible en esta versión.';
 
   @override
+  String get uncommonPlantEscalating =>
+      'Planta poco común, haciendo búsqueda profunda...';
+
+  @override
+  String get scanLimitReached =>
+      'Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.';
+
+  @override
   String get tourGalleryDescription =>
       'Sube una foto de tu galería para analizar.';
 
@@ -2119,10 +2127,6 @@ class AppLocalizationsEs extends AppLocalizations {
       'Has llegado a tu tope de macetas. Con O₂₊ son ilimitadas.';
 
   @override
-  String get scanLimitReached =>
-      'Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.';
-
-  @override
   String get plusMember => 'Miembro O₂₊';
 
   @override
@@ -2581,4 +2585,43 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get avatarFlorist => 'Floricultora';
+
+  @override
+  String scansRemainingToday(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Te quedan $count escaneos hoy',
+      one: 'Te queda 1 escaneo hoy',
+      zero: 'No te quedan más escaneos hoy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get airQuality => 'Calidad del aire';
+
+  @override
+  String get currentCo2Level => 'Nivel de CO2 actual';
+
+  @override
+  String get airQualityGood => 'Buena';
+
+  @override
+  String get airQualityModerate => 'Moderada — considera ventilar';
+
+  @override
+  String get airQualityPoor => 'Mala — ventila ahora';
+
+  @override
+  String get co2SummaryError => 'No se pudo cargar la calidad del aire.';
+
+  @override
+  String get co2WeeklyEvolutionHelp => 'Promedio diario de los últimos 7 días';
+
+  @override
+  String get noReadingsYet => 'Aún no hay lecturas';
+
+  @override
+  String get viewAirQuality => 'Ver calidad del aire';
 }
