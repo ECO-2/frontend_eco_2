@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend_eco_2/l10n/app_localizations.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
-import 'package:frontend_eco_2/providers/plan_provider.dart';
-import 'package:frontend_eco_2/services/plant_classifier_service.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:image_picker/image_picker.dart';
@@ -138,7 +136,6 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
         }
 
         final classification = await classifier.classify(File(photoPath));
-        print('DEBUG local classification: ${classification.scientificName} @ ${classification.confidenceScore} (margin: ${classification.margin})');
 
         const confidenceThreshold = 0.85;
         const marginThreshold = 0.30;
@@ -161,9 +158,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
       final fallbackResult = await identificationService.identifyFromPhoto(base64Image);
       if (!mounted) return;
       _applyResult(fallbackResult);
-    } catch (e, stack) {
-      print('DEBUG scan error: $e');
-      print('DEBUG stack: $stack');
+    } catch (e) {
       if (!mounted) return;
       if (e is ApiException && e.statusCode == 403) {
         showAppToast(context, AppLocalizations.of(context)!.scanLimitReached, type: ToastType.error);

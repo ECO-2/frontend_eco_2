@@ -27,7 +27,7 @@ class ApiException implements Exception {
 /// ante respuestas 401 antes de reintentar la petición original.
 class ApiClient {
   static const String baseUrl =
-      'http://192.168.137.1:3000';
+      'https://api.eco2app.com';
 
   final SecureStorage _storage;
   final http.Client _client;
