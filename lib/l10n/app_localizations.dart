@@ -4508,6 +4508,24 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Ver calidad del aire'**
   String get viewAirQuality;
+
+  /// No description provided for @paypalSandboxNotice.
+  ///
+  /// In es, this message translates to:
+  /// **'Modo de pruebas: pagas con PayPal Sandbox y no se cobra dinero real.'**
+  String get paypalSandboxNotice;
+
+  /// No description provided for @paymentStartFailed.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo iniciar el pago. Inténtalo de nuevo.'**
+  String get paymentStartFailed;
+
+  /// No description provided for @paymentNotConfirmed.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no vemos tu pago. Si ya pagaste, espera unos segundos y vuelve a la app.'**
+  String get paymentNotConfirmed;
 }
 
 class _AppLocalizationsDelegate

@@ -2615,4 +2615,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewAirQuality => 'View air quality';
+
+  @override
+  String get paypalSandboxNotice =>
+      'Test mode: you pay with PayPal Sandbox and no real money is charged.';
+
+  @override
+  String get paymentStartFailed =>
+      'Couldn\'t start the payment. Please try again.';
+
+  @override
+  String get paymentNotConfirmed =>
+      'We don\'t see your payment yet. If you already paid, wait a few seconds and come back to the app.';
 }

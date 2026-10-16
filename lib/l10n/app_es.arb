@@ -1378,5 +1378,8 @@
   "co2SummaryError": "No se pudo cargar la calidad del aire.",
   "co2WeeklyEvolutionHelp": "Promedio diario de los últimos 7 días",
   "noReadingsYet": "Aún no hay lecturas",
-  "viewAirQuality": "Ver calidad del aire"
+  "viewAirQuality": "Ver calidad del aire",
+  "paypalSandboxNotice": "Modo de pruebas: pagas con PayPal Sandbox y no se cobra dinero real.",
+  "paymentStartFailed": "No se pudo iniciar el pago. Inténtalo de nuevo.",
+  "paymentNotConfirmed": "Todavía no vemos tu pago. Si ya pagaste, espera unos segundos y vuelve a la app."
 }

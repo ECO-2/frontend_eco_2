@@ -2624,4 +2624,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get viewAirQuality => 'Ver calidad del aire';
+
+  @override
+  String get paypalSandboxNotice =>
+      'Modo de pruebas: pagas con PayPal Sandbox y no se cobra dinero real.';
+
+  @override
+  String get paymentStartFailed =>
+      'No se pudo iniciar el pago. Inténtalo de nuevo.';
+
+  @override
+  String get paymentNotConfirmed =>
+      'Todavía no vemos tu pago. Si ya pagaste, espera unos segundos y vuelve a la app.';
 }

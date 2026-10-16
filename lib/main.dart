@@ -35,6 +35,7 @@ void main() async {
   final notificationService = NotificationService(apiClient);
   final plantClassifierService = PlantClassifierService();
   final appConfigService = AppConfigService(apiClient);
+  final billingService = BillingService(apiClient);
   try {
     final config = await appConfigService.getConfig();
     final useCustomModel = config['use_custom_model'] as bool? ?? true;
@@ -57,6 +58,8 @@ void main() async {
     identificationService: identificationService,
     notificationService: notificationService,
     plantClassifierService: plantClassifierService,
+    billingService: billingService,
+    appConfigService: appConfigService,
   ));
 }
 
@@ -70,6 +73,8 @@ class MyApp extends StatelessWidget {
   final IdentificationService identificationService;
   final NotificationService notificationService;
   final PlantClassifierService plantClassifierService;
+  final BillingService billingService;
+  final AppConfigService appConfigService;
 
   const MyApp({
     super.key,
@@ -82,6 +87,8 @@ class MyApp extends StatelessWidget {
     required this.identificationService,
     required this.notificationService,
     required this.plantClassifierService,
+    required this.billingService,
+    required this.appConfigService,
   });
 
   @override
@@ -94,6 +101,8 @@ class MyApp extends StatelessWidget {
         Provider<GoogleAuthService>(create: (_) => GoogleAuthService()),
         Provider<NotificationService>.value(value: notificationService),
         Provider<PlantClassifierService>.value(value: plantClassifierService),
+        Provider<BillingService>.value(value: billingService),
+        Provider<AppConfigService>.value(value: appConfigService),
         // Lo consume GreenFootprintScreen para pedir el CO2 real del jardín.
         Provider<UserService>.value(value: userService),
         // Idioma elegido por el usuario, recordado entre sesiones.
