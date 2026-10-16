@@ -2069,7 +2069,7 @@ abstract class AppLocalizations {
   /// No description provided for @scanLimitReached.
   ///
   /// In es, this message translates to:
-  /// **'Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.'**
+  /// **'Ya usaste tus escaneos de hoy. Con O₂₊ son ilimitados.'**
   String get scanLimitReached;
 
   /// No description provided for @tourGalleryDescription.
@@ -4526,6 +4526,18 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Todavía no vemos tu pago. Si ya pagaste, espera unos segundos y vuelve a la app.'**
   String get paymentNotConfirmed;
+
+  /// No description provided for @scansLeftUnverified.
+  ///
+  /// In es, this message translates to:
+  /// **'{count, plural, =0{Usaste tu escaneo de hoy. Verifica tu correo para tener más} =1{Te queda 1 escaneo hoy. Verifica tu correo para tener más} other{Te quedan {count} escaneos hoy. Verifica tu correo para tener más}}'**
+  String scansLeftUnverified(int count);
+
+  /// No description provided for @scanLimitReachedUnverified.
+  ///
+  /// In es, this message translates to:
+  /// **'Alcanzaste el límite de escaneos de hoy. Verifica tu correo para tener más.'**
+  String get scanLimitReachedUnverified;
 }
 
 class _AppLocalizationsDelegate

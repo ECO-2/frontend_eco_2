@@ -1207,7 +1207,7 @@
   "tabCompleted": "Completadas",
   "tabLocked": "Bloqueadas",
   "plantLimitReached": "Has llegado a tu tope de macetas. Con O₂₊ son ilimitadas.",
-  "scanLimitReached": "Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.",
+  "scanLimitReached": "Ya usaste tus escaneos de hoy. Con O₂₊ son ilimitados.",
   "plusMember": "Miembro O₂₊",
   "plusActiveUntil": "Activo hasta el {date}",
   "@plusActiveUntil": {
@@ -1381,5 +1381,12 @@
   "viewAirQuality": "Ver calidad del aire",
   "paypalSandboxNotice": "Modo de pruebas: pagas con PayPal Sandbox y no se cobra dinero real.",
   "paymentStartFailed": "No se pudo iniciar el pago. Inténtalo de nuevo.",
-  "paymentNotConfirmed": "Todavía no vemos tu pago. Si ya pagaste, espera unos segundos y vuelve a la app."
+  "paymentNotConfirmed": "Todavía no vemos tu pago. Si ya pagaste, espera unos segundos y vuelve a la app.",
+  "scansLeftUnverified": "{count, plural, =0{Usaste tu escaneo de hoy. Verifica tu correo para tener más} =1{Te queda 1 escaneo hoy. Verifica tu correo para tener más} other{Te quedan {count} escaneos hoy. Verifica tu correo para tener más}}",
+  "@scansLeftUnverified": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "scanLimitReachedUnverified": "Alcanzaste el límite de escaneos de hoy. Verifica tu correo para tener más."
 }

@@ -16,6 +16,7 @@ import 'package:frontend_eco_2/models/models.dart';
 import 'package:frontend_eco_2/services/services.dart';
 import 'package:frontend_eco_2/widgets/common/app_toast.dart';
 import 'package:frontend_eco_2/utils/date_labels.dart';
+import 'package:frontend_eco_2/providers/plan_provider.dart';
 
 enum ScannerState { idle, scanning, escalating, success, notFound, notConfigured, offline }
 
@@ -159,19 +160,20 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
       if (!mounted) return;
       _applyResult(fallbackResult);
     } catch (e) {
-      if (!mounted) return;
       if (e is ApiException && e.statusCode == 403) {
-        showAppToast(context, AppLocalizations.of(context)!.scanLimitReached, type: ToastType.error);
+        final planProvider = Provider.of<PlanProvider>(context, listen: false);
+        await planProvider.refresh();
+        if (!mounted) return;
+        final l = AppLocalizations.of(context)!;
+        final unverified = planProvider.status.emailVerified == false;
+        showAppToast(
+          context,
+          unverified ? l.scanLimitReachedUnverified : l.scanLimitReached,
+          type: ToastType.error,
+        );
         setState(() => _state = ScannerState.idle);
         return;
       }
-      setState(() => _state = ScannerState.offline);
-      _showOfflineSnackbar();
-      Future.delayed(const Duration(seconds: 4), () {
-        if (mounted && _state == ScannerState.offline) {
-          setState(() => _state = ScannerState.idle);
-        }
-      });
     }
   }
 
@@ -191,6 +193,24 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
         _state = ScannerState.notFound;
       });
     }
+    _showScansLeftToast();
+  }
+
+  Future<void> _showScansLeftToast() async {
+    final planProvider = Provider.of<PlanProvider>(context, listen: false);
+    await planProvider.refresh();
+    if (!mounted) return;
+
+    final left = planProvider.status.scansLeftToday;
+    if (left == null) return;
+
+    final l = AppLocalizations.of(context)!;
+    final unverified = planProvider.status.emailVerified == false;
+    showAppToast(
+      context,
+      unverified ? l.scansLeftUnverified(left) : l.scansRemainingToday(left),
+      type: ToastType.info,
+    );
   }
 
   void _showOfflineSnackbar() {

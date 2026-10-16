@@ -809,7 +809,7 @@
   "tabCompleted": "Completed",
   "tabLocked": "Locked",
   "plantLimitReached": "You've reached your pot limit. With O₂₊ they're unlimited.",
-  "scanLimitReached": "You've used your 5 scans for today. With O₂₊ they're unlimited.",
+  "scanLimitReached": "You've used your scans for today. With O₂₊ they're unlimited.",
   "plusMember": "O₂₊ member",
   "plusActiveUntil": "Active until {date}",
   "potsUsedOfLimit": "{used} of {limit} pots",
@@ -956,5 +956,12 @@
   "viewAirQuality": "View air quality",
   "paypalSandboxNotice": "Test mode: you pay with PayPal Sandbox and no real money is charged.",
   "paymentStartFailed": "Couldn't start the payment. Please try again.",
-  "paymentNotConfirmed": "We don't see your payment yet. If you already paid, wait a few seconds and come back to the app."
+  "paymentNotConfirmed": "We don't see your payment yet. If you already paid, wait a few seconds and come back to the app.",
+    "scansLeftUnverified": "{count, plural, =0{You've used today's scan. Verify your email to get more} =1{1 scan left today. Verify your email to get more} other{{count} scans left today. Verify your email to get more}}",
+  "@scansLeftUnverified": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "scanLimitReachedUnverified": "You've reached today's scan limit. Verify your email to get more."
 }

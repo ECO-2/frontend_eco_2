@@ -1132,7 +1132,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scanLimitReached =>
-      'You\'ve used your 5 scans for today. With O₂₊ they\'re unlimited.';
+      'You\'ve used your scans for today. With O₂₊ they\'re unlimited.';
 
   @override
   String get tourGalleryDescription =>
@@ -2627,4 +2627,20 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get paymentNotConfirmed =>
       'We don\'t see your payment yet. If you already paid, wait a few seconds and come back to the app.';
+
+  @override
+  String scansLeftUnverified(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count scans left today. Verify your email to get more',
+      one: '1 scan left today. Verify your email to get more',
+      zero: 'You\'ve used today\'s scan. Verify your email to get more',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get scanLimitReachedUnverified =>
+      'You\'ve reached today\'s scan limit. Verify your email to get more.';
 }
