@@ -1388,5 +1388,13 @@
       "count": { "type": "int" }
     }
   },
-  "scanLimitReachedUnverified": "Alcanzaste el límite de escaneos de hoy. Verifica tu correo para tener más."
+  "scanLimitReachedUnverified": "Alcanzaste el límite de escaneos de hoy. Verifica tu correo para tener más.",
+  "plusActiveTitle": "O2+ activo",
+  "plusActiveSubtitle": "Plantas y escaneos ilimitados",
+  "plusActiveUntil": "Vigente hasta el {date}",
+  "@plusActiveUntil": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  }
 }

@@ -963,5 +963,13 @@
       "count": { "type": "int" }
     }
   },
-  "scanLimitReachedUnverified": "You've reached today's scan limit. Verify your email to get more."
+  "scanLimitReachedUnverified": "You've reached today's scan limit. Verify your email to get more.",
+  "plusActiveTitle": "O2+ active",
+  "plusActiveSubtitle": "Unlimited plants and scans",
+  "plusActiveUntil": "Active until {date}",
+  "@plusActiveUntil": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  }
 }

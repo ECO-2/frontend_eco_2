@@ -2643,4 +2643,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get scanLimitReachedUnverified =>
       'You\'ve reached today\'s scan limit. Verify your email to get more.';
+
+  @override
+  String get plusActiveTitle => 'O2+ active';
+
+  @override
+  String get plusActiveSubtitle => 'Unlimited plants and scans';
 }

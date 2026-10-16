@@ -3756,7 +3756,7 @@ abstract class AppLocalizations {
   /// No description provided for @plusActiveUntil.
   ///
   /// In es, this message translates to:
-  /// **'Activo hasta el {date}'**
+  /// **'Vigente hasta el {date}'**
   String plusActiveUntil(String date);
 
   /// No description provided for @potsUsedOfLimit.
@@ -4538,6 +4538,18 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Alcanzaste el límite de escaneos de hoy. Verifica tu correo para tener más.'**
   String get scanLimitReachedUnverified;
+
+  /// No description provided for @plusActiveTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'O2+ activo'**
+  String get plusActiveTitle;
+
+  /// No description provided for @plusActiveSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Plantas y escaneos ilimitados'**
+  String get plusActiveSubtitle;
 }
 
 class _AppLocalizationsDelegate

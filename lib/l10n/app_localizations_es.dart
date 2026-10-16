@@ -2131,7 +2131,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String plusActiveUntil(String date) {
-    return 'Activo hasta el $date';
+    return 'Vigente hasta el $date';
   }
 
   @override
@@ -2652,4 +2652,10 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get scanLimitReachedUnverified =>
       'Alcanzaste el límite de escaneos de hoy. Verifica tu correo para tener más.';
+
+  @override
+  String get plusActiveTitle => 'O2+ activo';
+
+  @override
+  String get plusActiveSubtitle => 'Plantas y escaneos ilimitados';
 }
