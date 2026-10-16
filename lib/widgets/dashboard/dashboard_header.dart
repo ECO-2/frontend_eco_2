@@ -23,7 +23,8 @@ class DashboardHeader extends StatelessWidget implements PreferredSizeWidget {
     final missionsProvider = Provider.of<MissionsProvider>(context);
     final notificationsProvider = Provider.of<NotificationsProvider>(context);
 
-    final username = userProvider.currentUser?.username ?? 'Usuario';
+    final currentUser = userProvider.currentUser;
+    final username = _displayName(currentUser?.username, currentUser?.email);
     final seeds = missionsProvider.userSeeds;
     final unreadNotifications = notificationsProvider.unreadCount;
     final hasCompletedAchievements =
@@ -241,6 +242,14 @@ class DashboardHeader extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
     );
+  }
+
+  String _displayName(String? username, String? email) {
+    final name = username?.trim();
+    if (name != null && name.isNotEmpty) return name;
+    final prefix = email?.split('@').first.trim();
+    if (prefix != null && prefix.isNotEmpty) return prefix;
+    return 'Usuario';
   }
 
   @override
