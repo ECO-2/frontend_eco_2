@@ -16,6 +16,7 @@ import 'package:frontend_eco_2/providers/plants_provider.dart';
 import 'package:frontend_eco_2/models/models.dart';
 import 'package:frontend_eco_2/services/services.dart';
 import 'package:frontend_eco_2/widgets/common/app_toast.dart';
+import 'package:frontend_eco_2/utils/date_labels.dart';
 import 'package:frontend_eco_2/providers/plan_provider.dart';
 import 'package:frontend_eco_2/utils/cloudinary_transform.dart';
 
@@ -55,6 +56,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
   final GlobalKey _flashKey = GlobalKey();
   final GlobalKey _helpKey = GlobalKey();
   final GlobalKey _galleryKey = GlobalKey();
+  final GlobalKey _historyKey = GlobalKey();
   final GlobalKey _shutterKey = GlobalKey();
 
   // ── Resultado real de la última identificación ──────────────────────────
@@ -67,21 +69,51 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
   List<IdentificationAlternate> _alternates = [];
   bool _mainCameraInitialized = false;
 
+  /// Coloca la cámara en 1.0x, que es la principal.
+  ///
+  /// En los móviles con gran angular —el S24 Ultra abre en 0.6x— la cámara
+  /// arranca en su zoom mínimo, es decir en el gran angular. Para identificar
+  /// una hoja eso es justo lo contrario de lo que hace falta: menos detalle y
+  /// más distorsión en los bordes.
+  ///
+  /// El ajuste es por zoom y no por sensor porque en Android el paquete
+  /// ignora `Sensor.type`: el filtrado por tipo está comentado en su código
+  /// nativo y `getSensors()` devuelve una lista vacía, así que elegir el
+  /// objetivo directamente no es posible.
   void _ensureMainCamera(SensorConfig sensorConfig) {
     if (_mainCameraInitialized) return;
     _mainCameraInitialized = true;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      try {
-        final min = await CamerawesomePlugin.getMinZoom();
-        final max = await CamerawesomePlugin.getMaxZoom();
-        if (min != null && max != null && min < 1.0 && max > min) {
-          // En dispositivos con gran angular (ej. Samsung Galaxy 0.6x),
-          // 1.0x corresponde a la cámara principal.
-          final normal1x = (1.0 - min) / (max - min);
-          await sensorConfig.setZoom(normal1x);
+      // La cámara tarda un instante en quedar enlazada; antes de eso los
+      // límites de zoom no están disponibles y la llamada se pierde.
+      for (var intento = 0; intento < 5; intento++) {
+        await Future.delayed(Duration(milliseconds: 200 * (intento + 1)));
+        if (!mounted) return;
+        try {
+          final min = await CamerawesomePlugin.getMinZoom();
+          final max = await CamerawesomePlugin.getMaxZoom();
+          if (min == null || max == null || max <= min) continue;
+          if (min >= 1.0) return; // sin gran angular: ya está en la principal
+
+          await sensorConfig.setZoom(_linearZoomFor(1.0, min, max));
+          return;
+        } catch (_) {
+          // Se reintenta: suele ser que la cámara aún no estaba lista.
         }
-      } catch (_) {}
+      }
     });
+  }
+
+  /// Convierte un zoom de 1.0x al valor 0–1 que espera la cámara.
+  ///
+  /// `setZoom` aplica un *zoom lineal*, que no es el ratio: avanza de forma
+  /// uniforme respecto al campo de visión, no respecto al aumento. Tratarlos
+  /// como lo mismo era el fallo. Con un mínimo de 0.6x y un máximo de 100x,
+  /// interpolar sobre el ratio da 0.004 —el extremo inferior, o sea el gran
+  /// angular— cuando el valor correcto para 1.0x es 0.40.
+  static double _linearZoomFor(double objetivo, double min, double max) {
+    final valor = ((1 / min) - (1 / objetivo)) / ((1 / min) - (1 / max));
+    return valor.clamp(0.0, 1.0);
   }
 
   @override
@@ -107,7 +139,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     ShowCaseWidget.of(context).startShowCase([
       _backKey,
       _flashKey,
-      _helpKey,
+      _historyKey,
       _galleryKey,
       _shutterKey,
     ]);
@@ -331,7 +363,133 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     Navigator.pushNamed(context, AppRoutes.speciesDetail, arguments: species);
   }
 
+  void _showHistoryModal() {
+    final identificationService = Provider.of<IdentificationService>(context, listen: false);
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (modalContext) {
+        return Container(
+          height: MediaQuery.of(modalContext).size.height * 0.6,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(AppLocalizations.of(context)!.scanHistory,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryDark,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: FutureBuilder<List<PlantIdentification>>(
+                  future: identificationService.getHistory(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(strokeWidth: 2.5),
+                        ),
+                      );
+                    }
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.historyLoadFailed,
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      );
+                    }
+                    final history = snapshot.data ?? [];
+                    if (history.isEmpty) {
+                      return Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.noScansYet,
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: history.length,
+                      itemBuilder: (context, i) {
+                        final item = history[i];
+                        final species = item.species;
+                        final pct = item.confidenceScore != null
+                            ? '${(item.confidenceScore! * 100).round()}% de coincidencia'
+                            : 'Sin coincidencia';
+                        return _buildHistoryItem(
+                          species?.commonName ?? 'No identificada',
+                          _relativeTime(context, item.createdAt),
+                          pct,
+                          species == null
+                              ? null
+                              : () {
+                                  Navigator.pop(modalContext);
+                                  setState(() {
+                                    _resultSpecies = species;
+                                    _resultConfidencePct =
+                                        ((item.confidenceScore ?? 0) * 100).round();
+                                    _alternates = [];
+                                    _state = ScannerState.success;
+                                  });
+                                },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    );
+  }
 
+  String _relativeTime(BuildContext context, DateTime dt) {
+    final l = AppLocalizations.of(context)!;
+    final diff = DateTime.now().difference(dt);
+    if (diff.inMinutes < 60) return l.agoMinutes(diff.inMinutes);
+    if (diff.inHours < 24) return l.agoHours(diff.inHours);
+    if (diff.inDays < 7) return l.agoDays(diff.inDays);
+    return formatShortDate(context, dt);
+  }
+
+  Widget _buildHistoryItem(String title, String time, String subtitle, VoidCallback? onTap) {
+    return Card(
+      elevation: 0,
+      color: Colors.grey[100], // FIX: Changed to light grey to contrast dark text
+      margin: const EdgeInsets.only(bottom: 12),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: Colors.grey.withValues(alpha: 0.2)),
+      ),
+      child: ListTile(
+        onTap: onTap,
+        leading: Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Icon(Icons.eco, color: AppColors.primary),
+        ),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryDark)),
+        subtitle: Text(subtitle, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+        trailing: Text(time, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -399,6 +557,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
           ),
           Row(
             children: [
+
               _buildControlButton(
                 key: _flashKey,
                 tourTitle: 'Flash',
@@ -910,6 +1069,42 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     );
   }
 
+  Widget _buildEscalatingCard() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Center(
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.uncommonPlantEscalating,
+              style: TextStyle(color: Colors.grey[700], fontSize: 13, height: 1.4),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   Widget _buildTag(String text) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -1080,7 +1275,27 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
               ),
             ),
           ),
-          const SizedBox(width: 50),
+          wrapWithTourStep(
+            key: _historyKey,
+            title: AppLocalizations.of(context)!.history,
+            description: AppLocalizations.of(context)!.tourHistoryDesc,
+            child: GestureDetector(
+              onTap: _showHistoryModal,
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: AppColors.accent,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(
+                  Icons.star,
+                  color: AppColors.primary,
+                  size: 28,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
