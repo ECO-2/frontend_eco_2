@@ -12,6 +12,7 @@ import 'package:frontend_eco_2/utils/achievement_ui.dart';
 import 'package:frontend_eco_2/utils/co2_estimate.dart';
 import 'package:frontend_eco_2/utils/achievement_labels.dart';
 import 'package:frontend_eco_2/widgets/common/plus_badge.dart';
+import 'package:frontend_eco_2/main.dart' show showIotFeature;
 
 /// Estilo unico de los titulos de seccion del dashboard.
 ///
@@ -137,8 +138,11 @@ class HomeTab extends StatelessWidget {
 
           // ── CO2 Block ─────────────────────────────────
           _buildCO2Block(context, plantsProvider),
+          if (showIotFeature) ...[
+            const SizedBox(height: 8),
+            _buildAirQualityLink(context),
+          ],
           const SizedBox(height: 24),
-
           // ── Misión Activa ─────────────────────────────
           Text(
             AppLocalizations.of(context)!.activeMissionCard,
@@ -195,6 +199,28 @@ class HomeTab extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildAirQualityLink(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, AppRoutes.airQuality),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.viewAirQuality,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF8FA89F),
+              fontFamily: 'Inter',
+            ),
+          ),
+          const SizedBox(width: 4),
+          const Icon(Icons.arrow_forward_rounded, size: 14, color: Color(0xFF8FA89F)),
+        ],
+      ),
     );
   }
 

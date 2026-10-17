@@ -50,6 +50,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    final current = context.read<UserProvider>().currentUser?.username;
+    if (current != null && current.isNotEmpty) {
+      _usernameController.text = current;
+    }
+  }
+
+  @override
   void dispose() {
     _usernameController.dispose();
     super.dispose();

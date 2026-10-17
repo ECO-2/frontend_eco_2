@@ -53,7 +53,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
       if (success && mounted) {
-        // Usuario recién registrado → siempre va al onboarding.
+        final named = await userProvider.updateProfile(
+          username: _usernameController.text.trim(),
+        );
+        if (!named) userProvider.clearError();
+
+        if (!mounted) return;
         Navigator.pushNamedAndRemoveUntil(
           context,
           AppRoutes.onboarding,

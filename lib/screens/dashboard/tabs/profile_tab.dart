@@ -11,6 +11,7 @@ import 'package:frontend_eco_2/widgets/common/stat_card.dart';
 import 'package:frontend_eco_2/widgets/common/settings_option_tile.dart';
 import 'package:frontend_eco_2/widgets/common/plus_badge.dart';
 import 'package:frontend_eco_2/widgets/common/user_avatar.dart';
+import 'package:frontend_eco_2/utils/date_labels.dart';
 
 class ProfileTab extends StatelessWidget {
   /// Abre la pestaña Jardín en el catálogo de especies.
@@ -39,6 +40,10 @@ class ProfileTab extends StatelessWidget {
     final plantsProvider = Provider.of<PlantsProvider>(context);
     final missionsProvider = Provider.of<MissionsProvider>(context);
     final user = userProvider.currentUser;
+    final planProvider = Provider.of<PlanProvider>(context);
+    final isPlus = planProvider.isPlusActive;
+    final planExpiresAt = planProvider.status.expiresAt;
+
     // CO2 acumulado real del jardín. Antes era "36.5 kg" escrito a mano,
     // el mismo número para cualquier usuario.
     final co2 = Co2Estimate.forPlants(
@@ -214,7 +219,7 @@ class ProfileTab extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.managePlusFree,
+                        isPlus ? l.plusActiveTitle : l.managePlusFree,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
@@ -224,7 +229,13 @@ class ProfileTab extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        AppLocalizations.of(context)!.redeemSeedsOrSubscribe,
+                        isPlus
+                            ? (planExpiresAt != null
+                                ? l.plusActiveUntil(
+                                    formatShortDate(context, planExpiresAt),
+                                  )
+                                : l.plusActiveSubtitle)
+                            : l.redeemSeedsOrSubscribe,
                         style: const TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 12,

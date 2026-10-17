@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend_eco_2/l10n/app_localizations.dart';
 import 'package:camerawesome/camerawesome_plugin.dart';
@@ -16,8 +17,10 @@ import 'package:frontend_eco_2/models/models.dart';
 import 'package:frontend_eco_2/services/services.dart';
 import 'package:frontend_eco_2/widgets/common/app_toast.dart';
 import 'package:frontend_eco_2/utils/date_labels.dart';
+import 'package:frontend_eco_2/providers/plan_provider.dart';
+import 'package:frontend_eco_2/utils/cloudinary_transform.dart';
 
-enum ScannerState { idle, scanning, success, notFound, notConfigured, offline }
+enum ScannerState { idle, scanning, escalating, success, notFound, notConfigured, offline }
 
 class ScannerScreen extends StatelessWidget {
   const ScannerScreen({super.key});
@@ -64,6 +67,54 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
   String? _unmatchedCommonName;
   String? _unmatchedScientificName;
   List<IdentificationAlternate> _alternates = [];
+  bool _mainCameraInitialized = false;
+
+  /// Coloca la cámara en 1.0x, que es la principal.
+  ///
+  /// En los móviles con gran angular —el S24 Ultra abre en 0.6x— la cámara
+  /// arranca en su zoom mínimo, es decir en el gran angular. Para identificar
+  /// una hoja eso es justo lo contrario de lo que hace falta: menos detalle y
+  /// más distorsión en los bordes.
+  ///
+  /// El ajuste es por zoom y no por sensor porque en Android el paquete
+  /// ignora `Sensor.type`: el filtrado por tipo está comentado en su código
+  /// nativo y `getSensors()` devuelve una lista vacía, así que elegir el
+  /// objetivo directamente no es posible.
+  void _ensureMainCamera(SensorConfig sensorConfig) {
+    if (_mainCameraInitialized) return;
+    _mainCameraInitialized = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // La cámara tarda un instante en quedar enlazada; antes de eso los
+      // límites de zoom no están disponibles y la llamada se pierde.
+      for (var intento = 0; intento < 5; intento++) {
+        await Future.delayed(Duration(milliseconds: 200 * (intento + 1)));
+        if (!mounted) return;
+        try {
+          final min = await CamerawesomePlugin.getMinZoom();
+          final max = await CamerawesomePlugin.getMaxZoom();
+          if (min == null || max == null || max <= min) continue;
+          if (min >= 1.0) return; // sin gran angular: ya está en la principal
+
+          await sensorConfig.setZoom(_linearZoomFor(1.0, min, max));
+          return;
+        } catch (_) {
+          // Se reintenta: suele ser que la cámara aún no estaba lista.
+        }
+      }
+    });
+  }
+
+  /// Convierte un zoom de 1.0x al valor 0–1 que espera la cámara.
+  ///
+  /// `setZoom` aplica un *zoom lineal*, que no es el ratio: avanza de forma
+  /// uniforme respecto al campo de visión, no respecto al aumento. Tratarlos
+  /// como lo mismo era el fallo. Con un mínimo de 0.6x y un máximo de 100x,
+  /// interpolar sobre el ratio da 0.004 —el extremo inferior, o sea el gran
+  /// angular— cuando el valor correcto para 1.0x es 0.40.
+  static double _linearZoomFor(double objetivo, double min, double max) {
+    final valor = ((1 / min) - (1 / objetivo)) / ((1 / min) - (1 / max));
+    return valor.clamp(0.0, 1.0);
+  }
 
   @override
   void initState() {
@@ -126,44 +177,90 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     });
 
     try {
-      final bytes = await File(photoPath).readAsBytes();
-      final base64Image = base64Encode(bytes);
-
+      final classifier = Provider.of<PlantClassifierService>(context, listen: false);
       final identificationService =
           Provider.of<IdentificationService>(context, listen: false);
-      final result = await identificationService.identifyFromPhoto(base64Image);
-      if (!mounted) return;
 
-      if (!result.configured) {
-        setState(() => _state = ScannerState.notConfigured);
+      if (classifier.useCustomModel) {
+        if (!classifier.isLoaded) {
+          await classifier.loadModelAndLabels();
+        }
+
+        final classification = await classifier.classify(File(photoPath));
+
+        const confidenceThreshold = 0.85;
+        const marginThreshold = 0.30;
+        final isConfident = classification.confidenceScore >= confidenceThreshold &&
+            classification.margin >= marginThreshold;
+
+        if (isConfident) {
+          final result = await identificationService.submitLocalIdentification(
+            scientificName: classification.scientificName,
+            confidenceScore: classification.confidenceScore,
+          );
+          if (!mounted) return;
+          _applyResult(result);
+          return;
+        }
+      }
+
+      final bytes = await File(photoPath).readAsBytes();
+      final base64Image = base64Encode(bytes);
+      final fallbackResult = await identificationService.identifyFromPhoto(base64Image);
+      if (!mounted) return;
+      _applyResult(fallbackResult);
+    } catch (e) {
+      if (e is ApiException && e.statusCode == 403) {
+        final planProvider = Provider.of<PlanProvider>(context, listen: false);
+        await planProvider.refresh();
+        if (!mounted) return;
+        final l = AppLocalizations.of(context)!;
+        final unverified = planProvider.status.emailVerified == false;
+        showAppToast(
+          context,
+          unverified ? l.scanLimitReachedUnverified : l.scanLimitReached,
+          type: ToastType.error,
+        );
+        setState(() => _state = ScannerState.idle);
         return;
       }
+    }
+  }
 
-      if (result.species != null) {
-        setState(() {
-          _resultSpecies = result.species;
-          _resultConfidencePct = ((result.confidenceScore ?? 0) * 100).round();
-          _alternates = result.alternates;
-          _state = ScannerState.success;
-        });
-      } else {
-        setState(() {
-          _unmatchedCommonName = result.unmatchedCommonName;
-          _unmatchedScientificName = result.unmatchedScientificName;
-          _alternates = result.alternates;
-          _state = ScannerState.notFound;
-        });
-      }
-    } catch (_) {
-      if (!mounted) return;
-      setState(() => _state = ScannerState.offline);
-      _showOfflineSnackbar();
-      Future.delayed(const Duration(seconds: 4), () {
-        if (mounted && _state == ScannerState.offline) {
-          setState(() => _state = ScannerState.idle);
-        }
+  void _applyResult(IdentificationResult result) {
+    if (result.species != null) {
+      setState(() {
+        _resultSpecies = result.species;
+        _resultConfidencePct = ((result.confidenceScore ?? 0) * 100).round();
+        _alternates = result.alternates;
+        _state = ScannerState.success;
+      });
+    } else {
+      setState(() {
+        _unmatchedCommonName = result.unmatchedCommonName;
+        _unmatchedScientificName = result.unmatchedScientificName;
+        _alternates = result.alternates;
+        _state = ScannerState.notFound;
       });
     }
+    _showScansLeftToast();
+  }
+
+  Future<void> _showScansLeftToast() async {
+    final planProvider = Provider.of<PlanProvider>(context, listen: false);
+    await planProvider.refresh();
+    if (!mounted) return;
+
+    final left = planProvider.status.scansLeftToday;
+    if (left == null) return;
+
+    final l = AppLocalizations.of(context)!;
+    final unverified = planProvider.status.emailVerified == false;
+    showAppToast(
+      context,
+      unverified ? l.scansLeftUnverified(left) : l.scansRemainingToday(left),
+      type: ToastType.info,
+    );
   }
 
   void _showOfflineSnackbar() {
@@ -177,6 +274,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
   void _onAddToGarden(PlantSpecies species) {
     final plantsProvider = Provider.of<PlantsProvider>(context, listen: false);
     final bool alreadyExists = plantsProvider.userPlants.any((p) => p.speciesId == species.id);
+    final screenContext = context;
 
     if (alreadyExists) {
       showDialog(
@@ -244,7 +342,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
                 Navigator.pop(context);
                 final success = await plantsProvider.addPlantFromSpecies(species);
                 if (success && mounted) {
-                  showAppToast(context, AppLocalizations.of(context)!.plantAddedSuccess,
+                  showAppToast(screenContext, AppLocalizations.of(screenContext)!.plantAddedSuccess,
                       type: ToastType.success);
                 }
               },
@@ -400,10 +498,11 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
       // Configuración de flash para asegurar que solo dispare en captura
       sensorConfig: SensorConfig.single(
         flashMode: FlashMode.auto,
-        sensor: Sensor.position(SensorPosition.back),
-        zoom: 0.0,
+        sensor: Sensor.type(SensorType.wideAngle),
+        aspectRatio: CameraAspectRatios.ratio_4_3,
       ),
       builder: (cameraState, preview) {
+        _ensureMainCamera(cameraState.sensorConfig);
         return Stack(
           fit: StackFit.expand,
           children: [
@@ -417,7 +516,8 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        _buildScannerFrame(),
+                        if (_state != ScannerState.success)
+                          _buildScannerFrame(),
                         _buildAnalyzingChip(),
                       ],
                     ),
@@ -428,9 +528,11 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
                     _buildNotFoundCard(),
                   if (_state == ScannerState.notConfigured)
                     _buildNotConfiguredCard(),
-                  const SizedBox(height: 20),
-                  _buildBottomControls(context, cameraState),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 12),
+                  if (_state != ScannerState.success) ...[
+                    _buildBottomControls(context, cameraState),
+                    const SizedBox(height: 20),
+                  ],
                 ],
               ),
             ),
@@ -455,6 +557,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
           ),
           Row(
             children: [
+
               _buildControlButton(
                 key: _flashKey,
                 tourTitle: 'Flash',
@@ -464,7 +567,7 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
                   cameraState.sensorConfig.switchCameraFlash();
                 },
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 12),
               _buildControlButton(
                 key: _helpKey,
                 tourTitle: 'Ayuda',
@@ -627,162 +730,240 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     );
   }
 
+
+  /// Imagen de la especie (la misma foto sin fondo que usan las fichas del
+  /// catálogo). Si la especie no tiene foto, o falla la carga, cae al ícono.
+  Widget _buildSpeciesImage(
+    PlantSpecies species, {
+    required double size,
+    double iconSize = 30,
+  }) {
+    final bool isMonstera = species.id == 's1' ||
+        species.commonName.toLowerCase().contains('monstera') ||
+        species.scientificName.toLowerCase().contains('monstera');
+    final Widget fallback = isMonstera
+        ? Image.asset('assets/images/monstera.png', height: size, fit: BoxFit.contain)
+        : Icon(Icons.eco,
+            color: AppColors.primary.withValues(alpha: 0.4), size: iconSize);
+    final url = species.imageUrl;
+    if (url == null || url.isEmpty) return fallback;
+    return CachedNetworkImage(
+      imageUrl: withTransparentBackground(url),
+      height: size,
+      fit: BoxFit.contain,
+      placeholder: (_, _) => Center(
+        child: SizedBox(
+          width: size > 60 ? 28 : 16,
+          height: size > 60 ? 28 : 16,
+          child: const CircularProgressIndicator(strokeWidth: 2),
+        ),
+      ),
+      errorWidget: (_, _, _) => fallback,
+    );
+  }
+
   Widget _buildPlantDetailsCard() {
     final species = _resultSpecies!;
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Center(
-                  child: Icon(Icons.eco, color: AppColors.primary, size: 30),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            species.commonName,
-                            style: const TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: AppColors.accent,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            '${_resultConfidencePct ?? 0}%',
-                            style: const TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      species.category != null
-                          ? '${species.scientificName} - ${species.category}'
-                          : species.scientificName,
-                      style: TextStyle(
-                        color: Colors.grey[500],
-                        fontSize: 12,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        _buildTag(species.category ?? 'Planta'),
-                        const SizedBox(width: 8),
-                        _buildTag(difficultyLabel(
-                            context, species.waterFrequencyDays)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () => setState(() => _state = ScannerState.idle),
-                child: const Icon(Icons.close, color: Colors.grey, size: 20),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => _onViewDetails(species),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primary,
-                    side: const BorderSide(color: AppColors.primary),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                  child: Text(AppLocalizations.of(context)!.viewSpecSheet,
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () => _onAddToGarden(species),
-                  icon: const Icon(Icons.add, size: 18),
-                  label: Text(AppLocalizations.of(context)!.toMyGarden,
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: AppColors.primary,
-                    backgroundColor: AppColors.accent,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          if (_alternates.isNotEmpty) ...[
-            const SizedBox(height: 20),
-            Text(AppLocalizations.of(context)!.otherPossibilities,
-              style: TextStyle(
-                color: Colors.grey[500],
-                fontSize: 12,
-              ),
+    return TweenAnimationBuilder<double>(
+      key: ValueKey('one_ui_modal_${species.id}_$_state'),
+      tween: Tween<double>(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 460),
+      curve: const Cubic(0.12, 0.95, 0.22, 1.0), // Curva One UI de Samsung: rápida con amortiguación suave
+      builder: (context, animValue, child) {
+        return Transform.translate(
+          offset: Offset(0, (1 - animValue) * 110),
+          child: Transform.scale(
+            scale: 0.92 + (0.08 * animValue),
+            alignment: Alignment.bottomCenter,
+            child: Opacity(
+              opacity: animValue.clamp(0.0, 1.0),
+              child: child,
             ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                for (int i = 0; i < _alternates.length && i < 2; i++) ...[
-                  if (i > 0) const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildOtherPossibility(
-                      _alternates[i].species,
-                      '${(_alternates[i].confidenceScore * 100).round()}%',
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.85,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(28),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.25),
+              blurRadius: 24,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(20, 14, 20, 18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: () => setState(() => _state = ScannerState.idle),
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.close, color: Colors.grey, size: 18),
+                  ),
+                ),
+              ),
+              // Imagen de cuerpo completo de la planta con animación One UI
+              TweenAnimationBuilder<double>(
+                key: ValueKey('one_ui_img_${species.id}'),
+                tween: Tween<double>(begin: 0.88, end: 1.0),
+                duration: const Duration(milliseconds: 550),
+                curve: Curves.easeOutBack,
+                builder: (context, scale, imgChild) => Transform.scale(
+                  scale: scale,
+                  child: imgChild,
+                ),
+                child: SizedBox(
+                  height: 180,
+                  width: double.infinity,
+                  child: Center(
+                    child: _buildSpeciesImage(species, size: 180, iconSize: 95),
+                  ),
+                ),
+              ),
+            const SizedBox(height: 10),
+            Center(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 8,
+                children: [
+                  Text(
+                    species.commonName,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: AppColors.accent,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      '${_resultConfidencePct ?? 0}%',
+                      style: const TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
+              ),
+            ),
+            const SizedBox(height: 4),
+            Center(
+              child: Text(
+                species.scientificName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.grey[500],
+                  fontSize: 12,
+                  fontStyle: FontStyle.italic,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Center(
+              child: Wrap(
+                spacing: 8,
+                children: [
+                  _buildTag(species.category ?? 'Planta'),
+                  _buildTag(difficultyLabel(context, species.waterFrequencyDays)),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => _onViewDetails(species),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppColors.primary,
+                      side: const BorderSide(color: AppColors.primary),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: Text(AppLocalizations.of(context)!.viewSpecSheet,
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () => _onAddToGarden(species),
+                    icon: const Icon(Icons.add, size: 18),
+                    label: Text(AppLocalizations.of(context)!.toMyGarden,
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: AppColors.primary,
+                      backgroundColor: AppColors.accent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                  ),
+                ),
               ],
             ),
+            if (_alternates.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Text(
+                AppLocalizations.of(context)!.otherPossibilities,
+                style: TextStyle(
+                  color: Colors.grey[500],
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  for (int i = 0; i < _alternates.length && i < 2; i++) ...[
+                    if (i > 0) const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildOtherPossibility(
+                        _alternates[i].species,
+                        '${(_alternates[i].confidenceScore * 100).round()}%',
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ],
           ],
-        ],
+        ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   /// Plant.id reconoció algo con confianza aceptable, pero esa especie
   /// todavía no está en nuestro catálogo — se lo decimos tal cual, con el
@@ -888,6 +1069,42 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
     );
   }
 
+  Widget _buildEscalatingCard() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Center(
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.uncommonPlantEscalating,
+              style: TextStyle(color: Colors.grey[700], fontSize: 13, height: 1.4),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   Widget _buildTag(String text) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -919,11 +1136,15 @@ class _ScannerScreenContentState extends State<ScannerScreenContent>
           Row(
             children: [
               Container(
-                width: 32,
-                height: 32,
+                width: 36,
+                height: 36,
+                padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
                   color: const Color(0xFFD6DEC9),
                   borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: _buildSpeciesImage(species, size: 32, iconSize: 18),
                 ),
               ),
               const SizedBox(width: 8),

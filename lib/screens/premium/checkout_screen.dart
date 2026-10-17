@@ -7,6 +7,10 @@ import 'package:frontend_eco_2/routing/app_routes.dart';
 import 'package:frontend_eco_2/widgets/common/custom_app_bar.dart';
 import 'package:frontend_eco_2/widgets/common/custom_button.dart';
 import 'package:frontend_eco_2/widgets/common/app_toast.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:frontend_eco_2/services/api_client.dart';
+import 'package:frontend_eco_2/services/app_config_service.dart';
+import 'package:frontend_eco_2/services/billing_service.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -15,10 +19,51 @@ class CheckoutScreen extends StatefulWidget {
   State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
-class _CheckoutScreenState extends State<CheckoutScreen> {
+class _CheckoutScreenState extends State<CheckoutScreen> with WidgetsBindingObserver {
   String _selectedMethod = 'card'; // 'card', 'apple_pay', 'paypal'
   bool _isProcessing = false;
+  bool _paypalCheckout = false;
+  bool _checkoutModeLoaded = false;
+  bool _awaitingPayment = false;
+  bool _verifying = false;
 
+@override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _loadCheckoutMode();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  Future<void> _loadCheckoutMode() async {
+    final appConfigService = context.read<AppConfigService>();
+    try {
+      final config = await appConfigService.getConfig();
+      if (!mounted) return;
+      final enabled = config['paypal_checkout_enabled'] as bool? ?? false;
+      setState(() {
+        _paypalCheckout = enabled;
+        if (enabled) _selectedMethod = 'paypal';
+      });
+    } catch (_) {
+      if (!mounted) return;
+    } finally {
+      if (mounted) setState(() => _checkoutModeLoaded = true);
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && _awaitingPayment && !_verifying) {
+      _verifyPayment();
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,28 +98,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   const SizedBox(height: 16),
                   
                   // Payment Methods
-                  _buildPaymentOption(
-                    id: 'card',
-                    title: AppLocalizations.of(context)!.card,
-                    subtitle: '•••• 4242',
-                    icon: Icons.credit_card_rounded,
-                  ),
-                  SizedBox(height: 12),
-                  
-                  _buildPaymentOption(
-                    id: 'apple_pay',
-                    title: 'Apple Pay',
-                    subtitle: AppLocalizations.of(context)!.quickPay,
-                    icon: Icons.apple,
-                  ),
-                  const SizedBox(height: 12),
-                  
+                  if (!_paypalCheckout) ...[
+                    _buildPaymentOption(
+                      id: 'card',
+                      title: AppLocalizations.of(context)!.card,
+                      subtitle: '•••• 4242',
+                      icon: Icons.credit_card_rounded,
+                    ),
+                    const SizedBox(height: 12),
+                    _buildPaymentOption(
+                      id: 'apple_pay',
+                      title: 'Apple Pay',
+                      subtitle: AppLocalizations.of(context)!.quickPay,
+                      icon: Icons.apple,
+                    ),
+                    const SizedBox(height: 12),
+                  ],
                   _buildPaymentOption(
                     id: 'paypal',
                     title: 'PayPal',
                     icon: Icons.account_balance_wallet_rounded,
                   ),
-                  const SizedBox(height: 20),
                   
                   // Security Banner
                   Container(
@@ -118,7 +162,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
-                            AppLocalizations.of(context)!.simulatedPayment,
+                             _paypalCheckout
+                                ? AppLocalizations.of(context)!.paypalSandboxNotice
+                                : AppLocalizations.of(context)!.simulatedPayment,
                             style: const TextStyle(
                               fontSize: 12,
                               height: 1.4,
@@ -403,7 +449,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               text: AppLocalizations.of(context)!.payAmount('\$39.99'),
               backgroundColor: AppColors.accent,
               foregroundColor: AppColors.primary,
-              isLoading: _isProcessing,
+              isLoading: _isProcessing || !_checkoutModeLoaded,
               onPressed: _processPayment,
             ),
           ],
@@ -412,13 +458,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  void _processPayment() async {
+  Future<void> _processPayment() async {
+    if (_paypalCheckout) {
+      await _startPaypalCheckout();
+    } else {
+      await _activateSimulated();
+    }
+  }
+
+  Future<void> _activateSimulated() async {
     setState(() => _isProcessing = true);
 
-    // Cobro simulado: la pasarela es una maqueta. Lo que si es real es la
-    // activacion del plan en el backend, que es lo que levanta los topes de
-    // macetas y escaneos. Antes esto solo escribia 'premium' en el estado
-    // local, asi que no cambiaba nada y se perdia al reiniciar.
     final planProvider = Provider.of<PlanProvider>(context, listen: false);
     final ok = await planProvider.activatePlus();
     if (!mounted) return;
@@ -435,13 +485,90 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       return;
     }
 
-    // El perfil cacheado tambien debe reflejar el plan nuevo.
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final currentUser = userProvider.currentUser;
     if (currentUser != null) {
       userProvider.setUser(currentUser.copyWith(planType: 'plus'));
     }
 
+    Navigator.pushReplacementNamed(context, AppRoutes.success);
+  }
+
+  Future<void> _startPaypalCheckout() async {
+    final billingService = context.read<BillingService>();
+    setState(() => _isProcessing = true);
+
+    try {
+      final approvalUrl = await billingService.createPaypalOrder();
+      final launched = await launchUrl(
+        Uri.parse(approvalUrl),
+        mode: LaunchMode.externalApplication,
+      );
+      if (!mounted) return;
+      if (!launched) {
+        showAppToast(
+          context,
+          AppLocalizations.of(context)!.paymentStartFailed,
+          type: ToastType.error,
+        );
+        return;
+      }
+      _awaitingPayment = true;
+    } on ApiException {
+      if (!mounted) return;
+      showAppToast(
+        context,
+        AppLocalizations.of(context)!.paymentStartFailed,
+        type: ToastType.error,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      showAppToast(
+        context,
+        AppLocalizations.of(context)!.connectionError,
+        type: ToastType.error,
+      );
+    } finally {
+      if (mounted) setState(() => _isProcessing = false);
+    }
+  }
+
+  Future<bool> _waitForPlus(PlanProvider planProvider) async {
+    for (var attempt = 0; attempt < 3; attempt++) {
+      await planProvider.refresh();
+      if (planProvider.isPlusActive) return true;
+      await Future.delayed(const Duration(seconds: 2));
+      if (!mounted) return false;
+    }
+    return false;
+  }
+
+  Future<void> _verifyPayment() async {
+    final planProvider = context.read<PlanProvider>();
+    final userProvider = context.read<UserProvider>();
+    _verifying = true;
+    setState(() => _isProcessing = true);
+
+    final paid = await _waitForPlus(planProvider);
+    if (!mounted) return;
+
+    _verifying = false;
+    setState(() => _isProcessing = false);
+
+    if (!paid) {
+      showAppToast(
+        context,
+        AppLocalizations.of(context)!.paymentNotConfirmed,
+        type: ToastType.info,
+      );
+      return;
+    }
+
+    _awaitingPayment = false;
+    final currentUser = userProvider.currentUser;
+    if (currentUser != null) {
+      userProvider.setUser(currentUser.copyWith(planType: 'plus'));
+    }
     Navigator.pushReplacementNamed(context, AppRoutes.success);
   }
 }

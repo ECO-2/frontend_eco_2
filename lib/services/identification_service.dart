@@ -27,4 +27,18 @@ class IdentificationService {
         .map((e) => PlantIdentification.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  Future<IdentificationResult> submitLocalIdentification({
+    required String scientificName,
+    required double confidenceScore,
+  }) async {
+    final data = await _client.post(
+      '/identifications',
+      body: {
+        'scientific_name': scientificName,
+        'confidence_score': confidenceScore,
+      },
+    ) as Map<String, dynamic>;
+    return IdentificationResult.fromJson(data);
+  }
 }

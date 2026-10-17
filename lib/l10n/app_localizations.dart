@@ -2060,6 +2060,18 @@ abstract class AppLocalizations {
   /// **'La identificación por IA todavía no está disponible en esta versión.'**
   String get aiNotAvailable;
 
+  /// No description provided for @uncommonPlantEscalating.
+  ///
+  /// In es, this message translates to:
+  /// **'Planta poco común, haciendo búsqueda profunda...'**
+  String get uncommonPlantEscalating;
+
+  /// No description provided for @scanLimitReached.
+  ///
+  /// In es, this message translates to:
+  /// **'Ya usaste tus escaneos de hoy. Con O₂₊ son ilimitados.'**
+  String get scanLimitReached;
+
   /// No description provided for @tourGalleryDescription.
   ///
   /// In es, this message translates to:
@@ -3735,12 +3747,6 @@ abstract class AppLocalizations {
   /// **'Has llegado a tu tope de macetas. Con O₂₊ son ilimitadas.'**
   String get plantLimitReached;
 
-  /// No description provided for @scanLimitReached.
-  ///
-  /// In es, this message translates to:
-  /// **'Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.'**
-  String get scanLimitReached;
-
   /// No description provided for @plusMember.
   ///
   /// In es, this message translates to:
@@ -3750,7 +3756,7 @@ abstract class AppLocalizations {
   /// No description provided for @plusActiveUntil.
   ///
   /// In es, this message translates to:
-  /// **'Activo hasta el {date}'**
+  /// **'Vigente hasta el {date}'**
   String plusActiveUntil(String date);
 
   /// No description provided for @potsUsedOfLimit.
@@ -4442,6 +4448,108 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Floricultora'**
   String get avatarFlorist;
+
+  /// No description provided for @scansRemainingToday.
+  ///
+  /// In es, this message translates to:
+  /// **'{count, plural, =0{No te quedan más escaneos hoy} =1{Te queda 1 escaneo hoy} other{Te quedan {count} escaneos hoy}}'**
+  String scansRemainingToday(int count);
+
+  /// No description provided for @airQuality.
+  ///
+  /// In es, this message translates to:
+  /// **'Calidad del aire'**
+  String get airQuality;
+
+  /// No description provided for @currentCo2Level.
+  ///
+  /// In es, this message translates to:
+  /// **'Nivel de CO2 actual'**
+  String get currentCo2Level;
+
+  /// No description provided for @airQualityGood.
+  ///
+  /// In es, this message translates to:
+  /// **'Buena'**
+  String get airQualityGood;
+
+  /// No description provided for @airQualityModerate.
+  ///
+  /// In es, this message translates to:
+  /// **'Moderada — considera ventilar'**
+  String get airQualityModerate;
+
+  /// No description provided for @airQualityPoor.
+  ///
+  /// In es, this message translates to:
+  /// **'Mala — ventila ahora'**
+  String get airQualityPoor;
+
+  /// No description provided for @co2SummaryError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo cargar la calidad del aire.'**
+  String get co2SummaryError;
+
+  /// No description provided for @co2WeeklyEvolutionHelp.
+  ///
+  /// In es, this message translates to:
+  /// **'Promedio diario de los últimos 7 días'**
+  String get co2WeeklyEvolutionHelp;
+
+  /// No description provided for @noReadingsYet.
+  ///
+  /// In es, this message translates to:
+  /// **'Aún no hay lecturas'**
+  String get noReadingsYet;
+
+  /// No description provided for @viewAirQuality.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver calidad del aire'**
+  String get viewAirQuality;
+
+  /// No description provided for @paypalSandboxNotice.
+  ///
+  /// In es, this message translates to:
+  /// **'Modo de pruebas: pagas con PayPal Sandbox y no se cobra dinero real.'**
+  String get paypalSandboxNotice;
+
+  /// No description provided for @paymentStartFailed.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo iniciar el pago. Inténtalo de nuevo.'**
+  String get paymentStartFailed;
+
+  /// No description provided for @paymentNotConfirmed.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no vemos tu pago. Si ya pagaste, espera unos segundos y vuelve a la app.'**
+  String get paymentNotConfirmed;
+
+  /// No description provided for @scansLeftUnverified.
+  ///
+  /// In es, this message translates to:
+  /// **'{count, plural, =0{Usaste tu escaneo de hoy. Verifica tu correo para tener más} =1{Te queda 1 escaneo hoy. Verifica tu correo para tener más} other{Te quedan {count} escaneos hoy. Verifica tu correo para tener más}}'**
+  String scansLeftUnverified(int count);
+
+  /// No description provided for @scanLimitReachedUnverified.
+  ///
+  /// In es, this message translates to:
+  /// **'Alcanzaste el límite de escaneos de hoy. Verifica tu correo para tener más.'**
+  String get scanLimitReachedUnverified;
+
+  /// No description provided for @plusActiveTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'O2+ activo'**
+  String get plusActiveTitle;
+
+  /// No description provided for @plusActiveSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Plantas y escaneos ilimitados'**
+  String get plusActiveSubtitle;
 }
 
 class _AppLocalizationsDelegate

@@ -126,4 +126,9 @@ class UserService {
         await _client.patch('/user/onboarding', body: body) as Map<String, dynamic>;
     return User.fromJson(data);
   }
+
+  Future<Co2Summary> getCo2Summary() async {
+    final data = await _client.get('/co2-readings/summary') as Map<String, dynamic>;
+    return Co2Summary.fromJson(data);
+  }
 }

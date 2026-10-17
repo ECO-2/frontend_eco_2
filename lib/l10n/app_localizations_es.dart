@@ -1130,6 +1130,14 @@ class AppLocalizationsEs extends AppLocalizations {
       'La identificación por IA todavía no está disponible en esta versión.';
 
   @override
+  String get uncommonPlantEscalating =>
+      'Planta poco común, haciendo búsqueda profunda...';
+
+  @override
+  String get scanLimitReached =>
+      'Ya usaste tus escaneos de hoy. Con O₂₊ son ilimitados.';
+
+  @override
   String get tourGalleryDescription =>
       'Sube una foto de tu galería para analizar.';
 
@@ -2119,15 +2127,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'Has llegado a tu tope de macetas. Con O₂₊ son ilimitadas.';
 
   @override
-  String get scanLimitReached =>
-      'Ya usaste tus 5 escaneos de hoy. Con O₂₊ son ilimitados.';
-
-  @override
   String get plusMember => 'Miembro O₂₊';
 
   @override
   String plusActiveUntil(String date) {
-    return 'Activo hasta el $date';
+    return 'Vigente hasta el $date';
   }
 
   @override
@@ -2581,4 +2585,77 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get avatarFlorist => 'Floricultora';
+
+  @override
+  String scansRemainingToday(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Te quedan $count escaneos hoy',
+      one: 'Te queda 1 escaneo hoy',
+      zero: 'No te quedan más escaneos hoy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get airQuality => 'Calidad del aire';
+
+  @override
+  String get currentCo2Level => 'Nivel de CO2 actual';
+
+  @override
+  String get airQualityGood => 'Buena';
+
+  @override
+  String get airQualityModerate => 'Moderada — considera ventilar';
+
+  @override
+  String get airQualityPoor => 'Mala — ventila ahora';
+
+  @override
+  String get co2SummaryError => 'No se pudo cargar la calidad del aire.';
+
+  @override
+  String get co2WeeklyEvolutionHelp => 'Promedio diario de los últimos 7 días';
+
+  @override
+  String get noReadingsYet => 'Aún no hay lecturas';
+
+  @override
+  String get viewAirQuality => 'Ver calidad del aire';
+
+  @override
+  String get paypalSandboxNotice =>
+      'Modo de pruebas: pagas con PayPal Sandbox y no se cobra dinero real.';
+
+  @override
+  String get paymentStartFailed =>
+      'No se pudo iniciar el pago. Inténtalo de nuevo.';
+
+  @override
+  String get paymentNotConfirmed =>
+      'Todavía no vemos tu pago. Si ya pagaste, espera unos segundos y vuelve a la app.';
+
+  @override
+  String scansLeftUnverified(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Te quedan $count escaneos hoy. Verifica tu correo para tener más',
+      one: 'Te queda 1 escaneo hoy. Verifica tu correo para tener más',
+      zero: 'Usaste tu escaneo de hoy. Verifica tu correo para tener más',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get scanLimitReachedUnverified =>
+      'Alcanzaste el límite de escaneos de hoy. Verifica tu correo para tener más.';
+
+  @override
+  String get plusActiveTitle => 'O2+ activo';
+
+  @override
+  String get plusActiveSubtitle => 'Plantas y escaneos ilimitados';
 }

@@ -20,6 +20,7 @@ class PlanStatus {
 
   final int scansUsedToday;
   final int? scansLimit;
+  final bool? emailVerified;
 
   const PlanStatus({
     required this.planType,
@@ -32,6 +33,7 @@ class PlanStatus {
     this.rentalExpiresAt,
     required this.scansUsedToday,
     this.scansLimit,
+    this.emailVerified,
   });
 
   /// Estado por defecto mientras no ha cargado: se asume plan gratuito sin
@@ -59,6 +61,7 @@ class PlanStatus {
           : null,
       scansUsedToday: json['scans_used_today'] as int? ?? 0,
       scansLimit: json['scans_limit'] as int?,
+      emailVerified: json['email_verified'] as bool?,
     );
   }
 
